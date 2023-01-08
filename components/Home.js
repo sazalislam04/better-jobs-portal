@@ -60,4 +60,16 @@ const HomePage = () => {
   );
 };
 
+// export async function getStaticProps() {
+//   const res = await fetch("experience.json");
+//   const experiences = await res.json();
+//   console.log(data);
+
+//   return {
+//     props: {
+//       experiences,
+//     },
+//   };
+// }
+
 export default HomePage;
