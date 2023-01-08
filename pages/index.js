@@ -1,5 +1,6 @@
 import { Inter } from "@next/font/google";
 import Head from "next/head";
+import HomePage from "../components/Home";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,7 +14,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h2>homepage</h2>
+        <HomePage />
       </main>
     </>
   );
