@@ -1,10 +1,28 @@
 import React from "react";
-import data from "./data/experience.json";
 
-const SearchField = ({ handleGetExp, inputExp, setVisible, visible }) => {
+const SearchField = ({
+  handleGetExp,
+  inputExp,
+  setVisible,
+  visible,
+  handleSearchRoles,
+  setInputExp,
+  search,
+  handleGetRole,
+  roleValue,
+  close,
+  setClose,
+  experiences,
+  locations,
+  locationState,
+  handleSearchLocation,
+  closeLocationState,
+  setCloseLocationState,
+  handleGetLocation,
+}) => {
   return (
     <div className="custom-shadow border w-[80%] mt-10 py-2 px-4 rounded-full flex divide-x divide-gray-100 items-center justify-between mx-auto">
-      <div className="flex items-center gap-1 ">
+      <div className="flex items-center gap-1 relative">
         <span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -23,15 +41,36 @@ const SearchField = ({ handleGetExp, inputExp, setVisible, visible }) => {
         </span>
         <input
           type="search"
+          onChange={(e) => handleSearchRoles(e)}
+          value={roleValue || ""}
           className="focus:outline-none w-72 text-gray-700 text-sm p-3"
           placeholder="Enter skills / designations / companies"
         />
+        {close && (
+          <>
+            <ul
+              onClick={() => setClose(!close)}
+              className={`absolute overflow-y-scroll overflow-hidden top-12 pt-4 bg-white rounded-tl-xl rounded-bl-xl border h-64 w-80 ml-6`}
+            >
+              {search?.map((role, i) => (
+                <li
+                  onClick={() => handleGetRole(role)}
+                  className="text-gray-700 px-5 py-2 cursor-pointer hover:bg-gray-100 w-full text-sm"
+                  key={i}
+                >
+                  {role}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
       </div>
       <div className="flex items-center relative">
         <input
           placeholder="Select experience"
           className="focus:outline-none text-gray-700 text-sm p-3"
           value={inputExp}
+          onChange={(e) => setInputExp(e.target.value)}
         />
         <button onClick={() => setVisible(!visible)} className="mr-6">
           <svg
@@ -52,9 +91,9 @@ const SearchField = ({ handleGetExp, inputExp, setVisible, visible }) => {
         {visible && (
           <ul
             onClick={() => setVisible(!visible)}
-            className="absolute top-12 pt-4 bg-white rounded-tl-xl rounded-bl-xl border h-52 w-48 overflow-x-hidden overflow-y-scroll"
+            className="absolute top-12 pt-4 bg-white rounded-tl-xl rounded-bl-xl border h-auto w-48 overflow-x-hidden overflow-y-scroll"
           >
-            {data?.map((exp, i) => (
+            {experiences?.map((exp, i) => (
               <li
                 onClick={() => handleGetExp(exp)}
                 className="text-gray-700 px-5 py-2 cursor-pointer hover:bg-gray-100 w-full text-sm"
@@ -71,7 +110,25 @@ const SearchField = ({ handleGetExp, inputExp, setVisible, visible }) => {
           type="search"
           placeholder="Enter location"
           className="focus:outline-none text-gray-700 text-sm p-3"
+          onChange={(e) => handleSearchLocation(e)}
+          value={locationState || ""}
         />
+        {closeLocationState && (
+          <ul
+            onClick={() => setCloseLocationState(!closeLocationState)}
+            className={`absolute overflow-y-scroll overflow-hidden  pt-4 bg-white rounded-tl-xl rounded-bl-xl border h-64 w-52`}
+          >
+            {locations?.map((location, i) => (
+              <li
+                onClick={() => handleGetLocation(location)}
+                className="text-gray-700 px-5 py-2 cursor-pointer hover:bg-gray-100 w-full text-sm"
+                key={i}
+              >
+                {location}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <div>
