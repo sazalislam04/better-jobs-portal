@@ -7,8 +7,8 @@ const handler = async (req, res) => {
 
     if (req.method === "GET") {
       try {
-        const { role } = req.query;
-        const jobs = await jobsCollection.find({ role }).toArray();
+        const { domain } = req.query;
+        const jobs = await jobsCollection.find({ domain }).toArray();
         res.status(200).json(jobs);
       } catch (error) {
         return res.status(404).json({ error: error.message });

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 
 const JobsCard = ({ job }) => {
   const [dateDays, setDateDays] = useState();
@@ -7,14 +8,24 @@ const JobsCard = ({ job }) => {
     company_name,
     city,
     experience_required,
-    number_of_openings,
-    updatedAt,
+    domain,
     active,
     type_of_job,
     createdAt,
     _id,
     role,
   } = job;
+
+  const BASE_URL = "http://localhost:3000";
+
+  const { data: matchingJobs } = useQuery({
+    queryKey: ["matchingJobs"],
+    queryFn: async () => {
+      const res = await fetch(`${BASE_URL}/api/jobs/domain/?domain=${domain}`);
+      const data = await res.json();
+      return data;
+    },
+  });
 
   let date_1 = new Date(createdAt);
   let date_2 = new Date();
