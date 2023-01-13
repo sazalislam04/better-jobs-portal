@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const SearchField = ({
@@ -132,9 +133,11 @@ const SearchField = ({
       </div>
 
       <div>
-        <button className="px-7 py-[10px] focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition duration-300 rounded-full text-white text-lg bg-indigo-500">
-          Search
-        </button>
+        <Link href={`/jobs/search/${roleValue}`}>
+          <button className="px-7 py-[10px] focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition duration-300 rounded-full text-white text-lg bg-indigo-500">
+            Search
+          </button>
+        </Link>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ const Header = () => {
     <>
       <header className="py-4 shadow flex justify-between">
         <nav className="hidden md:flex sticky top-0 items-center justify-between container mx-auto px-4">
-          <div className="md:flex items-center gap-16 w-full">
+          <div className="md:flex items-center gap-10 w-full">
             <h2 className="text-2xl font-medium">
               Better.<span className="text-indigo-500">Jobs</span>{" "}
             </h2>
