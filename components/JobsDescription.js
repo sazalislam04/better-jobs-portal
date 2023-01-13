@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import experiences from "../datalayer/experienceLevel";
 import locations from "../datalayer/locations";
 import employments from "../datalayer/workTypes";
+import JobsCard from "./JobsCard";
+import JobsDetails from "./JobsDetails";
 
 const JobsDescription = ({ jobs }) => {
   const [onLocation, setOnLocation] = useState(false);
@@ -13,6 +15,7 @@ const JobsDescription = ({ jobs }) => {
   const [onEmployement, setOnEmployement] = useState(false);
   const [employementState, setEmployementState] = useState("Employment Type");
   const [employmentData, setEmploymentData] = useState(employments);
+  const [searchJobs, setSearchJobs] = useState();
 
   //  location state
   const clearLocationBtn = () => {
@@ -90,9 +93,18 @@ const JobsDescription = ({ jobs }) => {
     }
   };
 
+  //   muster handleSearch button
+  const handleSearchJobs = (e) => {
+    e.preventDefault();
+    console.log(searchJobs);
+  };
+
   return (
-    <div className="container mx-auto px-4 pt-10">
-      <div className="custom-shadow border w-[60%] py-1 px-4 rounded-full flex  items-center justify-between mx-auto">
+    <div className="container sticky top-0 z-50 mx-auto px-4 pt-10">
+      <form
+        onSubmit={handleSearchJobs}
+        className="custom-shadow border w-[60%] py-1 px-4 rounded-full flex  items-center justify-between mx-auto"
+      >
         <div className="flex items-center gap-1  relative">
           <span>
             <svg
@@ -101,7 +113,7 @@ const JobsDescription = ({ jobs }) => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-5 h-5"
+              className="w-5 h-5 text-gray-600"
             >
               <path
                 strokeLinecap="round"
@@ -112,16 +124,15 @@ const JobsDescription = ({ jobs }) => {
           </span>
           <input
             type="search"
+            onChange={(e) => setSearchJobs(e.target.value)}
             className="focus:outline-none w-80 bg-transparent text-gray-700 text-sm p-3"
             placeholder="Enter skills / designations / companies"
           />
         </div>
-        <div>
-          <button className="px-6 py-[6px] focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition duration-300 rounded-full text-white text-lg bg-indigo-500">
-            Search
-          </button>
-        </div>
-      </div>
+        <button className="px-6 py-[6px] focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition duration-300 rounded-full text-white text-lg bg-indigo-500">
+          Search
+        </button>
+      </form>
       {/* filter button */}
       <div className="flex relative items-center gap-6 mt-8 justify-center">
         <span className="flex text-sm text-gray-500 items-center gap-1">
@@ -262,7 +273,7 @@ const JobsDescription = ({ jobs }) => {
                 </span>
               )}
             </li>
-            <div className="my-2 w-52 mx-auto relative">
+            <div className="my-2 w-48 mx-auto relative">
               <span className="absolute py-2 px-2 ">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -282,7 +293,7 @@ const JobsDescription = ({ jobs }) => {
               <input
                 type="search"
                 onChange={(e) => handleSearchExperience(e)}
-                className="px-8 w-52 focus:outline-none border-gray-400 border focus:ring-2 focus:ring-gray-400 transition duration-300 rounded py-1"
+                className="px-8 w-48 focus:outline-none border-gray-400 border focus:ring-2 focus:ring-gray-400 transition duration-300 rounded py-1"
               />
             </div>
             <ul onClick={() => setOnExperience(!onExperience)}>
@@ -374,6 +385,19 @@ const JobsDescription = ({ jobs }) => {
             </ul>
           </div>
         )}
+      </div>
+
+      {/* jobs card */}
+      <div className="lg:flex gap-6 justify-between lg:w-9/12 mx-auto mt-8">
+        <div className="w-2/5">
+          {jobs?.map((job) => (
+            <JobsCard key={job._id} job={job} />
+          ))}
+        </div>
+        {/* jobs card details */}
+        <div className="w-3/5 bg-blue-500">
+          <JobsDetails />
+        </div>
       </div>
     </div>
   );

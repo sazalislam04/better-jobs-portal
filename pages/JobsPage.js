@@ -55,8 +55,6 @@ const JobsPage = () => {
     }
   };
 
-  const BASE_URL = "http://localhost:3000";
-
   // const hanldeSearchJobs = async () => {
   //   const res = await fetch(`${BASE_URL}/api/jobs/?role=${roleValue}`);
   //   const data = await res.json();
