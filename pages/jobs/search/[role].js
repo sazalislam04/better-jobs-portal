@@ -1,10 +1,10 @@
 import React from "react";
 import JobsDescription from "../../../components/JobsDescription";
 
-const SearchJobs = ({ jobs }) => {
+const SearchJobs = ({ jobs, role }) => {
   return (
     <div className="bg-gray-50 h-screen">
-      <JobsDescription jobs={jobs} />
+      <JobsDescription jobs={jobs} role={role} />
     </div>
   );
 };
@@ -16,6 +16,7 @@ export async function getServerSideProps(context) {
 
   const { params } = context;
   const { role } = params;
+
   const res = await fetch(`${BASE_URL}/api/jobs?role=${role}`);
   const data = await res.json();
 

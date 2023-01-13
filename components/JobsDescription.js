@@ -16,6 +16,7 @@ const JobsDescription = ({ jobs }) => {
   const [employementState, setEmployementState] = useState("Employment Type");
   const [employmentData, setEmploymentData] = useState(employments);
   const [searchJobs, setSearchJobs] = useState();
+  const [domainData, setDomainData] = useState([]);
 
   //  location state
   const clearLocationBtn = () => {
@@ -389,14 +390,23 @@ const JobsDescription = ({ jobs }) => {
 
       {/* jobs card */}
       <div className="lg:flex gap-6 justify-between lg:w-9/12 mx-auto mt-8">
-        <div className="w-2/5">
+        <div className="lg:w-2/5">
           {jobs?.map((job) => (
-            <JobsCard key={job._id} job={job} />
+            <JobsCard key={job._id} job={job} setDomainData={setDomainData} />
           ))}
+          {domainData?.length > 0 && (
+            <>
+              {domainData?.map((job) => (
+                <JobsCard key={job._id} job={job} />
+              ))}
+            </>
+          )}
         </div>
         {/* jobs card details */}
-        <div className="w-3/5 bg-blue-500">
-          <JobsDetails />
+        <div className="lg:w-3/5 bg-blue-500">
+          {jobs?.map((job) => (
+            <JobsDetails key={job._id} job={job} />
+          ))}
         </div>
       </div>
     </div>
