@@ -41,7 +41,7 @@ const JobsCard = ({ job, setDomainData }) => {
   return (
     <>
       <Link href={`/jobs/search/${role}/${_id}`}>
-        <div className="px-6 py-3 bg-white rounded-md shadow mb-4">
+        <div className="px-6 py-4 bg-white rounded-md shadow mb-4">
           <div class="flex items-center justify-between">
             <span class="text-sm font-light text-gray-800 dark:text-gray-400">
               {createdAt.slice(0, 10)}
