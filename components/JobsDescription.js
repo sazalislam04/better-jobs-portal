@@ -19,7 +19,7 @@ const JobsDescription = ({ jobs, role }) => {
   const [searchJobs, setSearchJobs] = useState();
   const [domainData, setDomainData] = useState([]);
 
-  const BASE_URL = "https://better-jobs-portal.vercel.app";
+  const BASE_URL = "http://localhost:3000";
 
   const { data: matchingJobs } = useQuery({
     queryKey: ["matchingJobs", jobs[0]?.domain],
@@ -35,6 +35,8 @@ const JobsDescription = ({ jobs, role }) => {
       return data;
     },
   });
+
+  console.log(matchingJobs);
 
   //  location state
   const clearLocationBtn = () => {
