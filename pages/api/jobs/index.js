@@ -1,7 +1,7 @@
 import { getDomainJobs, getRoleJobs } from "../../../lib/utilities/controller";
-
 export default function handler(req, res) {
   // type of req
+
   const { method } = req;
 
   switch (method) {
@@ -22,7 +22,13 @@ export default function handler(req, res) {
       break;
 
     default:
-      res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
+      res.setHeader("Access-Control-Allow-Origin", [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "HEAD",
+      ]);
       res.status(405).end(`Method ${method} not allowd`);
       break;
   }

@@ -6,7 +6,7 @@ import employments from "../datalayer/workTypes";
 import JobsCard from "./JobsCard";
 import JobsDetails from "./JobsDetails";
 
-const JobsDescription = ({ jobs, role }) => {
+const JobsDescription = ({ jobs, role, job }) => {
   const [onLocation, setOnLocation] = useState(false);
   const [locationState, setLocationState] = useState("Location");
   const [locationData, setLocationData] = useState(locations);
@@ -19,14 +19,20 @@ const JobsDescription = ({ jobs, role }) => {
   const [searchJobs, setSearchJobs] = useState();
   const [domainData, setDomainData] = useState([]);
 
-  const BASE_URL = "https://better-jobs-portal.vercel.app";
+  // const BASE_URL = "https://better-jobs-portal.vercel.app";
+  const BASE_URL = "http://localhost:3000";
+
+  let domain = "";
+  if (jobs?.length > 0) {
+    domain = jobs[0]?.domain;
+  } else {
+    domain = job?.domain;
+  }
 
   const { data: matchingJobs } = useQuery({
-    queryKey: ["matchingJobs", jobs[0]?.domain],
+    queryKey: ["matchingJobs", domain],
     queryFn: async () => {
-      const res = await fetch(
-        `${BASE_URL}/api/jobs/?domain=${jobs[0]?.domain}`
-      );
+      const res = await fetch(`${BASE_URL}/api/jobs/?domain=${domain}`);
       const data = await res.json();
       if (data) {
         const filterByDomain = data?.filter((job) => job?.role !== role);
@@ -35,8 +41,6 @@ const JobsDescription = ({ jobs, role }) => {
       return data;
     },
   });
-
-  console.log(matchingJobs);
 
   //  location state
   const clearLocationBtn = () => {
@@ -419,7 +423,15 @@ const JobsDescription = ({ jobs, role }) => {
       <div className="lg:flex gap-6 justify-between lg:w-9/12 mx-auto mt-4">
         <div className="lg:w-2/5">
           <div className="py-2">
-            {matchingJobs?.length} Jobs found for {jobs[0]?.domain}
+            {jobs?.length > 0 ? (
+              <>
+                {matchingJobs?.length} Jobs found for {jobs[0]?.domain}
+              </>
+            ) : (
+              <>
+                {matchingJobs?.length} Jobs found for {job?.domain}
+              </>
+            )}
           </div>
 
           <div className="h-[100vh]  overflow-hidden overflow-y-scroll">
@@ -444,6 +456,13 @@ const JobsDescription = ({ jobs, role }) => {
           <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
             <JobsDetails job={jobs[0]} />
           </div>
+        )}
+        {job && (
+          <>
+            <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
+              <JobsDetails job={job} />
+            </div>
+          </>
         )}
       </div>
     </div>
