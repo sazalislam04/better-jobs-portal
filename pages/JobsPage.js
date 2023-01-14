@@ -55,11 +55,6 @@ const JobsPage = () => {
     }
   };
 
-  // const hanldeSearchJobs = async () => {
-  //   const res = await fetch(`${BASE_URL}/api/jobs/?role=${roleValue}`);
-  //   const data = await res.json();
-  // };
-
   return (
     <section className="mt-16 flex justify-center items-center">
       <div className="container mx-auto px-4">
