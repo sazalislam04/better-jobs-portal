@@ -1,22 +1,29 @@
-import clientPromise from "../../../lib/mongo";
+import { getDomainJobs, getRoleJobs } from "../../../lib/utilities/controller";
 
-const handler = async (req, res) => {
-  try {
-    const client = await clientPromise;
-    const jobsCollection = client.db("Jobs").collection("jobs");
+export default function handler(req, res) {
+  // type of req
+  const { method } = req;
 
-    if (req.method === "GET") {
-      try {
-        const { role } = req.query;
-        const jobs = await jobsCollection.find({ role }).toArray();
-        res.status(200).json(jobs);
-      } catch (error) {
-        return res.status(404).json({ error: error.message });
-      }
-    }
-  } catch (error) {
-    console.error(error.message);
+  switch (method) {
+    case "GET":
+      getRoleJobs(req, res);
+      getDomainJobs(req, res);
+      break;
+    case "POST":
+      res.status(200).json({ name: "post req" });
+      break;
+
+    case "PUT":
+      res.status(200).json({ name: "put req" });
+      break;
+
+    case "DELETE":
+      res.status(200).json({ name: "delete req" });
+      break;
+
+    default:
+      res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
+      res.status(405).end(`Method ${method} not allowd`);
+      break;
   }
-};
-
-export default handler;
+}

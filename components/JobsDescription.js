@@ -25,7 +25,7 @@ const JobsDescription = ({ jobs, role }) => {
     queryKey: ["matchingJobs", jobs[0]?.domain],
     queryFn: async () => {
       const res = await fetch(
-        `${BASE_URL}/api/jobs/domain/?domain=${jobs[0]?.domain}`
+        `${BASE_URL}/api/jobs/?domain=${jobs[0]?.domain}`
       );
       const data = await res.json();
       if (data) {
@@ -333,7 +333,10 @@ const JobsDescription = ({ jobs, role }) => {
           )}
           <button
             onClick={handleEmployment}
-            className="border text-gray-600 hover:border-indigo-500 hover:shadow-lg transition-all duration-300 my-2 px-6 py-2 text-sm rounded-full custom-shadow flex items-center gap-1"
+            className={`border text-gray-600 hover:border-indigo-500 hover:shadow-lg transition-all duration-300 my-2 px-6 py-2 text-sm rounded-full custom-shadow flex items-center gap-1 ${
+              employementState !== "Employment Type" &&
+              "bg-yellow-100 hover:border-yellow-500"
+            }`}
           >
             <span>{employementState}</span>
             <span>
@@ -435,13 +438,11 @@ const JobsDescription = ({ jobs, role }) => {
           </div>
         </div>
         {/* jobs card details */}
-        <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
-          {jobs?.length > 0 && (
-            <>
-              <JobsDetails job={jobs[0]} />
-            </>
-          )}
-        </div>
+        {jobs?.length > 0 && (
+          <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
+            <JobsDetails job={jobs[0]} />
+          </div>
+        )}
       </div>
     </div>
   );
