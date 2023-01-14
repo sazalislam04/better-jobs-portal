@@ -3,7 +3,7 @@ import JobsDescription from "../../../components/JobsDescription";
 
 const SearchJobs = ({ jobs, role }) => {
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-100 min-h-screen">
       <JobsDescription jobs={jobs} role={role} />
     </div>
   );

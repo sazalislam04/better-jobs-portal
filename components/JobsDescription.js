@@ -17,6 +17,7 @@ const JobsDescription = ({ jobs }) => {
   const [employmentData, setEmploymentData] = useState(employments);
   const [searchJobs, setSearchJobs] = useState();
   const [domainData, setDomainData] = useState([]);
+  const [allJobs, setAllJobs] = useState([]);
 
   //  location state
   const clearLocationBtn = () => {
@@ -393,22 +394,41 @@ const JobsDescription = ({ jobs }) => {
       </div>
 
       {/* jobs card */}
-      <div className="lg:flex gap-6 justify-between lg:w-9/12 mx-auto mt-8">
+      <div className="lg:flex gap-6 justify-between lg:w-9/12 mx-auto mt-4">
         <div className="lg:w-2/5">
-          {jobs?.map((job) => (
-            <JobsCard key={job._id} job={job} setDomainData={setDomainData} />
-          ))}
-          {domainData?.length > 0 && (
-            <>
-              {domainData?.map((job) => (
-                <JobsCard key={job._id} job={job} />
-              ))}
-            </>
-          )}
+          <div className="py-2">
+            {allJobs?.length} Jobs found for {allJobs[0]?.domain}
+          </div>
+
+          <div className="h-[100vh]  overflow-hidden overflow-y-scroll">
+            {jobs?.length > 0 && (
+              <>
+                {jobs?.map((job) => (
+                  <JobsCard
+                    key={job._id}
+                    job={job}
+                    setDomainData={setDomainData}
+                    setAllJobs={setAllJobs}
+                  />
+                ))}
+              </>
+            )}
+            {domainData?.length > 0 && (
+              <>
+                {domainData?.map((job) => (
+                  <JobsCard key={job._id} job={job} />
+                ))}
+              </>
+            )}
+          </div>
         </div>
         {/* jobs card details */}
-        <div className="lg:w-3/5 bg-white shadow rounded-md">
-          <JobsDetails job={jobs[0]} />
+        <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
+          {jobs?.length > 0 && (
+            <>
+              <JobsDetails job={jobs[0]} />
+            </>
+          )}
         </div>
       </div>
     </div>

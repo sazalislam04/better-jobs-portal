@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
-const JobsCard = ({ job, setDomainData }) => {
+const JobsCard = ({ job, setDomainData, setAllJobs }) => {
   const [dateDays, setDateDays] = useState();
   const {
     company_name,
@@ -18,14 +18,15 @@ const JobsCard = ({ job, setDomainData }) => {
 
   const BASE_URL = "http://localhost:3000";
 
-  const { data: matchingJobs } = useQuery({
+  const { data: matchingJobs, isLoading } = useQuery({
     queryKey: ["matchingJobs"],
     queryFn: async () => {
       const res = await fetch(`${BASE_URL}/api/jobs/domain/?domain=${domain}`);
       const data = await res.json();
       const filterByDomain = data.filter((job) => job.role !== role);
       setDomainData(filterByDomain);
-      return filterByDomain;
+      setAllJobs(data);
+      return data;
     },
   });
 
@@ -38,15 +39,19 @@ const JobsCard = ({ job, setDomainData }) => {
     setDateDays(totalDays);
   }, []);
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <Link href={`/jobs/search/${role}/${_id}`}>
         <div className="px-6 py-4 bg-white rounded-md shadow mb-4">
-          <div class="flex items-center justify-between">
-            <span class="text-sm font-light text-gray-800 dark:text-gray-400">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-light text-gray-800 dark:text-gray-400">
               {createdAt.slice(0, 10)}
             </span>
-            <span class="px-3 flex items-center gap-1 py-1 text-xs text-indigo-900 uppercase bg-indigo-100 rounded-full">
+            <span className="px-3 flex items-center gap-1 py-1 text-xs text-indigo-900 uppercase bg-indigo-100 rounded-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
