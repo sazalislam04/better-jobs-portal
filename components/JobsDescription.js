@@ -19,8 +19,8 @@ const JobsDescription = ({ jobs, role, job }) => {
   const [searchJobs, setSearchJobs] = useState();
   const [domainData, setDomainData] = useState([]);
 
-  // const BASE_URL = "https://better-jobs-portal.vercel.app";
-  const BASE_URL = "http://localhost:3000";
+  const BASE_URL = "https://better-jobs-portal.vercel.app";
+  // const BASE_URL = "http://localhost:3000";
 
   let domain = "";
   if (jobs?.length > 0) {

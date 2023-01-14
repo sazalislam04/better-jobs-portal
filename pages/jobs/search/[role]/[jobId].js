@@ -2,7 +2,6 @@ import React from "react";
 import JobsDescription from "../../../../components/JobsDescription";
 
 const Job = ({ job }) => {
-  console.log(job);
   return (
     <div className="bg-gray-100 min-h-screen">
       <JobsDescription job={job} />
