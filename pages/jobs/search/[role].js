@@ -12,7 +12,7 @@ const SearchJobs = ({ jobs, role }) => {
 export default SearchJobs;
 
 export async function getServerSideProps(context) {
-  const BASE_URL = "http://localhost:3000";
+  const BASE_URL = "https://better-jobs-portal.vercel.app";
 
   const { params } = context;
   const { role } = params;
