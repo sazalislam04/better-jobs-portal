@@ -1,8 +1,7 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
 
-const JobsCard = ({ job, setDomainData, setAllJobs }) => {
+const JobsCard = ({ job }) => {
   const [dateDays, setDateDays] = useState();
   const {
     company_name,
@@ -16,20 +15,6 @@ const JobsCard = ({ job, setDomainData, setAllJobs }) => {
     role,
   } = job;
 
-  const BASE_URL = "http://localhost:3000";
-
-  const { data: matchingJobs, isLoading } = useQuery({
-    queryKey: ["matchingJobs"],
-    queryFn: async () => {
-      const res = await fetch(`${BASE_URL}/api/jobs/domain/?domain=${domain}`);
-      const data = await res.json();
-      const filterByDomain = data.filter((job) => job.role !== role);
-      setDomainData(filterByDomain);
-      setAllJobs(data);
-      return data;
-    },
-  });
-
   let date_1 = new Date(createdAt);
   let date_2 = new Date();
 
@@ -38,10 +23,6 @@ const JobsCard = ({ job, setDomainData, setAllJobs }) => {
     let totalDays = Math.ceil(difference / (1000 * 3600 * 24));
     setDateDays(totalDays);
   }, []);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <>

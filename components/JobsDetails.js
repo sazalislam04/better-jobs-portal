@@ -192,7 +192,7 @@ const JobsDetails = ({ job }) => {
             ---------
           </div>
           <div>
-            <span>Employment Type:</span> {type_of_job}
+            <span className="text-sm">Employment Type:</span> {type_of_job}
           </div>
         </div>
       </div>

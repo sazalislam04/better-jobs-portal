@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import { useQuery } from "react-query";
 import experiences from "../datalayer/experienceLevel";
 import locations from "../datalayer/locations";
 import employments from "../datalayer/workTypes";
 import JobsCard from "./JobsCard";
 import JobsDetails from "./JobsDetails";
 
-const JobsDescription = ({ jobs }) => {
+const JobsDescription = ({ jobs, role }) => {
   const [onLocation, setOnLocation] = useState(false);
   const [locationState, setLocationState] = useState("Location");
   const [locationData, setLocationData] = useState(locations);
@@ -17,7 +18,23 @@ const JobsDescription = ({ jobs }) => {
   const [employmentData, setEmploymentData] = useState(employments);
   const [searchJobs, setSearchJobs] = useState();
   const [domainData, setDomainData] = useState([]);
-  const [allJobs, setAllJobs] = useState([]);
+
+  const BASE_URL = "http://localhost:3000";
+
+  const { data: matchingJobs } = useQuery({
+    queryKey: ["matchingJobs", jobs[0]?.domain],
+    queryFn: async () => {
+      const res = await fetch(
+        `${BASE_URL}/api/jobs/domain/?domain=${jobs[0]?.domain}`
+      );
+      const data = await res.json();
+      if (data) {
+        const filterByDomain = data?.filter((job) => job?.role !== role);
+        setDomainData(filterByDomain);
+      }
+      return data;
+    },
+  });
 
   //  location state
   const clearLocationBtn = () => {
@@ -397,19 +414,14 @@ const JobsDescription = ({ jobs }) => {
       <div className="lg:flex gap-6 justify-between lg:w-9/12 mx-auto mt-4">
         <div className="lg:w-2/5">
           <div className="py-2">
-            {allJobs?.length} Jobs found for {allJobs[0]?.domain}
+            {matchingJobs?.length} Jobs found for {jobs[0]?.domain}
           </div>
 
           <div className="h-[100vh]  overflow-hidden overflow-y-scroll">
             {jobs?.length > 0 && (
               <>
                 {jobs?.map((job) => (
-                  <JobsCard
-                    key={job._id}
-                    job={job}
-                    setDomainData={setDomainData}
-                    setAllJobs={setAllJobs}
-                  />
+                  <JobsCard key={job._id} job={job} />
                 ))}
               </>
             )}
