@@ -1,10 +1,15 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import {
+  FaFacebookSquare,
+  FaLinkedin,
+  FaTwitterSquare,
+  FaWhatsappSquare,
+} from "react-icons/fa";
 import externallink from "../public/external-link.png";
-import share from "../public/share.png";
-
 const JobsDetails = ({ job }) => {
   const [dateDays, setDateDays] = useState();
+  const [open, setOpen] = useState(false);
   const {
     active,
     company_name,
@@ -42,6 +47,10 @@ const JobsDetails = ({ job }) => {
     setDateDays(totalDays);
   }, []);
 
+  const handleTooltip = () => {
+    setOpen(!open);
+  };
+
   return (
     <section className="py-5 px-6">
       <div className="">
@@ -51,20 +60,54 @@ const JobsDetails = ({ job }) => {
               logo
             </span>
           </div>
-          <div className="w-full">
-            <div className="flex justify-between">
+          <div className="w-full relative">
+            <div className="flex  justify-between">
               <div>
                 <h2 className="text-lg font-medium">{role}</h2>
                 <p>{company_name}</p>
               </div>
-              <Image
-                src={share}
-                alt=""
-                width={8}
-                height={8}
-                className="object-cover w-5 h-5 cursor-pointer"
-              />
+              <span onClick={handleTooltip} className="cursor-pointer">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-5 h-5 text-gray-600"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
+                  />
+                </svg>
+              </span>
             </div>
+            {/* tooltip */}
+            {open && (
+              <div className="mx-auto absolute -bottom-5 shadow border right-0 container w-48 px-3 py-3 bg-white rounded ">
+                <div className="flex gap-2">
+                  <p className="text-sm mx-auto font-semibold leading-none text-gray-800">
+                    Share this job
+                  </p>
+                </div>
+                <div className=" text-xs mx-auto flex justify-evenly leading-none text-gray-600 pt-3 pb-2">
+                  <button className="text-2xl text-blue-500">
+                    <FaFacebookSquare />
+                  </button>
+                  <button className="text-2xl text-indigo-500">
+                    <FaLinkedin />
+                  </button>
+                  <button className="text-2xl text-green-500">
+                    <FaWhatsappSquare />
+                  </button>
+                  <button className="text-2xl text-cyan-500">
+                    <FaTwitterSquare />
+                  </button>
+                </div>
+              </div>
+            )}
+
             <div className="text-xs font-medium flex gap-4 mt-4 text-gray-600 ">
               <span className="flex gap-1 bg-gray-100 p-1 px-2 rounded-full items-center">
                 <svg
@@ -142,6 +185,7 @@ const JobsDetails = ({ job }) => {
             </div>
           </div>
         </div>
+
         <div className="flex justify-end items-center gap-5 mt-6">
           <span className="text-sm text-gray-400">posted {dateDays}d ago</span>
           <button className="flex items-center focus:ring-2 focus:ring-indigo-400 transition duration-300 gap-2 px-6 py-2 bg-indigo-500 rounded-full text-white">
