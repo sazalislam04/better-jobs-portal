@@ -30,6 +30,8 @@ const JobsDescription = ({ jobs, role, job }) => {
   let domain = "";
   if (jobs?.length > 0) {
     domain = jobs[0]?.domain;
+  } else if (getSearchJobs?.length > 0) {
+    domain = getSearchJobs[0]?.domain;
   } else {
     domain = job?.domain;
   }
@@ -46,6 +48,7 @@ const JobsDescription = ({ jobs, role, job }) => {
       return data;
     },
   });
+  console.log(domainData);
 
   //  location state
   const clearLocationBtn = () => {
@@ -484,45 +487,85 @@ const JobsDescription = ({ jobs, role, job }) => {
       <div className="lg:flex gap-6 justify-between lg:w-9/12 mx-auto mt-4">
         <div className="lg:w-2/5">
           <div className="py-2">
-            {jobs?.length > 0 ? (
+            {getSearchJobs?.length > 0 ? (
               <>
-                {matchingJobs?.length} Jobs found for {jobs[0]?.domain}
+                {getSearchJobs?.length} Jobs found for{" "}
+                {getSearchJobs[0]?.domain}
               </>
             ) : (
               <>
-                {matchingJobs?.length} Jobs found for {job?.domain}
+                {jobs?.length > 0 ? (
+                  <>
+                    {matchingJobs?.length} Jobs found for {jobs[0]?.domain}
+                  </>
+                ) : (
+                  <>
+                    {matchingJobs?.length} Jobs found for {job?.domain}
+                  </>
+                )}
               </>
             )}
           </div>
 
           <div className="h-[80vh] sticky top-44 overflow-hidden overflow-y-scroll">
-            {jobs?.length > 0 && (
+            {getSearchJobs.length > 0 ? (
               <>
-                {jobs?.map((job) => (
+                {/* {getSearchJobs?.map((job) => (
                   <JobsCard key={job._id} job={job} />
-                ))}
-              </>
-            )}
-            {domainData?.length > 0 && (
-              <>
+                ))} */}
                 {domainData?.map((job) => (
                   <JobsCard key={job._id} job={job} />
                 ))}
+              </>
+            ) : (
+              <>
+                {jobs?.length > 0 && (
+                  <>
+                    {jobs?.map((job) => (
+                      <JobsCard key={job._id} job={job} />
+                    ))}
+                  </>
+                )}
+                {domainData?.length > 0 && (
+                  <>
+                    {domainData?.map((job) => (
+                      <JobsCard key={job._id} job={job} />
+                    ))}
+                  </>
+                )}
               </>
             )}
           </div>
         </div>
         {/* jobs card details */}
-        {jobs?.length > 0 && (
-          <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
-            <JobsDetails job={jobs[0]} />
-          </div>
-        )}
-        {job && (
+
+        {getSearchJobs?.length > 0 ? (
           <>
-            <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
-              <JobsDetails job={job} />
-            </div>
+            {getSearchJobs?.length > 0 && (
+              <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
+                <JobsDetails job={getSearchJobs[0]} />
+              </div>
+            )}
+            {/* {job && (
+              <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
+                <JobsDetails job={job} />
+              </div>
+            )} */}
+          </>
+        ) : (
+          <>
+            {jobs?.length > 0 && (
+              <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
+                <JobsDetails job={jobs[0]} />
+              </div>
+            )}
+            {job && (
+              <>
+                <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
+                  <JobsDetails job={job} />
+                </div>
+              </>
+            )}
           </>
         )}
       </div>
