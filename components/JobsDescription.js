@@ -22,7 +22,9 @@ const JobsDescription = ({ jobs, role, job }) => {
   const [searchResult, setSearchResult] = useState();
   const [searchBox, setSearchBox] = useState(false);
   // search jobs
-  const [getSearchJobs, setGetSearchJobs] = useState([]);
+  const [getSearchJobs, setGetSearchJobs] = useState();
+  const [getDomain, setGetDomain] = useState([]);
+  const [allDomainMatching, setAllDomainMatching] = useState([]);
 
   const BASE_URL = "https://better-jobs-portal.vercel.app";
   // const BASE_URL = "http://localhost:3000";
@@ -30,8 +32,6 @@ const JobsDescription = ({ jobs, role, job }) => {
   let domain = "";
   if (jobs?.length > 0) {
     domain = jobs[0]?.domain;
-  } else if (getSearchJobs?.length > 0) {
-    domain = getSearchJobs[0]?.domain;
   } else {
     domain = job?.domain;
   }
@@ -48,7 +48,6 @@ const JobsDescription = ({ jobs, role, job }) => {
       return data;
     },
   });
-  console.log(domainData);
 
   //  location state
   const clearLocationBtn = () => {
@@ -130,7 +129,7 @@ const JobsDescription = ({ jobs, role, job }) => {
   const handleSearchJobs = (e) => {
     setSearchBox(!searchBox);
     setSearchResult(e.target.value);
-    console.log(e.target.value);
+
     if (e.target.value) {
       const filterByJobs = jobroles.filter((role) =>
         role.toLowerCase().includes(e.target.value.toLowerCase())
@@ -147,7 +146,50 @@ const JobsDescription = ({ jobs, role, job }) => {
     const res = await fetch(`${BASE_URL}/api/jobs?role=${searchResult}`);
     const data = await res.json();
     setGetSearchJobs(data);
+
+    const response = await fetch(
+      `${BASE_URL}/api/jobs/?domain=${data[0]?.domain}`
+    );
+    const domains = await response.json();
+    setAllDomainMatching(domains);
+    if (domains) {
+      const filterByDomain = domains?.filter(
+        (job) => job?.role !== data[0]?.role
+      );
+      setGetDomain(filterByDomain);
+    }
   };
+
+  // filter by location
+  const { data: filterbylocations } = useQuery({
+    queryKey: ["filterbylocations", locationState],
+    queryFn: async () => {
+      const res = await fetch(`${BASE_URL}/api/jobs/?city=${locationState}`);
+      const data = await res.json();
+      return data;
+    },
+  });
+  // filter by experience
+  const { data: filterbyexperiences } = useQuery({
+    queryKey: ["filterbyexperiences", experienceState],
+    queryFn: async () => {
+      const res = await fetch(
+        `${BASE_URL}/api/jobs/?experience_required=${experienceState}`
+      );
+      const data = await res.json();
+      return data;
+    },
+  });
+  const { data: filterbyemployment } = useQuery({
+    queryKey: ["filterbyemployment", employementState],
+    queryFn: async () => {
+      const res = await fetch(
+        `${BASE_URL}/api/jobs/?type_of_job=${employementState}`
+      );
+      const data = await res.json();
+      return data;
+    },
+  });
 
   return (
     <div className="">
@@ -178,7 +220,9 @@ const JobsDescription = ({ jobs, role, job }) => {
               value={searchResult || ""}
               onChange={(e) => handleSearchJobs(e)}
               className="focus:outline-none w-80 bg-transparent text-gray-700 text-sm p-3"
-              placeholder="Enter skills / designations / companies"
+              placeholder={
+                role ? role : "Enter skills / designations / companies"
+              }
             />
           </div>
 
@@ -310,9 +354,7 @@ const JobsDescription = ({ jobs, role, job }) => {
                 {locationData?.map((locationData, i) => (
                   <li
                     key={i}
-                    onClick={() =>
-                      setLocationState(locationData.slice(0, 8) + "...")
-                    }
+                    onClick={() => setLocationState(locationData)}
                     className="text-gray-700 px-6 py-2 cursor-pointer hover:bg-gray-100 w-full text-sm"
                   >
                     {locationData}
@@ -390,9 +432,7 @@ const JobsDescription = ({ jobs, role, job }) => {
                 {experienceData?.map((experience, i) => (
                   <li
                     key={i}
-                    onClick={() =>
-                      setExperienceState(experience.slice(0, 8) + "...")
-                    }
+                    onClick={() => setExperienceState(experience)}
                     className="text-gray-700 px-6 py-2 cursor-pointer hover:bg-gray-100 w-full text-sm"
                   >
                     {experience}
@@ -469,9 +509,7 @@ const JobsDescription = ({ jobs, role, job }) => {
                 {employmentData?.map((work, i) => (
                   <li
                     key={i}
-                    onClick={() =>
-                      setEmployementState(work.slice(0, 8) + "...")
-                    }
+                    onClick={() => setEmployementState(work)}
                     className="text-gray-700 px-6 py-2 cursor-pointer hover:bg-gray-100 w-full text-sm"
                   >
                     {work}
@@ -489,7 +527,7 @@ const JobsDescription = ({ jobs, role, job }) => {
           <div className="py-2">
             {getSearchJobs?.length > 0 ? (
               <>
-                {getSearchJobs?.length} Jobs found for{" "}
+                {allDomainMatching?.length} Jobs found for{" "}
                 {getSearchJobs[0]?.domain}
               </>
             ) : (
@@ -508,29 +546,59 @@ const JobsDescription = ({ jobs, role, job }) => {
           </div>
 
           <div className="h-[80vh] sticky top-44 overflow-hidden overflow-y-scroll">
-            {getSearchJobs.length > 0 ? (
+            {filterbylocations?.length > 0 ? (
               <>
-                {/* {getSearchJobs?.map((job) => (
-                  <JobsCard key={job._id} job={job} />
-                ))} */}
-                {domainData?.map((job) => (
-                  <JobsCard key={job._id} job={job} />
-                ))}
+                {filterbylocations?.map((job) => {
+                  return (
+                    job !== "Location" && <JobsCard key={job._id} job={job} />
+                  );
+                })}
+              </>
+            ) : filterbyexperiences?.length > 0 ? (
+              <>
+                {filterbyexperiences?.map((job) => {
+                  return (
+                    job !== "Experience" && <JobsCard key={job._id} job={job} />
+                  );
+                })}
+              </>
+            ) : filterbyemployment?.length > 0 ? (
+              <>
+                {filterbyemployment?.map((job) => {
+                  return (
+                    job !== "Employment Type" && (
+                      <JobsCard key={job._id} job={job} />
+                    )
+                  );
+                })}
               </>
             ) : (
               <>
-                {jobs?.length > 0 && (
+                {getSearchJobs?.length > 0 ? (
                   <>
-                    {jobs?.map((job) => (
+                    {getSearchJobs?.map((job) => (
+                      <JobsCard key={job._id} job={job} />
+                    ))}
+                    {getDomain?.map((job) => (
                       <JobsCard key={job._id} job={job} />
                     ))}
                   </>
-                )}
-                {domainData?.length > 0 && (
+                ) : (
                   <>
-                    {domainData?.map((job) => (
-                      <JobsCard key={job._id} job={job} />
-                    ))}
+                    {jobs?.length > 0 && (
+                      <>
+                        {jobs?.map((job) => (
+                          <JobsCard key={job._id} job={job} />
+                        ))}
+                      </>
+                    )}
+                    {domainData?.length > 0 && (
+                      <>
+                        {domainData?.map((job) => (
+                          <JobsCard key={job._id} job={job} />
+                        ))}
+                      </>
+                    )}
                   </>
                 )}
               </>
@@ -538,36 +606,18 @@ const JobsDescription = ({ jobs, role, job }) => {
           </div>
         </div>
         {/* jobs card details */}
-
-        {getSearchJobs?.length > 0 ? (
-          <>
-            {getSearchJobs?.length > 0 && (
-              <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
-                <JobsDetails job={getSearchJobs[0]} />
-              </div>
-            )}
-            {/* {job && (
-              <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
-                <JobsDetails job={job} />
-              </div>
-            )} */}
-          </>
-        ) : (
-          <>
-            {jobs?.length > 0 && (
-              <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
-                <JobsDetails job={jobs[0]} />
-              </div>
-            )}
-            {job && (
-              <>
-                <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
-                  <JobsDetails job={job} />
-                </div>
-              </>
-            )}
-          </>
-        )}
+        <>
+          {jobs?.length > 0 && (
+            <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
+              <JobsDetails job={jobs[0]} />
+            </div>
+          )}
+          {job && (
+            <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
+              <JobsDetails job={job} />
+            </div>
+          )}
+        </>
       </div>
     </div>
   );

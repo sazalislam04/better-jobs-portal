@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import externallink from "../public/external-link.png";
 
-const JobsDetails = ({ job }) => {
+const SearchJobDetails = ({ details }) => {
   const [dateDays, setDateDays] = useState();
   const [open, setOpen] = useState(false);
   const {
@@ -37,7 +37,7 @@ const JobsDetails = ({ job }) => {
     views,
     createdAt,
     updatedAt,
-  } = job;
+  } = details;
 
   let date_1 = new Date(createdAt);
   let date_2 = new Date();
@@ -245,4 +245,4 @@ const JobsDetails = ({ job }) => {
   );
 };
 
-export default JobsDetails;
+export default SearchJobDetails;
