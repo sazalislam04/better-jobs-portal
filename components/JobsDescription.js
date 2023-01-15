@@ -21,9 +21,11 @@ const JobsDescription = ({ jobs, role, job }) => {
   const [domainData, setDomainData] = useState([]);
   const [searchResult, setSearchResult] = useState();
   const [searchBox, setSearchBox] = useState(false);
+  // search jobs
+  const [getSearchJobs, setGetSearchJobs] = useState([]);
 
-  // const BASE_URL = "https://better-jobs-portal.vercel.app";
-  const BASE_URL = "http://localhost:3000";
+  const BASE_URL = "https://better-jobs-portal.vercel.app";
+  // const BASE_URL = "http://localhost:3000";
 
   let domain = "";
   if (jobs?.length > 0) {
@@ -139,10 +141,9 @@ const JobsDescription = ({ jobs, role, job }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const res = await fetch(`${BASE_URL}/api/jobs?role=${searchResult}`);
     const data = await res.json();
-    console.log(data);
+    setGetSearchJobs(data);
   };
 
   return (
