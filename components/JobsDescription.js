@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import experiences from "../datalayer/experienceLevel";
 import locations from "../datalayer/locations";
@@ -26,6 +27,12 @@ const JobsDescription = ({ jobs, role, job }) => {
   const [getDomain, setGetDomain] = useState([]);
   const [allDomainMatching, setAllDomainMatching] = useState([]);
 
+  const [filterByData, setFilterByData] = useState([]);
+
+  const [combineFilter, setCombineFilter] = useState(filterByData);
+
+  const router = useRouter();
+
   const BASE_URL = "https://better-jobs-portal.vercel.app";
   // const BASE_URL = "http://localhost:3000";
 
@@ -49,7 +56,97 @@ const JobsDescription = ({ jobs, role, job }) => {
     },
   });
 
-  //  location state
+  useEffect(() => {
+    if (
+      locationState === "Location" &&
+      experienceState === "Experience" &&
+      employementState === "Employment Type"
+    ) {
+      return setCombineFilter(filterByData);
+    }
+    if (
+      locationState === "Location" &&
+      experienceState === "Experience" &&
+      employementState !== "Employment Type"
+    ) {
+      const result = filterByData?.filter(
+        (job) => job.type_of_job === employementState
+      );
+
+      return setCombineFilter(result);
+    }
+
+    if (
+      experienceState === "Experience" &&
+      employementState === "Employment Type"
+    ) {
+      const result = filterByData?.filter((job) => job.city === locationState);
+
+      return setCombineFilter(result);
+    }
+    if (
+      locationState === "Location" &&
+      experienceState !== "Experience" &&
+      employementState !== "Employment Type"
+    ) {
+      const result = filterByData?.filter(
+        (job) =>
+          job.experience_required === experienceState &&
+          job.type_of_job === employementState
+      );
+      return setCombineFilter(result);
+    }
+    if (locationState && experienceState === "Experience" && employementState) {
+      const result = filterByData?.filter(
+        (job) =>
+          job.city === locationState && job.type_of_job === employementState
+      );
+      return setCombineFilter(result);
+    }
+    if (
+      locationState !== "Location" &&
+      experienceState !== "Experience" &&
+      employementState !== "Employment Type"
+    ) {
+      const result = filterByData?.filter(
+        (job) =>
+          job.city === locationState &&
+          job.experience_required === experienceState &&
+          job.type_of_job === employementState
+      );
+      return setCombineFilter(result);
+    }
+    if (
+      locationState === "Location" &&
+      experienceState !== "Experience" &&
+      employementState === "Employment Type"
+    ) {
+      const result = filterByData?.filter(
+        (job) => job.experience_required === experienceState
+      );
+      return setCombineFilter(result);
+    }
+
+    if (
+      locationState !== "Location" &&
+      experienceState === "Experience" &&
+      employementState === "Employment Type"
+    ) {
+      const result = filterByData?.filter((job) => job.city === locationState);
+      return setCombineFilter(result);
+    }
+    if (locationState && experienceState) {
+      const result = filterByData?.filter(
+        (job) =>
+          job.city === locationState &&
+          job.experience_required === experienceState
+      );
+      return setCombineFilter(result);
+    }
+  }, [filterByData, locationState, experienceState, employementState]);
+
+  console.log(combineFilter);
+
   const clearLocationBtn = () => {
     setLocationState("Location");
     setOnLocation(false);
@@ -166,6 +263,10 @@ const JobsDescription = ({ jobs, role, job }) => {
     queryFn: async () => {
       const res = await fetch(`${BASE_URL}/api/jobs/?city=${locationState}`);
       const data = await res.json();
+      if (data) {
+        const filterData = data?.filter((job) => job?.domain === domain);
+        setFilterByData(filterData);
+      }
       return data;
     },
   });
@@ -177,9 +278,15 @@ const JobsDescription = ({ jobs, role, job }) => {
         `${BASE_URL}/api/jobs/?experience_required=${experienceState}`
       );
       const data = await res.json();
+      if (data) {
+        const filterData = data?.filter((job) => job?.domain === domain);
+        setFilterByData(filterData);
+      }
+      console.log(data);
       return data;
     },
   });
+  // filter by employment
   const { data: filterbyemployment } = useQuery({
     queryKey: ["filterbyemployment", employementState],
     queryFn: async () => {
@@ -187,6 +294,10 @@ const JobsDescription = ({ jobs, role, job }) => {
         `${BASE_URL}/api/jobs/?type_of_job=${employementState}`
       );
       const data = await res.json();
+      if (data) {
+        const filterData = data?.filter((job) => job?.domain === domain);
+        setFilterByData(filterData);
+      }
       return data;
     },
   });
@@ -546,76 +657,69 @@ const JobsDescription = ({ jobs, role, job }) => {
           </div>
 
           <div className="h-[80vh] sticky top-44 overflow-hidden overflow-y-scroll">
-            {filterbylocations?.length > 0 ? (
+            {combineFilter?.length > 0 ? (
               <>
-                {filterbylocations?.map((job) => {
-                  return (
-                    job !== "Location" && <JobsCard key={job._id} job={job} />
-                  );
-                })}
-              </>
-            ) : filterbyexperiences?.length > 0 ? (
-              <>
-                {filterbyexperiences?.map((job) => {
-                  return (
-                    job !== "Experience" && <JobsCard key={job._id} job={job} />
-                  );
-                })}
-              </>
-            ) : filterbyemployment?.length > 0 ? (
-              <>
-                {filterbyemployment?.map((job) => {
-                  return (
-                    job !== "Employment Type" && (
-                      <JobsCard key={job._id} job={job} />
-                    )
-                  );
+                {combineFilter?.map((job) => {
+                  return <JobsCard key={job._id} job={job} />;
                 })}
               </>
             ) : (
-              <>
-                {getSearchJobs?.length > 0 ? (
-                  <>
-                    {getSearchJobs?.map((job) => (
-                      <JobsCard key={job._id} job={job} />
-                    ))}
-                    {getDomain?.map((job) => (
-                      <JobsCard key={job._id} job={job} />
-                    ))}
-                  </>
-                ) : (
-                  <>
-                    {jobs?.length > 0 && (
-                      <>
-                        {jobs?.map((job) => (
-                          <JobsCard key={job._id} job={job} />
-                        ))}
-                      </>
-                    )}
-                    {domainData?.length > 0 && (
-                      <>
-                        {domainData?.map((job) => (
-                          <JobsCard key={job._id} job={job} />
-                        ))}
-                      </>
-                    )}
-                  </>
-                )}
-              </>
+              // <>
+              //   {getSearchJobs?.length > 0 ? (
+              //     <>
+              //       {getSearchJobs?.map((job) => (
+              //         <JobsCard key={job._id} job={job} />
+              //       ))}
+              //       {getDomain?.map((job) => (
+              //         <JobsCard key={job._id} job={job} />
+              //       ))}
+              //     </>
+              //   ) : (
+              //     <>
+              //       {jobs?.length > 0 && (
+              //         <>
+              //           {jobs?.map((job) => (
+              //             <JobsCard key={job._id} job={job} />
+              //           ))}
+              //         </>
+              //       )}
+              //       {domainData?.length > 0 && (
+              //         <>
+              //           {domainData?.map((job) => (
+              //             <JobsCard key={job._id} job={job} />
+              //           ))}
+              //         </>
+              //       )}
+              //     </>
+              //   )}
+              // </>
+              "Not found"
             )}
           </div>
         </div>
         {/* jobs card details */}
         <>
-          {jobs?.length > 0 && (
-            <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
-              <JobsDetails job={jobs[0]} />
-            </div>
-          )}
-          {job && (
-            <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
-              <JobsDetails job={job} />
-            </div>
+          {getSearchJobs?.length > 0 ? (
+            <>
+              {getSearchJobs?.length > 0 && (
+                <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
+                  <JobsDetails job={job || getSearchJobs[0]} />
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              {jobs?.length > 0 && (
+                <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
+                  <JobsDetails job={jobs[0]} />
+                </div>
+              )}
+              {job && (
+                <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
+                  <JobsDetails job={job} />
+                </div>
+              )}
+            </>
           )}
         </>
       </div>
