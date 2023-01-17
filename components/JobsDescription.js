@@ -33,8 +33,8 @@ const JobsDescription = ({ jobs, role, job }) => {
 
   const router = useRouter();
 
-  // const BASE_URL = "https://better-jobs-portal.vercel.app";
-  const BASE_URL = "http://localhost:3000";
+  const BASE_URL = "https://better-jobs-portal.vercel.app";
+  // const BASE_URL = "http://localhost:3000";
 
   let domain = "";
   if (jobs?.length > 0) {
@@ -664,7 +664,7 @@ const JobsDescription = ({ jobs, role, job }) => {
                 })}
               </>
             )}
-            {!combineFilter?.length && (
+            {!combineFilter?.length > 0 && (
               <>
                 {getSearchJobs?.length > 0 ? (
                   <>
