@@ -33,8 +33,8 @@ const JobsDescription = ({ jobs, role, job }) => {
 
   const router = useRouter();
 
-  const BASE_URL = "https://better-jobs-portal.vercel.app";
-  // const BASE_URL = "http://localhost:3000";
+  // const BASE_URL = "https://better-jobs-portal.vercel.app";
+  const BASE_URL = "http://localhost:3000";
 
   let domain = "";
   if (jobs?.length > 0) {
@@ -657,43 +657,43 @@ const JobsDescription = ({ jobs, role, job }) => {
           </div>
 
           <div className="h-[80vh] sticky top-44 overflow-hidden overflow-y-scroll">
-            {combineFilter?.length > 0 ? (
+            {combineFilter?.length > 0 && (
               <>
                 {combineFilter?.map((job) => {
                   return <JobsCard key={job._id} job={job} />;
                 })}
               </>
-            ) : (
-              // <>
-              //   {getSearchJobs?.length > 0 ? (
-              //     <>
-              //       {getSearchJobs?.map((job) => (
-              //         <JobsCard key={job._id} job={job} />
-              //       ))}
-              //       {getDomain?.map((job) => (
-              //         <JobsCard key={job._id} job={job} />
-              //       ))}
-              //     </>
-              //   ) : (
-              //     <>
-              //       {jobs?.length > 0 && (
-              //         <>
-              //           {jobs?.map((job) => (
-              //             <JobsCard key={job._id} job={job} />
-              //           ))}
-              //         </>
-              //       )}
-              //       {domainData?.length > 0 && (
-              //         <>
-              //           {domainData?.map((job) => (
-              //             <JobsCard key={job._id} job={job} />
-              //           ))}
-              //         </>
-              //       )}
-              //     </>
-              //   )}
-              // </>
-              "Not found"
+            )}
+            {!combineFilter?.length && (
+              <>
+                {getSearchJobs?.length > 0 ? (
+                  <>
+                    {getSearchJobs?.map((job) => (
+                      <JobsCard key={job._id} job={job} />
+                    ))}
+                    {getDomain?.map((job) => (
+                      <JobsCard key={job._id} job={job} />
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    {jobs?.length > 0 && (
+                      <>
+                        {jobs?.map((job) => (
+                          <JobsCard key={job._id} job={job} />
+                        ))}
+                      </>
+                    )}
+                    {domainData?.length > 0 && (
+                      <>
+                        {domainData?.map((job) => (
+                          <JobsCard key={job._id} job={job} />
+                        ))}
+                      </>
+                    )}
+                  </>
+                )}
+              </>
             )}
           </div>
         </div>
