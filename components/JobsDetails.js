@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import {
@@ -56,11 +57,13 @@ const JobsDetails = ({ job }) => {
     <>
       <section className="py-5 px-6">
         <div className="">
-          <div className="flex gap-6">
-            <div className="w-28 h-20 border rounded">
-              <span className="flex items-center justify-center h-full w-full text-lg text-gray-600">
-                logo
-              </span>
+          <div className="flex gap-2">
+            <div className="w-28 h-20 flex items-center justify-center rounded-md overflow-hidden">
+              <img
+                className="w-16 h-16"
+                src={`https://logo.clearbit.com/${company_name}.com`}
+                alt="logo"
+              />
             </div>
             <div className="w-full relative">
               <div className="flex  justify-between">

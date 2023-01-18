@@ -285,9 +285,7 @@ const JobsDescription = ({ jobs, role, job }) => {
     if (onEmployement) {
       setOnEmployement(false);
     }
-    if (onLocation) {
-      setOnLocation(false);
-    }
+
     if (onExperience) {
       setOnExperience(false);
     }
@@ -373,10 +371,14 @@ const JobsDescription = ({ jobs, role, job }) => {
     <div className="">
       <div className="lg:sticky top-0 py-6 z-50 bg-gray-50">
         <form
+          onClick={handleClose}
           onSubmit={handleSubmit}
           className="custom-shadow border w-[60%] z-50 relative py-1 px-4 rounded-full flex  items-center justify-between mx-auto"
         >
-          <div className="flex items-center gap-1 relative">
+          <div
+            onClick={() => setOnLocation(false)}
+            className="flex items-center gap-1 relative"
+          >
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -520,7 +522,10 @@ const JobsDescription = ({ jobs, role, job }) => {
         )}
 
         {/* filter button */}
-        <div className="flex relative items-center gap-6 mt-5 justify-center">
+        <div
+          onClick={() => setOnLocation(false)}
+          className="flex relative items-center gap-6 mt-5 justify-center"
+        >
           <span className="flex text-sm text-gray-500 items-center gap-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -644,7 +649,7 @@ const JobsDescription = ({ jobs, role, job }) => {
           </button>
           {onExperience && (
             <div
-              className={`absolute top-12 pt-4 bg-gray-50 rounded overflow-hidden overflow-y-auto ml-20 mt-2 border h-52 w-64 `}
+              className={`absolute top-12 pt-4 bg-gray-50 rounded overflow-hidden overflow-y-auto -ml-40 mt-2 border h-52 w-64 `}
             >
               <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
                 <span>Select Experience</span>
@@ -721,7 +726,7 @@ const JobsDescription = ({ jobs, role, job }) => {
 
           {onEmployement && (
             <div
-              className={`absolute top-12 pt-4 bg-gray-50 rounded overflow-hidden overflow-y-auto right-72 mt-2 border h-52 w-64 text-sm`}
+              className={`absolute top-12 pt-4 bg-gray-50 rounded overflow-hidden overflow-y-auto ml-44 mt-2 border h-52 w-64 text-sm`}
             >
               <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
                 <span>Select Employment Type</span>
@@ -794,7 +799,7 @@ const JobsDescription = ({ jobs, role, job }) => {
           </button>
           {remote && (
             <div
-              className={`absolute top-12 pt-4 bg-gray-50 rounded overflow-hidden overflow-y-auto right-72 mt-2 border h-52 w-64 text-sm`}
+              className={`absolute top-12 pt-4 bg-gray-50 rounded overflow-hidden overflow-y-auto right-64 mt-2 border h-52 w-64 text-sm`}
             >
               <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
                 <span>Select Job Type</span>
