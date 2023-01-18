@@ -17,6 +17,7 @@ export default function handler(req, res) {
       getFilterByLocations(req, res);
       getFilterByExperience(req, res);
       getFilterByJobType(req, res);
+
       break;
     case "POST":
       res.status(200).json({ name: "post req" });

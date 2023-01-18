@@ -8,10 +8,15 @@ import employments from "../datalayer/workTypes";
 import JobsCard from "./JobsCard";
 import JobsDetails from "./JobsDetails";
 
+// job type
+const jobsType = ["Both", "On-site", "Remote"];
+
 const JobsDescription = ({ jobs, role, job }) => {
   const [onLocation, setOnLocation] = useState(false);
   const [locationState, setLocationState] = useState("Location");
   const [locationData, setLocationData] = useState(locations);
+  const [searchLocation, setSearchLocation] = useState("");
+
   const [onExperience, setOnExperience] = useState(false);
   const [experienceState, setExperienceState] = useState("Experience");
   const [experienceData, setExperienceData] = useState(experiences);
@@ -30,6 +35,10 @@ const JobsDescription = ({ jobs, role, job }) => {
   const [filterByData, setFilterByData] = useState([]);
 
   const [combineFilter, setCombineFilter] = useState(filterByData);
+
+  const [remote, setRemote] = useState(false);
+  const [remoteResult, setRemoteResult] = useState("Job Type");
+  const [remoteData, setRemoteData] = useState(jobsType);
 
   const router = useRouter();
 
@@ -143,16 +152,20 @@ const JobsDescription = ({ jobs, role, job }) => {
       );
       return setCombineFilter(result);
     }
-  }, [filterByData, locationState, experienceState, employementState]);
-
-  console.log(combineFilter);
+  }, [
+    filterByData,
+    locationState,
+    experienceState,
+    employementState,
+    remoteResult,
+  ]);
 
   const clearLocationBtn = () => {
     setLocationState("Location");
     setOnLocation(false);
   };
 
-  const handleLocation = () => {
+  const handleLocation = (e) => {
     setOnLocation(!onLocation);
     setOnExperience(false);
     setOnEmployement(false);
@@ -182,6 +195,7 @@ const JobsDescription = ({ jobs, role, job }) => {
     setOnExperience(!onExperience);
     setOnLocation(false);
     setOnEmployement(false);
+    setRemote(false);
   };
   //  search experience
 
@@ -206,6 +220,7 @@ const JobsDescription = ({ jobs, role, job }) => {
     setOnEmployement(!onEmployement);
     setOnLocation(false);
     setOnExperience(false);
+    setRemote(false);
   };
   //   search employment
   const handleSearchEmployment = (e) => {
@@ -235,6 +250,46 @@ const JobsDescription = ({ jobs, role, job }) => {
     } else {
       const remaining = jobroles.filter((role) => role !== e.target.value);
       setSearchJobs(remaining);
+    }
+  };
+
+  // job type
+  const handleJobType = (e) => {
+    setRemote(!remote);
+    setOnEmployement(false);
+    setOnLocation(false);
+    setOnExperience(false);
+  };
+  const handleSearchType = (e) => {
+    if (e.target.value) {
+      const searchType = jobsType.filter((type) =>
+        type.toLowerCase().includes(e.target.value.toLowerCase())
+      );
+      setRemoteData(searchType);
+    } else {
+      const remaining = jobsType.filter((type) => type !== e.target.value);
+      setRemoteData(remaining);
+    }
+  };
+
+  const handleCloseRemote = () => {
+    setRemoteResult("Job Type");
+    setRemote(false);
+  };
+
+  // close all btn
+  const handleClose = () => {
+    if (remote) {
+      setRemote(false);
+    }
+    if (onEmployement) {
+      setOnEmployement(false);
+    }
+    if (onLocation) {
+      setOnLocation(false);
+    }
+    if (onExperience) {
+      setOnExperience(false);
     }
   };
 
@@ -302,14 +357,26 @@ const JobsDescription = ({ jobs, role, job }) => {
     },
   });
 
+  // get remote jobs
+  const handleRemote = async (type) => {
+    setRemoteResult(type);
+    if (type === "Remote") {
+      const response = await fetch(`${BASE_URL}/api/jobs/remote`);
+      const data = await response.json();
+      if (data) {
+        setCombineFilter(data);
+      }
+    }
+  };
+
   return (
     <div className="">
       <div className="lg:sticky top-0 py-6 z-50 bg-gray-50">
         <form
           onSubmit={handleSubmit}
-          className="custom-shadow border w-[60%] relative py-1 px-4 rounded-full flex  items-center justify-between mx-auto"
+          className="custom-shadow border w-[60%] z-50 relative py-1 px-4 rounded-full flex  items-center justify-between mx-auto"
         >
-          <div className="flex items-center gap-1  relative">
+          <div className="flex items-center gap-1 relative">
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -336,6 +403,80 @@ const JobsDescription = ({ jobs, role, job }) => {
               }
             />
           </div>
+
+          <button
+            onClick={handleLocation}
+            className={`text-gray-600 bg-transparent my-2 px-2 w-44 py-2 text-sm relative flex items-center gap-1`}
+          >
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-4 h-4 text-gray-600"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </span>
+            <span>{locationState}</span>
+          </button>
+          {onLocation && (
+            <div
+              className={`absolute top-12 pt-4 right-40 bg-gray-50 rounded overflow-hidden overflow-y-auto  mt-2 border h-72 w-72`}
+            >
+              <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
+                <span>Select Location</span>
+                {locationState !== "Location" && (
+                  <span
+                    onClick={clearLocationBtn}
+                    className="text-blue-800 cursor-pointer"
+                  >
+                    Clear
+                  </span>
+                )}
+              </li>
+              <div className="my-2 w-56 mx-auto relative">
+                <span className="absolute py-2 px-2 ">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-4 h-4 text-gray-500"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                    />
+                  </svg>
+                </span>
+                <input
+                  type="search"
+                  onChange={(e) => handleSearchLocation(e)}
+                  className="px-8 w-56 focus:outline-none border-gray-400 border focus:ring-2 focus:ring-gray-400 transition duration-300 rounded py-1"
+                />
+              </div>
+              <ul onClick={() => setOnLocation(!onLocation)}>
+                {locationData?.map((locationData, i) => (
+                  <li
+                    key={i}
+                    onClick={() => setLocationState(locationData)}
+                    className="text-gray-700 px-6 py-2 cursor-pointer hover:bg-gray-100 w-full text-sm"
+                  >
+                    {locationData}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <button className="px-6 py-[6px] focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition duration-300 rounded-full text-white text-lg bg-indigo-500">
             Search
@@ -398,7 +539,7 @@ const JobsDescription = ({ jobs, role, job }) => {
             Filter jobs by
           </span>
 
-          <button
+          {/* <button
             onClick={handleLocation}
             className={`border text-gray-600 hover:border-indigo-500 hover:shadow-lg transition-all duration-300 my-2 px-6 py-2 text-sm rounded-full custom-shadow flex items-center gap-1 ${
               locationState !== "Location" &&
@@ -473,7 +614,7 @@ const JobsDescription = ({ jobs, role, job }) => {
                 ))}
               </ul>
             </div>
-          )}
+          )} */}
 
           <button
             onClick={handleExperience}
@@ -583,7 +724,7 @@ const JobsDescription = ({ jobs, role, job }) => {
               className={`absolute top-12 pt-4 bg-gray-50 rounded overflow-hidden overflow-y-auto right-72 mt-2 border h-52 w-64 text-sm`}
             >
               <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
-                <span>Select Employment Types</span>
+                <span>Select Employment Type</span>
                 {employementState !== "Employment Type" && (
                   <span
                     onClick={clearEmploymentState}
@@ -629,11 +770,88 @@ const JobsDescription = ({ jobs, role, job }) => {
               </ul>
             </div>
           )}
+          <button
+            onClick={handleJobType}
+            className={`border text-gray-600 hover:border-indigo-500 hover:shadow-lg transition-all duration-300 my-2 px-6 py-2 text-sm rounded-full custom-shadow flex items-center gap-1`}
+          >
+            <span>{remoteResult}</span>
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-4 h-4 text-gray-600"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </span>
+          </button>
+          {remote && (
+            <div
+              className={`absolute top-12 pt-4 bg-gray-50 rounded overflow-hidden overflow-y-auto right-72 mt-2 border h-52 w-64 text-sm`}
+            >
+              <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
+                <span>Select Job Type</span>
+
+                {remoteResult !== "Job Type" && (
+                  <span
+                    onClick={handleCloseRemote}
+                    className="text-blue-800 cursor-pointer"
+                  >
+                    Clear
+                  </span>
+                )}
+              </li>
+              <div className="my-2 w-52 mx-auto relative">
+                <span className="absolute py-2 px-2 ">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-4 h-4 text-gray-500"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                    />
+                  </svg>
+                </span>
+                <input
+                  type="search"
+                  onChange={(e) => handleSearchType(e)}
+                  className="px-8 w-52 focus:outline-none border-gray-400 border focus:ring-2 focus:ring-gray-400 transition duration-300 rounded py-1"
+                />
+              </div>
+              <ul onClick={() => setRemote(!remote)}>
+                {remoteData?.map((type, i) => (
+                  <li
+                    onClick={() => handleRemote(type)}
+                    key={i}
+                    className="text-gray-700 px-6 py-2 cursor-pointer hover:bg-gray-100 w-full text-sm"
+                  >
+                    {type}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
 
       {/* jobs card */}
-      <div className="lg:flex gap-6 justify-between lg:w-9/12 mx-auto mt-4">
+      <div
+        onClick={handleClose}
+        className="lg:flex gap-6 justify-between lg:w-9/12 mx-auto mt-4"
+      >
         <div className="lg:w-2/5">
           <div className="py-2">
             {getSearchJobs?.length > 0 ? (

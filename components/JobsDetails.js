@@ -193,7 +193,7 @@ const JobsDetails = ({ job }) => {
               posted {dateDays}d ago
             </span>
             <button className="flex items-center focus:ring-2 focus:ring-indigo-400 transition duration-300 gap-2 px-6 py-2 bg-indigo-500 rounded-full text-white">
-              <span>Apply on Company Page</span>
+              <span>Apply Now</span>
               <Image src={externallink} width={18} height={18} alt="" />
             </button>
           </div>
