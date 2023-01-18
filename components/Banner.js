@@ -1,5 +1,4 @@
 import Image from "next/image";
-import React from "react";
 import mobile from "../public/mobile-show.png";
 import play from "../public/play.png";
 
@@ -16,13 +15,7 @@ const Banner = () => {
               We make it easy to find your dream job. Search and apply for jobs
               from 100+ cities and 1000+ companies.
             </p>
-            <Image
-              src={play}
-              alt=""
-              width={150}
-              height={150}
-              className="custom-shadow cursor-pointer"
-            />
+            <Image src={play} alt="" width={150} height={150} />
           </div>
         </div>
         <div className="lg:w-2/5">
