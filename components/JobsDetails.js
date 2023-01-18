@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import externallink from "../public/external-link.png";
 
-const JobsDetails = ({ job }) => {
+const JobsDetails = ({ job, setApplyJob }) => {
   const [dateDays, setDateDays] = useState();
   const [open, setOpen] = useState(false);
   const {
@@ -195,10 +195,16 @@ const JobsDetails = ({ job }) => {
             <span className="text-sm text-gray-400">
               posted {dateDays}d ago
             </span>
-            <button className="flex items-center focus:ring-2 focus:ring-indigo-400 transition duration-300 gap-2 px-6 py-2 bg-indigo-500 rounded-full text-white">
+            <label
+              onClick={() => {
+                setApplyJob(job);
+              }}
+              htmlFor="apply-job"
+              className="flex cursor-pointer items-center focus:ring-2 focus:ring-indigo-400 transition duration-300 gap-2 px-6 py-2 bg-indigo-500 rounded-full text-white"
+            >
               <span>Apply Now</span>
               <Image src={externallink} width={18} height={18} alt="" />
-            </button>
+            </label>
           </div>
         </div>
         <hr className="my-4" />
