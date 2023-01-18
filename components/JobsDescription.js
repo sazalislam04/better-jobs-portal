@@ -15,7 +15,6 @@ const JobsDescription = ({ jobs, role, job }) => {
   const [onLocation, setOnLocation] = useState(false);
   const [locationState, setLocationState] = useState("Location");
   const [locationData, setLocationData] = useState(locations);
-  const [searchLocation, setSearchLocation] = useState("");
 
   const [onExperience, setOnExperience] = useState(false);
   const [experienceState, setExperienceState] = useState("Experience");

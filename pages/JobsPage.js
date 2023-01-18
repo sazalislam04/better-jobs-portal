@@ -56,7 +56,7 @@ const JobsPage = () => {
   };
 
   return (
-    <section className="mt-16 flex justify-center items-center">
+    <section className="py-10 flex justify-center items-center">
       <div className="container mx-auto px-4">
         <div className="text-center">
           <h2 className="text-4xl text-gray-800 capitalize font-medium">
