@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import experiences from "../datalayer/experienceLevel";
@@ -39,8 +38,6 @@ const JobsDescription = ({ jobs, role, job }) => {
   const [remote, setRemote] = useState(false);
   const [remoteResult, setRemoteResult] = useState("Job Type");
   const [remoteData, setRemoteData] = useState(jobsType);
-
-  const router = useRouter();
 
   const BASE_URL = "https://better-jobs-portal.vercel.app";
   // const BASE_URL = "http://localhost:3000";
@@ -426,7 +423,9 @@ const JobsDescription = ({ jobs, role, job }) => {
                 />
               </svg>
             </span>
-            <span>{locationState}</span>
+            <span className="text-gray-500">
+              {locationState !== "Location" ? locationState : "Enter location"}
+            </span>
           </button>
           {onLocation && (
             <div
