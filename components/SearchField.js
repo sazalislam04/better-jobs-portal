@@ -51,7 +51,6 @@ const SearchField = ({
           value={roleValue || ""}
           className="focus:outline-none w-72 text-gray-700 text-sm p-3"
           placeholder="Enter skills / designations / companies"
-          required
         />
         {close && (
           <>
