@@ -41,10 +41,8 @@ const JobsDescription = ({ jobs, role, job }) => {
 
   const [applyJob, setApplyJob] = useState(null);
 
-  console.log(filterByData);
-
-  // const BASE_URL = "https://better-jobs-portal.vercel.app";
-  const BASE_URL = "http://localhost:3000";
+  const BASE_URL = "https://better-jobs-portal.vercel.app";
+  // const BASE_URL = "http://localhost:3000";
 
   let domain = "";
   if (jobs?.length > 0) {
@@ -302,7 +300,8 @@ const JobsDescription = ({ jobs, role, job }) => {
     e.preventDefault();
     const res = await fetch(`${BASE_URL}/api/jobs?role=${searchResult}`);
     const data = await res.json();
-    setCombineFilter(data);
+    setGetSearchJobs(data);
+
     const response = await fetch(
       `${BASE_URL}/api/jobs/?domain=${data[0]?.domain}`
     );
@@ -313,6 +312,11 @@ const JobsDescription = ({ jobs, role, job }) => {
         (job) => job?.role !== data[0]?.role
       );
       setGetDomain(filterByDomain);
+    }
+    if (!searchResult) {
+      const res = await fetch(`${BASE_URL}/api/jobs/`);
+      const jobs = await res.json();
+      setGetSearchJobs(jobs);
     }
   };
 
@@ -444,7 +448,7 @@ const JobsDescription = ({ jobs, role, job }) => {
               </div>
             )}
 
-            <button className="px-6 py-[6px] focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition duration-300 rounded-full text-white text-lg bg-indigo-500">
+            <button className="px-6 py-[6px] focus:ring-2 transition duration-300 rounded-full text-white text-lg bg-[#037b8e]">
               Search
             </button>
           </form>
@@ -769,7 +773,16 @@ const JobsDescription = ({ jobs, role, job }) => {
               )}
             </div> */}
 
-            <div className="h-[80vh] sticky top-44 overflow-hidden overflow-y-scroll">
+            <div className="h-[80vh] mt-10 sticky top-44 overflow-hidden overflow-y-scroll">
+              <>
+                {combineFilter?.length > 0 && (
+                  <>
+                    {getSearchJobs?.map((job) => (
+                      <JobsCard key={job._id} job={job} />
+                    ))}
+                  </>
+                )}
+              </>
               {combineFilter?.length > 0 ? (
                 <>
                   {combineFilter?.map((job) => {
@@ -777,7 +790,11 @@ const JobsDescription = ({ jobs, role, job }) => {
                   })}
                 </>
               ) : (
-                "not found job"
+                <>
+                  <div className="text-center p-5 bg-white custom-shadow rounded-lg">
+                    <p>Sorry, no jobs found for {searchResult}</p>
+                  </div>
+                </>
               )}
 
               {/* <>

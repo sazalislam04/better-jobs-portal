@@ -51,6 +51,7 @@ const SearchField = ({
           value={roleValue || ""}
           className="focus:outline-none w-72 text-gray-700 text-sm p-3"
           placeholder="Enter skills / designations / companies"
+          required
         />
         {close && (
           <>
@@ -159,7 +160,7 @@ const SearchField = ({
       </div>
 
       <div>
-        <Link href={`/jobs/search/${roleValue}`}>
+        <Link href={`/jobs/search/${roleValue ? roleValue : ""}`}>
           <button className="w-32 h-[46px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
             Search
           </button>

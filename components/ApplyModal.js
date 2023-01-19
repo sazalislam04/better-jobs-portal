@@ -25,7 +25,7 @@ const ApplyModal = ({ applyJob }) => {
               Cancel
             </label>
             <Link href="https://play.google.com/store/apps" target="_blank">
-              <button className="btn rounded-full mx-2 px-6 bg-indigo-500 border-none hover:bg-indigo-600 btn-sm">
+              <button className="btn rounded-full mx-2 px-6 bg-[#037b8e] border-none hover:bg-[#016777] btn-sm">
                 Go to playstore
               </button>
             </Link>

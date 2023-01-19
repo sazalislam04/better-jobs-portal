@@ -6,72 +6,74 @@ import play from "../public/play.png";
 
 const Footer = () => {
   return (
-    <footer class="bg-gray-100 py-10">
-      <div class="container p-6 mx-auto">
-        <div class="lg:flex">
-          <div class="w-full -mx-6 lg:w-2/5">
-            <div class="px-6">
-              <p class="max-w-sm mt-2 text-gray-500">All rights reserved.</p>
+    <footer className="bg-gray-100 py-10">
+      <div className="container p-6 mx-auto">
+        <div className="lg:flex">
+          <div className="w-full -mx-6 lg:w-2/5">
+            <div className="px-6">
+              <p className="max-w-sm mt-2 text-gray-500">
+                All rights reserved.
+              </p>
             </div>
           </div>
 
-          <div class="mt-6 lg:mt-0 lg:flex-1">
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="mt-6 lg:mt-0 lg:flex-1">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               <div>
-                <h3 class="text-gray-800 font-medium text-lg">Links</h3>
+                <h3 className="text-gray-800 font-medium text-lg">Links</h3>
                 <Link
                   href=""
-                  class="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   download mobile app
                 </Link>
                 <Link
                   href=""
-                  class="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   careers with us
                 </Link>
                 <Link
                   href=""
-                  class="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   contact us
                 </Link>
               </div>
 
               <div>
-                <h3 class="text-gray-800 font-medium text-lg">Legal</h3>
+                <h3 className="text-gray-800 font-medium text-lg">Legal</h3>
                 <Link
                   href=""
-                  class="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   privacy policy
                 </Link>
                 <Link
                   href=""
-                  class="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   user terms & conditions
                 </Link>
                 <Link
                   href=""
-                  class="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   employer terms of service
                 </Link>
               </div>
 
               <div>
-                <h3 class="text-gray-800 font-medium text-lg">Resources</h3>
+                <h3 className="text-gray-800 font-medium text-lg">Resources</h3>
                 <Link
                   href=""
-                  class="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   blog
                 </Link>
                 <Link
                   href=""
-                  class="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   sitemap
                 </Link>
@@ -85,7 +87,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <hr class="h-px my-6 bg-gray-200 border-none" />
+        <hr className="h-px my-6 bg-gray-200 border-none" />
 
         <div className="flex justify-between">
           <div className="flex items-center">
@@ -104,8 +106,8 @@ const Footer = () => {
           </div>
           <div className="mt-6 flex gap-3">
             <small className="text-gray-400">reach@betterjobs.co </small>
-            <small class="text-gray-400">Privacy Policy</small>
-            <small class="text-gray-400">Terms of Service</small>
+            <small className="text-gray-400">Privacy Policy</small>
+            <small className="text-gray-400">Terms of Service</small>
           </div>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import {
+  getAllJobs,
   getDomainJobs,
   getFilterByExperience,
   getFilterByJobType,
@@ -17,7 +18,7 @@ export default function handler(req, res) {
       getFilterByLocations(req, res);
       getFilterByExperience(req, res);
       getFilterByJobType(req, res);
-
+      getAllJobs(req, res);
       break;
     case "POST":
       res.status(200).json({ name: "post req" });
