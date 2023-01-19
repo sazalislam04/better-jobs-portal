@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import {
   FaFacebookSquare,
   FaLinkedin,
+  FaRupeeSign,
   FaTwitterSquare,
   FaWhatsappSquare,
 } from "react-icons/fa";
@@ -214,6 +215,14 @@ const JobsDetails = ({ job, setApplyJob }) => {
           <div className="flex text-sm text-gray-700 my-2">
             <li className="mr-4">Flexible Timing</li>
             <li>{is_night_shift ? "Night Shift" : "Day Shift"}</li>
+            <li className="flex items-center ml-4">
+              <span className="text-gray-500">
+                <FaRupeeSign />
+              </span>
+              <span>
+                {min_monthly_salary} - {max_monthly_salary}
+              </span>
+            </li>
           </div>
           <div>
             <span className="text-gray-500 text-sm font-medium">

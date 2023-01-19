@@ -20,9 +20,14 @@ const SearchField = ({
   closeLocationState,
   setCloseLocationState,
   handleGetLocation,
+  locationResult,
+  handleCloseSearchField,
 }) => {
   return (
-    <div className="custom-shadow border w-[80%] mt-10 py-2 px-4 rounded-full flex divide-x divide-gray-100 items-center justify-between mx-auto">
+    <div
+      onClick={handleCloseSearchField}
+      className="custom-shadow border w-[80%] mt-10 py-2 px-4 rounded-lg flex divide-x divide-gray-100 items-center justify-between mx-auto"
+    >
       <div className="flex items-center gap-1 relative">
         <span>
           <svg
@@ -66,7 +71,7 @@ const SearchField = ({
           </>
         )}
       </div>
-      <div className="flex items-center relative">
+      {/* <div className="flex items-center relative">
         <input
           placeholder="Select experience"
           className="focus:outline-none text-gray-700 text-sm p-3"
@@ -105,21 +110,42 @@ const SearchField = ({
             ))}
           </ul>
         )}
-      </div>
-      <div>
+      </div> */}
+      <div className="relative z-10 flex items-center">
+        <span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-5 h-5 text-gray-500 mx-2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+            />
+          </svg>
+        </span>
         <input
           type="search"
-          placeholder="Enter location"
-          className="focus:outline-none text-gray-700 text-sm p-3"
+          placeholder="Search location"
+          className="focus:outline-none text-gray-700 text-sm px-2 p-3"
           onChange={(e) => handleSearchLocation(e)}
-          value={locationState || ""}
+          value={locationResult || ""}
         />
         {closeLocationState && (
           <ul
             onClick={() => setCloseLocationState(!closeLocationState)}
-            className={`absolute overflow-y-scroll overflow-hidden  pt-4 bg-white rounded-tl-xl rounded-bl-xl border h-64 w-52`}
+            className={`absolute overflow-y-scroll overflow-hidden  pt-4 bg-white rounded-tl-xl top-12 rounded-bl-xl border h-64 w-52`}
           >
-            {locations?.map((location, i) => (
+            {locationState?.map((location, i) => (
               <li
                 onClick={() => handleGetLocation(location)}
                 className="text-gray-700 px-5 py-2 cursor-pointer hover:bg-gray-100 w-full text-sm"
@@ -134,7 +160,7 @@ const SearchField = ({
 
       <div>
         <Link href={`/jobs/search/${roleValue}`}>
-          <button className="px-7 py-[10px] focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition duration-300 rounded-full text-white text-lg bg-indigo-500">
+          <button className="w-32 h-[46px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
             Search
           </button>
         </Link>

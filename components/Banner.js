@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import mobile from "../public/mobile-show.png";
 import play from "../public/play.png";
 
@@ -15,7 +16,9 @@ const Banner = () => {
               We make it easy to find your dream job. Search and apply for jobs
               from 100+ cities and 1000+ companies.
             </p>
-            <Image src={play} alt="" width={150} height={150} />
+            <Link href="https://play.google.com/store/apps" target="_blank">
+              <Image src={play} alt="" width={140} height={150} />
+            </Link>
           </div>
         </div>
         <div className="lg:w-2/5">

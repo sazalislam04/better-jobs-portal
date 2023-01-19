@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Category from "../components/Category";
 import SearchField from "../components/SearchField";
 import experiences from "../datalayer/experienceLevel";
 import locations from "../datalayer/locations";
@@ -11,8 +10,18 @@ const JobsPage = () => {
   const [search, setSearch] = useState("");
   const [roleValue, setRoleValue] = useState();
   const [close, setClose] = useState(false);
-  const [locationState, setLocationState] = useState();
+  const [locationState, setLocationState] = useState("");
   const [closeLocationState, setCloseLocationState] = useState(false);
+  const [locationResult, setLocationResult] = useState();
+
+  const handleCloseSearchField = () => {
+    if (closeLocationState) {
+      setCloseLocationState(false);
+    }
+    if (close) {
+      setClose(false);
+    }
+  };
 
   const handleGetExp = (exp) => {
     if (exp) {
@@ -24,7 +33,7 @@ const JobsPage = () => {
     setRoleValue(role);
   };
   const handleGetLocation = (location) => {
-    setLocationState(location);
+    setLocationResult(location);
   };
   // search by role
   const handleSearchRoles = (e) => {
@@ -42,16 +51,16 @@ const JobsPage = () => {
   };
   // search by location
   const handleSearchLocation = (e) => {
-    setLocationState(e.target.value);
     setCloseLocationState(locations);
+    setLocationResult(e.target.value);
     if (e.target.value) {
       const filterByLocation = locations.filter((role) =>
         role.toLowerCase().includes(e.target.value.toLowerCase())
       );
-      setSearch(filterByLocation);
+      setLocationState(filterByLocation);
     } else {
       const remaining = locations.filter((role) => role !== e.target.value);
-      setSearch(remaining);
+      setLocationState(remaining);
     }
   };
 
@@ -86,11 +95,13 @@ const JobsPage = () => {
           closeLocationState={closeLocationState}
           setCloseLocationState={setCloseLocationState}
           handleGetLocation={handleGetLocation}
+          locationResult={locationResult}
+          handleCloseSearchField={handleCloseSearchField}
         />
         {/* jobs category */}
-        <div className="w-[85%] mx-auto mt-16">
+        {/* <div className="w-[85%] mx-auto mt-16">
           <Category />
-        </div>
+        </div> */}
       </div>
     </section>
   );

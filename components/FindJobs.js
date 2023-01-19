@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from "next/link";
 import data from "../datalayer/findjobs";
 
 const FindJobs = () => {
@@ -15,6 +16,13 @@ const FindJobs = () => {
               <h3 className="text-center mt-2">{job.title}</h3>
             </div>
           ))}
+        </div>
+        <div className="text-center mt-6">
+          <Link href="https://play.google.com/store/apps" target="_blank">
+            <button className="mx-2 w-32 h-[46px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
+              Download app
+            </button>
+          </Link>
         </div>
       </div>
     </section>

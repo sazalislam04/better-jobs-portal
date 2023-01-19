@@ -1,7 +1,9 @@
 import { Inter } from "@next/font/google";
 import Head from "next/head";
 import Banner from "../components/Banner";
+import Features from "../components/Features";
 import FindJobs from "../components/FindJobs";
+import HiredTalent from "../components/HiredTalent";
 import JobsPage from "./JobsPage";
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +25,8 @@ export default function Home() {
         <Banner />
         <FindJobs />
         <JobsPage />
+        <Features />
+        <HiredTalent />
       </div>
     </>
   );

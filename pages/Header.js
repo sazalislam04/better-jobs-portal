@@ -1,14 +1,16 @@
+import Image from "next/image";
 import Link from "next/link";
 import Nav from "../components/Nav";
+import play from "../public/play.png";
 
 const Header = () => {
   return (
     <>
       <header className="py-4 custom-shadow flex justify-between">
-        <nav className="hidden md:flex sticky top-0 items-center justify-between container mx-auto px-4">
+        <nav className="hidden md:flex items-center justify-between container mx-auto px-4">
           <div className="md:flex items-center gap-10 w-full">
             <h2 className="text-2xl font-medium">
-              Better.<span className="text-indigo-500">Jobs</span>{" "}
+              Better<span className="text-[#037b8e]">jobs</span>{" "}
             </h2>
             <ul className="flex my-4 md:my-0 gap-5">
               <li className="text-lg">
@@ -17,12 +19,18 @@ const Header = () => {
             </ul>
           </div>
           <div className="flex items-center">
-            <button className="px-6 py-2 rounded-full border mr-5 focus:bg-indigo-50 transition duration-300 focus:ring-2 focus:ring-indigo-300 border-indigo-500">
-              Login
-            </button>
-            <button className="px-6 py-2 focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 focus:bg-indigo-50 focus:text-indigo-700 transition duration-300 rounded-full border bg-indigo-500 text-white ">
-              Register
-            </button>
+            <Link
+              href="https://play.google.com/store/apps"
+              className="w-32 h-[50px]"
+              target="_blank"
+            >
+              <Image src={play} alt="" width={150} height={130} />
+            </Link>
+            <Link href="https://employer.betterjobs.co/auth" target="_blank">
+              <button className="mx-2 w-32 h-[46px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
+                For employers
+              </button>
+            </Link>
           </div>
         </nav>
         <div className="md:hidden mx-2 sm:mx-4 md:mx-0 flex justify-end w-full">
