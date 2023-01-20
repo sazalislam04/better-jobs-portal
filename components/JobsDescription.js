@@ -36,7 +36,7 @@ const JobsDescription = ({ job, dynamicjob }) => {
 
   const [applyJob, setApplyJob] = useState(null);
   const [filterByData, setFilterByData] = useState();
-  const [getSearchJobs, setGetSearchJobs] = useState();
+  const [getSearchJobs, setGetSearchJobs] = useState(filterByData);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -69,14 +69,14 @@ const JobsDescription = ({ job, dynamicjob }) => {
 
   useEffect(() => {
     if (
-      locationState === "Location" &&
+      // locationState === "Location" &&
       experienceState === "Experience" &&
       employementState === "Employment Type"
     ) {
       return setGetSearchJobs();
     }
     if (
-      locationState === "Location" &&
+      // locationState === "Location" &&
       experienceState === "Experience" &&
       employementState !== "Employment Type"
     ) {
@@ -87,16 +87,16 @@ const JobsDescription = ({ job, dynamicjob }) => {
       return setGetSearchJobs(result);
     }
 
-    if (
-      experienceState === "Experience" &&
-      employementState === "Employment Type"
-    ) {
-      const result = matchingJobs?.filter((job) => job.city === locationState);
+    // if (
+    //   experienceState === "Experience" &&
+    //   employementState === "Employment Type"
+    // ) {
+    //   const result = matchingJobs?.filter((job) => job.city === locationState);
 
-      return setGetSearchJobs(result);
-    }
+    //   return setGetSearchJobs(result);
+    // }
     if (
-      locationState === "Location" &&
+      // locationState === "Location" &&
       experienceState !== "Experience" &&
       employementState !== "Employment Type"
     ) {
@@ -107,28 +107,27 @@ const JobsDescription = ({ job, dynamicjob }) => {
       );
       return setGetSearchJobs(result);
     }
-    if (locationState && experienceState === "Experience" && employementState) {
+    if (experienceState === "Experience" && employementState) {
       const result = matchingJobs?.filter(
-        (job) =>
-          job.city === locationState && job.type_of_job === employementState
+        (job) => job.type_of_job === employementState
       );
       return setGetSearchJobs(result);
     }
     if (
-      locationState !== "Location" &&
+      // locationState !== "Location" &&
       experienceState !== "Experience" &&
       employementState !== "Employment Type"
     ) {
       const result = matchingJobs?.filter(
         (job) =>
-          job.city === locationState &&
+          // job.city === locationState &&
           job.experience_required === experienceState &&
           job.type_of_job === employementState
       );
       return setGetSearchJobs(result);
     }
     if (
-      locationState === "Location" &&
+      // locationState === "Location" &&
       experienceState !== "Experience" &&
       employementState === "Employment Type"
     ) {
@@ -138,18 +137,18 @@ const JobsDescription = ({ job, dynamicjob }) => {
       return setGetSearchJobs(result);
     }
 
-    if (
-      locationState !== "Location" &&
-      experienceState === "Experience" &&
-      employementState === "Employment Type"
-    ) {
-      const result = matchingJobs?.filter((job) => job.city === locationState);
-      return setGetSearchJobs(result);
-    }
-    if (locationState && experienceState) {
+    // if (
+    //   locationState !== "Location" &&
+    //   experienceState === "Experience" &&
+    //   employementState === "Employment Type"
+    // ) {
+    //   const result = matchingJobs?.filter((job) => job.city === locationState);
+    //   return setGetSearchJobs(result);
+    // }
+    if (employementState && experienceState) {
       const result = matchingJobs?.filter(
         (job) =>
-          job.city === locationState &&
+          job.type_of_job === employementState &&
           job.experience_required === experienceState
       );
       return setGetSearchJobs(result);
@@ -313,6 +312,7 @@ const JobsDescription = ({ job, dynamicjob }) => {
   // search jobs
   const handleJobsSearch = async (e) => {
     e.preventDefault();
+
     if (searchResult) {
       const res = await fetch(`${BASE_URL}/api/jobs?role=${searchResult}`);
       const data = await res.json();
@@ -327,6 +327,8 @@ const JobsDescription = ({ job, dynamicjob }) => {
       const data = await res.json();
       setGetSearchJobs(data);
     }
+    if (locationState) {
+    }
     if (searchResult && locationState) {
       const res = await fetch(`${BASE_URL}/api/alljobs`);
       const data = await res.json();
@@ -334,7 +336,9 @@ const JobsDescription = ({ job, dynamicjob }) => {
         const rest = data.filter(
           (job) => job.role === searchResult && job.city === locationState
         );
-        setGetSearchJobs(rest);
+        if (rest) {
+          setGetSearchJobs(rest);
+        }
       }
     }
   };
@@ -376,10 +380,16 @@ const JobsDescription = ({ job, dynamicjob }) => {
               </span>
               <input
                 type="search"
-                value={searchResult || ""}
                 onChange={(e) => handleSearchJobs(e)}
-                className="focus:outline-none w-80 bg-transparent text-gray-700 text-sm p-3"
-                placeholder="Enter skills / designations / companies"
+                className={`focus:outline-none  w-80 bg-transparent text-gray-700 text-sm p-3 ${
+                  searchResult
+                    ? "placeholder:text-gray-500"
+                    : "placeholder:text-gray-500"
+                }`}
+                placeholder={
+                  job ? job.role : "Enter skills / designations / companies"
+                }
+                value={searchResult || ""}
               />
             </div>
 
@@ -388,10 +398,14 @@ const JobsDescription = ({ job, dynamicjob }) => {
             >
               <input
                 type="search"
-                onChange={(e) => handleSearchLocation(e)}
-                className="px-4 w-56 focus:outline-none bg-transparent py-1"
-                placeholder="Search location"
                 value={locationState !== "Location" ? locationState : ""}
+                onChange={(e) => handleSearchLocation(e)}
+                className={`px-4 w-56 focus:outline-none bg-transparent py-1 ${
+                  locationState !== "Location"
+                    ? "text-gray-500"
+                    : "placeholder:text-gray-500"
+                }`}
+                placeholder={job ? job.city : "Search location"}
               />
             </div>
             {onLocation && (
@@ -735,22 +749,25 @@ const JobsDescription = ({ job, dynamicjob }) => {
             ) : (
               <div className="h-[80vh] mt-[19px] sticky top-44 overflow-hidden overflow-y-scroll">
                 <>
-                  {getSearchJobs?.length > 0 ? (
+                  {getSearchJobs?.length > 0 && (
                     <>
                       {getSearchJobs?.map((job) => (
                         <SearchJobsCard key={job._id} job={job} />
                       ))}
                     </>
-                  ) : (
+                  )}
+                  <>
+                    {job && (
+                      <>
+                        <JobsCard job={job} />
+                      </>
+                    )}
+                  </>
+                  {filterByData?.length > 0 && (
                     <>
-                      {job && <JobsCard job={job} />}
-                      {filterByData?.length > 0 && (
-                        <>
-                          {filterByData?.map((job) => (
-                            <JobsCard key={job._id} job={job} />
-                          ))}
-                        </>
-                      )}
+                      {filterByData?.map((job) => (
+                        <JobsCard key={job._id} job={job} />
+                      ))}
                     </>
                   )}
                 </>
