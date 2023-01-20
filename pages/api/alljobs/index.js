@@ -1,10 +1,4 @@
-import {
-  getDomainJobs,
-  getFilterByExperience,
-  getFilterByJobType,
-  getFilterByLocations,
-  getRoleJobs,
-} from "../../../lib/utilities/controller";
+import { getAllJobs } from "../../../lib/utilities/controller";
 export default function handler(req, res) {
   // type of req
 
@@ -12,11 +6,7 @@ export default function handler(req, res) {
 
   switch (method) {
     case "GET":
-      getRoleJobs(req, res);
-      getDomainJobs(req, res);
-      getFilterByLocations(req, res);
-      getFilterByExperience(req, res);
-      getFilterByJobType(req, res);
+      getAllJobs(req, res);
       break;
     case "POST":
       res.status(200).json({ name: "post req" });

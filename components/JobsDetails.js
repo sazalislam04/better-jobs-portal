@@ -62,7 +62,7 @@ const JobsDetails = ({ job, setApplyJob }) => {
             <div className="w-28 h-20 flex items-center justify-center rounded-md overflow-hidden">
               <img
                 className="w-16 h-16"
-                src={`https://logo.clearbit.com/${company_name}.com`}
+                src={`https://logo.clearbit.com/${company_name}.com || https://logo.clearbit.com/${company_name}.org`}
                 alt="logo"
               />
             </div>

@@ -1,10 +1,10 @@
 import React from "react";
 import JobsDescription from "../../../../components/JobsDescription";
 
-const Job = ({ job }) => {
+const Job = ({ dynamicjob }) => {
   return (
     <div className="bg-gray-100 min-h-screen">
-      <JobsDescription job={job} />
+      <JobsDescription dynamicjob={dynamicjob} />
     </div>
   );
 };
@@ -22,7 +22,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      job: data,
+      dynamicjob: data,
     },
   };
 }

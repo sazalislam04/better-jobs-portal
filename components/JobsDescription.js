@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import experiences from "../datalayer/experienceLevel";
@@ -7,11 +8,13 @@ import employments from "../datalayer/workTypes";
 import ApplyModal from "./ApplyModal";
 import JobsCard from "./JobsCard";
 import JobsDetails from "./JobsDetails";
+import Loading from "./Loading/Loading";
+import SearchJobsCard from "./SearchJobsCard/SearchJobsCard";
 
 // job type
 const jobsType = ["Both", "On-site", "Remote"];
 
-const JobsDescription = ({ jobs, role, job }) => {
+const JobsDescription = ({ job, dynamicjob }) => {
   const [onLocation, setOnLocation] = useState(false);
   const [locationState, setLocationState] = useState("Location");
   const [locationData, setLocationData] = useState(locations);
@@ -23,42 +26,42 @@ const JobsDescription = ({ jobs, role, job }) => {
   const [employementState, setEmployementState] = useState("Employment Type");
   const [employmentData, setEmploymentData] = useState(employments);
   const [searchJobs, setSearchJobs] = useState();
-  const [domainData, setDomainData] = useState([]);
   const [searchResult, setSearchResult] = useState();
   const [searchBox, setSearchBox] = useState(false);
   // search jobs
-  const [getSearchJobs, setGetSearchJobs] = useState();
-  const [getDomain, setGetDomain] = useState([]);
-  const [allDomainMatching, setAllDomainMatching] = useState([]);
-
-  const [filterByData, setFilterByData] = useState(jobs);
-
-  const [combineFilter, setCombineFilter] = useState(filterByData);
 
   const [remote, setRemote] = useState(false);
   const [remoteResult, setRemoteResult] = useState("Job Type");
   const [remoteData, setRemoteData] = useState(jobsType);
 
   const [applyJob, setApplyJob] = useState(null);
+  const [filterByData, setFilterByData] = useState();
+  const [getSearchJobs, setGetSearchJobs] = useState();
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  const router = useRouter();
 
   const BASE_URL = "https://better-jobs-portal.vercel.app";
   // const BASE_URL = "http://localhost:3000";
 
   let domain = "";
-  if (jobs?.length > 0) {
-    domain = jobs[0]?.domain;
-  } else {
+  if (job) {
     domain = job?.domain;
+  } else {
+    domain = dynamicjob?.domain;
   }
 
-  const { data: matchingJobs } = useQuery({
+  const { data: matchingJobs, refetch } = useQuery({
     queryKey: ["matchingJobs", domain],
     queryFn: async () => {
       const res = await fetch(`${BASE_URL}/api/jobs/?domain=${domain}`);
       const data = await res.json();
       if (data) {
-        const filterByDomain = data?.filter((job) => job?.role !== role);
-        setDomainData(filterByDomain);
+        const filterByDomain = data?.filter(
+          (domainjobs) => domainjobs?.role !== job?.role
+        );
+        setFilterByData(filterByDomain);
       }
       return data;
     },
@@ -70,69 +73,69 @@ const JobsDescription = ({ jobs, role, job }) => {
       experienceState === "Experience" &&
       employementState === "Employment Type"
     ) {
-      return setCombineFilter(domainData);
+      return setGetSearchJobs();
     }
     if (
       locationState === "Location" &&
       experienceState === "Experience" &&
       employementState !== "Employment Type"
     ) {
-      const result = filterByData?.filter(
+      const result = matchingJobs?.filter(
         (job) => job.type_of_job === employementState
       );
 
-      return setCombineFilter(result);
+      return setGetSearchJobs(result);
     }
 
     if (
       experienceState === "Experience" &&
       employementState === "Employment Type"
     ) {
-      const result = filterByData?.filter((job) => job.city === locationState);
+      const result = matchingJobs?.filter((job) => job.city === locationState);
 
-      return setCombineFilter(result);
+      return setGetSearchJobs(result);
     }
     if (
       locationState === "Location" &&
       experienceState !== "Experience" &&
       employementState !== "Employment Type"
     ) {
-      const result = filterByData?.filter(
+      const result = matchingJobs?.filter(
         (job) =>
           job.experience_required === experienceState &&
           job.type_of_job === employementState
       );
-      return setCombineFilter(result);
+      return setGetSearchJobs(result);
     }
     if (locationState && experienceState === "Experience" && employementState) {
-      const result = filterByData?.filter(
+      const result = matchingJobs?.filter(
         (job) =>
           job.city === locationState && job.type_of_job === employementState
       );
-      return setCombineFilter(result);
+      return setGetSearchJobs(result);
     }
     if (
       locationState !== "Location" &&
       experienceState !== "Experience" &&
       employementState !== "Employment Type"
     ) {
-      const result = filterByData?.filter(
+      const result = matchingJobs?.filter(
         (job) =>
           job.city === locationState &&
           job.experience_required === experienceState &&
           job.type_of_job === employementState
       );
-      return setCombineFilter(result);
+      return setGetSearchJobs(result);
     }
     if (
       locationState === "Location" &&
       experienceState !== "Experience" &&
       employementState === "Employment Type"
     ) {
-      const result = filterByData?.filter(
+      const result = matchingJobs?.filter(
         (job) => job.experience_required === experienceState
       );
-      return setCombineFilter(result);
+      return setGetSearchJobs(result);
     }
 
     if (
@@ -140,24 +143,24 @@ const JobsDescription = ({ jobs, role, job }) => {
       experienceState === "Experience" &&
       employementState === "Employment Type"
     ) {
-      const result = filterByData?.filter((job) => job.city === locationState);
-      return setCombineFilter(result);
+      const result = matchingJobs?.filter((job) => job.city === locationState);
+      return setGetSearchJobs(result);
     }
     if (locationState && experienceState) {
-      const result = filterByData?.filter(
+      const result = matchingJobs?.filter(
         (job) =>
           job.city === locationState &&
           job.experience_required === experienceState
       );
-      return setCombineFilter(result);
+      return setGetSearchJobs(result);
     }
   }, [
-    filterByData,
+    matchingJobs,
     locationState,
     experienceState,
     employementState,
     remoteResult,
-    domainData,
+    refetch,
   ]);
 
   const clearLocationBtn = () => {
@@ -173,7 +176,8 @@ const JobsDescription = ({ jobs, role, job }) => {
   //   searrch location
   const handleSearchLocation = (e) => {
     setOnLocation(!onLocation);
-    setLocationState();
+    setLocationState(e.target.value);
+
     if (e.target.value) {
       const searchLocation = locations.filter((location) =>
         location.toLowerCase().includes(e.target.value.toLowerCase())
@@ -296,91 +300,58 @@ const JobsDescription = ({ jobs, role, job }) => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const res = await fetch(`${BASE_URL}/api/jobs?role=${searchResult}`);
-    const data = await res.json();
-    setGetSearchJobs(data);
-
-    const response = await fetch(
-      `${BASE_URL}/api/jobs/?domain=${data[0]?.domain}`
-    );
-    const domains = await response.json();
-    setAllDomainMatching(domains);
-    if (domains) {
-      const filterByDomain = domains?.filter(
-        (job) => job?.role !== data[0]?.role
-      );
-      setGetDomain(filterByDomain);
-    }
-  };
-
-  // filter by location
-  const { data: filterbylocations } = useQuery({
-    queryKey: ["filterbylocations", locationState],
-    queryFn: async () => {
-      const res = await fetch(`${BASE_URL}/api/jobs/?city=${locationState}`);
-      const data = await res.json();
-      if (data) {
-        const filterData = data?.filter((job) => job?.domain === domain);
-        setFilterByData(filterData);
-      }
-      return data;
-    },
-  });
-  // filter by experience
-  const { data: filterbyexperiences } = useQuery({
-    queryKey: ["filterbyexperiences", experienceState],
-    queryFn: async () => {
-      const res = await fetch(
-        `${BASE_URL}/api/jobs/?experience_required=${experienceState}`
-      );
-      const data = await res.json();
-      if (data) {
-        const filterData = data?.filter((job) => job?.domain === domain);
-        setFilterByData(filterData);
-      }
-      return data;
-    },
-  });
-  // filter by employment
-  const { data: filterbyemployment } = useQuery({
-    queryKey: ["filterbyemployment", employementState],
-    queryFn: async () => {
-      const res = await fetch(
-        `${BASE_URL}/api/jobs/?type_of_job=${employementState}`
-      );
-      const data = await res.json();
-      if (data) {
-        const filterData = data?.filter((job) => job?.domain === domain);
-        setFilterByData(filterData);
-      }
-      return data;
-    },
-  });
-
   // get remote jobs
   const handleRemote = async (type) => {
     setRemoteResult(type);
     if (type === "Remote") {
       const response = await fetch(`${BASE_URL}/api/jobs/remote`);
       const data = await response.json();
+      setGetSearchJobs(data);
+    }
+  };
+
+  // search jobs
+  const handleJobsSearch = async (e) => {
+    e.preventDefault();
+    if (searchResult) {
+      const res = await fetch(`${BASE_URL}/api/jobs?role=${searchResult}`);
+      const data = await res.json();
+      if (data[0]?.role === searchResult) {
+        router.push(`/jobs/search/${searchResult}`);
+        setGetSearchJobs(data);
+      } else {
+        return alert(`Jobs not available for ${searchResult}`);
+      }
+    } else {
+      const res = await fetch(`${BASE_URL}/api/alljobs`);
+      const data = await res.json();
+      setGetSearchJobs(data);
+    }
+    if (searchResult && locationState) {
+      const res = await fetch(`${BASE_URL}/api/alljobs`);
+      const data = await res.json();
       if (data) {
-        const filterData = data?.filter((job) => job?.domain === domain);
-        setCombineFilter(filterData);
+        const rest = data.filter(
+          (job) => job.role === searchResult && job.city === locationState
+        );
+        setGetSearchJobs(rest);
       }
     }
   };
 
-  // job apply button
+  useEffect(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, []);
 
   return (
     <>
       <div className="">
         <div className="lg:sticky top-0 py-6 z-50 bg-gray-50">
           <form
-            onClick={handleClose}
-            onSubmit={handleSubmit}
+            onSubmit={handleJobsSearch}
             className="custom-shadow border w-[60%] z-50 relative py-1 px-4 rounded-full flex  items-center justify-between mx-auto"
           >
             <div
@@ -408,9 +379,7 @@ const JobsDescription = ({ jobs, role, job }) => {
                 value={searchResult || ""}
                 onChange={(e) => handleSearchJobs(e)}
                 className="focus:outline-none w-80 bg-transparent text-gray-700 text-sm p-3"
-                placeholder={
-                  role ? role : "Enter skills / designations / companies"
-                }
+                placeholder="Enter skills / designations / companies"
               />
             </div>
 
@@ -747,128 +716,54 @@ const JobsDescription = ({ jobs, role, job }) => {
           className="lg:flex gap-6 justify-between lg:w-9/12 mx-auto mt-4"
         >
           <div className="lg:w-2/5">
-            {/* <div className="py-2">
-              {getSearchJobs?.length > 0 ? (
+            <div className="">
+              {remoteResult !== "Remote" && (
+                <p className="text-gray-500">
+                  {matchingJobs?.length} jobs found for {domain}.
+                </p>
+              )}
+              {remoteResult === "Remote" && (
+                <p className="text-gray-500">
+                  {setGetSearchJobs?.length} jobs found.
+                </p>
+              )}
+            </div>
+            {isLoading ? (
+              <div className="mt-10 text-center">
+                <Loading />
+              </div>
+            ) : (
+              <div className="h-[80vh] mt-[19px] sticky top-44 overflow-hidden overflow-y-scroll">
                 <>
-                  {allDomainMatching?.length} Jobs found for{" "}
-                  {getSearchJobs[0]?.domain}
-                </>
-              ) : (
-                <>
-                  {jobs?.length > 0 ? (
+                  {getSearchJobs?.length > 0 ? (
                     <>
-                      {matchingJobs?.length} Jobs found for {jobs[0]?.domain}
+                      {getSearchJobs?.map((job) => (
+                        <SearchJobsCard key={job._id} job={job} />
+                      ))}
                     </>
                   ) : (
                     <>
-                      {matchingJobs?.length} Jobs found for {job?.domain}
+                      {job && <JobsCard job={job} />}
+                      {filterByData?.length > 0 && (
+                        <>
+                          {filterByData?.map((job) => (
+                            <JobsCard key={job._id} job={job} />
+                          ))}
+                        </>
+                      )}
                     </>
                   )}
                 </>
-              )}
-            </div> */}
-
-            <div className="h-[80vh] mt-10 sticky top-44 overflow-hidden overflow-y-scroll">
-              {!combineFilter?.length > 0 && (
-                <>
-                  {jobs?.length > 0 && (
-                    <>
-                      {jobs?.map((job) => (
-                        <JobsCard key={job._id} job={job} />
-                      ))}
-                      {domainData?.map((job) => (
-                        <JobsCard key={job._id} job={job} />
-                      ))}
-                    </>
-                  )}
-                  <>
-                    {getSearchJobs?.length > 0 && (
-                      <>
-                        {getSearchJobs?.map((job) => (
-                          <JobsCard key={job._id} job={job} />
-                        ))}
-                        {getDomain?.map((job) => (
-                          <JobsCard key={job._id} job={job} />
-                        ))}
-                      </>
-                    )}
-                  </>
-                </>
-              )}
-
-              {combineFilter?.length > 0 ? (
-                <>
-                  {combineFilter?.map((job) => {
-                    return <JobsCard key={job._id} job={job} />;
-                  })}
-                </>
-              ) : (
-                <>
-                  <div className="text-center p-5 bg-white custom-shadow rounded-lg">
-                    <p>Sorry, no jobs found for {searchResult}</p>
-                  </div>
-                </>
-              )}
-
-              {/* <>
-                {!combineFilter?.length > 0 ? (
-                  <>
-                    {getSearchJobs?.map((job) => (
-                      <JobsCard key={job._id} job={job} />
-                    ))}
-                    {getDomain?.map((job) => (
-                      <JobsCard key={job._id} job={job} />
-                    ))}
-                  </>
-                ) : (
-                  <>
-                    {jobs?.length > 0 && (
-                      <>
-                        {jobs?.map((job) => (
-                          <JobsCard key={job._id} job={job} />
-                        ))}
-                      </>
-                    )}
-                    {domainData?.length > 0 && (
-                      <>
-                        {domainData?.map((job) => (
-                          <JobsCard key={job._id} job={job} />
-                        ))}
-                      </>
-                    )}
-                  </>
-                )}
-              </> */}
-            </div>
+              </div>
+            )}
           </div>
           {/* jobs card details */}
-          <>
-            {getSearchJobs?.length > 0 ? (
-              <>
-                {getSearchJobs?.length > 0 && (
-                  <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
-                    <JobsDetails
-                      job={job || getSearchJobs[0]}
-                      setApplyJob={setApplyJob}
-                    />
-                  </div>
-                )}
-              </>
-            ) : (
-              <>
-                {jobs?.length > 0 && (
-                  <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
-                    <JobsDetails job={jobs[0]} setApplyJob={setApplyJob} />
-                  </div>
-                )}
-                {job && (
-                  <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
-                    <JobsDetails job={job} setApplyJob={setApplyJob} />
-                  </div>
-                )}
-              </>
+          <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
+            {job && <JobsDetails job={job} setApplyJob={setApplyJob} />}
+            {dynamicjob && (
+              <JobsDetails job={dynamicjob} setApplyJob={setApplyJob} />
             )}
-          </>
+          </div>
         </div>
       </div>
       {applyJob && <ApplyModal applyJob={applyJob} />}
