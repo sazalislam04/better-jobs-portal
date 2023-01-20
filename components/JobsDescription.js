@@ -313,11 +313,6 @@ const JobsDescription = ({ jobs, role, job }) => {
       );
       setGetDomain(filterByDomain);
     }
-    // if (!searchResult) {
-    //   const res = await fetch(`${BASE_URL}/api/jobs/`);
-    //   const jobs = await res.json();
-    //   setGetSearchJobs(jobs);
-    // }
   };
 
   // filter by location
