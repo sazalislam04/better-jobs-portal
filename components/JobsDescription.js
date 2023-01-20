@@ -313,11 +313,11 @@ const JobsDescription = ({ jobs, role, job }) => {
       );
       setGetDomain(filterByDomain);
     }
-    if (!searchResult) {
-      const res = await fetch(`${BASE_URL}/api/jobs/`);
-      const jobs = await res.json();
-      setGetSearchJobs(jobs);
-    }
+    // if (!searchResult) {
+    //   const res = await fetch(`${BASE_URL}/api/jobs/`);
+    //   const jobs = await res.json();
+    //   setGetSearchJobs(jobs);
+    // }
   };
 
   // filter by location
@@ -774,15 +774,33 @@ const JobsDescription = ({ jobs, role, job }) => {
             </div> */}
 
             <div className="h-[80vh] mt-10 sticky top-44 overflow-hidden overflow-y-scroll">
-              <>
-                {combineFilter?.length > 0 && (
+              {!combineFilter?.length > 0 && (
+                <>
+                  {jobs?.length > 0 && (
+                    <>
+                      {jobs?.map((job) => (
+                        <JobsCard key={job._id} job={job} />
+                      ))}
+                      {domainData?.map((job) => (
+                        <JobsCard key={job._id} job={job} />
+                      ))}
+                    </>
+                  )}
                   <>
-                    {getSearchJobs?.map((job) => (
-                      <JobsCard key={job._id} job={job} />
-                    ))}
+                    {getSearchJobs?.length > 0 && (
+                      <>
+                        {getSearchJobs?.map((job) => (
+                          <JobsCard key={job._id} job={job} />
+                        ))}
+                        {getDomain?.map((job) => (
+                          <JobsCard key={job._id} job={job} />
+                        ))}
+                      </>
+                    )}
                   </>
-                )}
-              </>
+                </>
+              )}
+
               {combineFilter?.length > 0 ? (
                 <>
                   {combineFilter?.map((job) => {
