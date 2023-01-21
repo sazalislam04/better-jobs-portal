@@ -30,7 +30,7 @@ const JobsCard = ({ job }) => {
         <div className="px-6 py-4 bg-white rounded-md shadow mb-4">
           <div className="flex items-center justify-between">
             <span className="text-sm font-light text-gray-800 dark:text-gray-400">
-              {createdAt.slice(0, 10)}
+              {createdAt?.slice(0, 10)}
             </span>
             <span className="px-3 flex items-center gap-1 py-1 text-xs text-indigo-900 uppercase bg-indigo-100 rounded-full">
               <svg

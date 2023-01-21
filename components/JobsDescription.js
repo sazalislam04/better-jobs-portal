@@ -61,7 +61,7 @@ const JobsDescription = ({ job, dynamicjob }) => {
         const filterByDomain = data?.filter(
           (domainjobs) => domainjobs?.role !== job?.role
         );
-        setFilterByData(filterByDomain);
+        setGetSearchJobs(filterByDomain);
       }
       return data;
     },
