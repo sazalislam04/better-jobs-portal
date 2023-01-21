@@ -34,8 +34,11 @@ const JobsDescription = ({ jobs, job, role }) => {
   const [remoteData, setRemoteData] = useState(jobsType);
 
   const [applyJob, setApplyJob] = useState(null);
-  const [filterByData, setFilterByData] = useState();
   const [getSearchJobs, setGetSearchJobs] = useState();
+
+  const [filterByData, setFilterByData] = useState();
+
+  const [combineFilterJobs, setCombineFilterJobs] = useState();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -60,22 +63,90 @@ const JobsDescription = ({ jobs, job, role }) => {
         const filterByDomain = data?.filter(
           (domainjobs) => domainjobs?.role !== role
         );
-        return setFilterByData(filterByDomain);
+        setFilterByData(filterByDomain);
       }
       return data;
     },
   });
 
-  // console.log(matchingJobs);
-
   useEffect(() => {
     if (
       locationState === "Location" &&
       experienceState === "Experience" &&
-      employementState === "Employment Type"
+      employementState === "Employment Type" &&
+      remoteResult === "Job Type"
     ) {
-      return setGetSearchJobs();
+      return setCombineFilterJobs();
     }
+    // remote
+    if (
+      locationState === "Location" &&
+      experienceState === "Experience" &&
+      employementState === "Employment Type" &&
+      remoteResult !== "Job Type"
+    ) {
+      const result = matchingJobs?.filter(
+        (job) => job.allows_work_from_home === true
+      );
+      return setCombineFilterJobs(result);
+    }
+    if (
+      locationState !== "Location" &&
+      experienceState === "Experience" &&
+      employementState === "Employment Type" &&
+      remoteResult !== "Job Type"
+    ) {
+      const result = matchingJobs?.filter(
+        (job) =>
+          job.city === locationState && job.allows_work_from_home === true
+      );
+      return setCombineFilterJobs(result);
+    }
+
+    if (
+      locationState === "Location" &&
+      experienceState !== "Experience" &&
+      employementState === "Employment Type" &&
+      remoteResult !== "Job Type"
+    ) {
+      const result = matchingJobs?.filter(
+        (job) =>
+          job.experience_required === experienceState &&
+          job.allows_work_from_home === true
+      );
+      return setCombineFilterJobs(result);
+    }
+
+    if (
+      locationState === "Location" &&
+      experienceState === "Experience" &&
+      employementState !== "Employment Type" &&
+      remoteResult !== "Job Type"
+    ) {
+      const result = matchingJobs?.filter(
+        (job) =>
+          job.type_of_job === employementState &&
+          job.allows_work_from_home === true
+      );
+      return setCombineFilterJobs(result);
+    }
+    if (
+      locationState !== "Location" &&
+      experienceState !== "Experience" &&
+      employementState !== "Employment Type" &&
+      remoteResult !== "Job Type"
+    ) {
+      const result = matchingJobs?.filter(
+        (job) =>
+          job.allows_work_from_home === true &&
+          job.city === locationState &&
+          job.experience_required === experienceState &&
+          job.type_of_job === employementState
+      );
+      return setCombineFilterJobs(result);
+    }
+    // ****
+
     if (
       locationState === "Location" &&
       experienceState === "Experience" &&
@@ -84,8 +155,7 @@ const JobsDescription = ({ jobs, job, role }) => {
       const result = matchingJobs?.filter(
         (job) => job.type_of_job === employementState
       );
-
-      return setGetSearchJobs(result);
+      return setCombineFilterJobs(result);
     }
 
     if (
@@ -93,8 +163,7 @@ const JobsDescription = ({ jobs, job, role }) => {
       employementState === "Employment Type"
     ) {
       const result = matchingJobs?.filter((job) => job.city === locationState);
-
-      return setGetSearchJobs(result);
+      return setCombineFilterJobs(result);
     }
     if (
       locationState === "Location" &&
@@ -106,13 +175,14 @@ const JobsDescription = ({ jobs, job, role }) => {
           job.experience_required === experienceState &&
           job.type_of_job === employementState
       );
-      return setGetSearchJobs(result);
+      return setCombineFilterJobs(result);
     }
-    if (experienceState === "Experience" && employementState) {
+    if (locationState && experienceState === "Experience" && employementState) {
       const result = matchingJobs?.filter(
-        (job) => job.type_of_job === employementState
+        (job) =>
+          job.city === locationState && job.type_of_job === employementState
       );
-      return setGetSearchJobs(result);
+      return setCombineFilterJobs(result);
     }
     if (
       locationState !== "Location" &&
@@ -125,7 +195,7 @@ const JobsDescription = ({ jobs, job, role }) => {
           job.experience_required === experienceState &&
           job.type_of_job === employementState
       );
-      return setGetSearchJobs(result);
+      return setCombineFilterJobs(result);
     }
     if (
       locationState === "Location" &&
@@ -135,7 +205,7 @@ const JobsDescription = ({ jobs, job, role }) => {
       const result = matchingJobs?.filter(
         (job) => job.experience_required === experienceState
       );
-      return setGetSearchJobs(result);
+      return setCombineFilterJobs(result);
     }
 
     if (
@@ -144,15 +214,16 @@ const JobsDescription = ({ jobs, job, role }) => {
       employementState === "Employment Type"
     ) {
       const result = matchingJobs?.filter((job) => job.city === locationState);
-      return setGetSearchJobs(result);
+      return setCombineFilterJobs(result);
     }
+
     if (locationState && experienceState) {
       const result = matchingJobs?.filter(
         (job) =>
           job.city === locationState &&
           job.experience_required === experienceState
       );
-      return setGetSearchJobs(result);
+      return setCombineFilterJobs(result);
     }
   }, [
     matchingJobs,
@@ -300,13 +371,18 @@ const JobsDescription = ({ jobs, job, role }) => {
   };
 
   // get remote jobs
-  const handleRemote = async (type) => {
+  const handleRemote = (type) => {
     setRemoteResult(type);
-    if (type === "Remote") {
-      const response = await fetch(`${BASE_URL}/api/jobs/remote`);
-      const data = await response.json();
-      setGetSearchJobs(data);
-    }
+    // if (type === "Remote") {
+    //   const response = await fetch(`${BASE_URL}/api/jobs/remote`);
+    //   const data = await response.json();
+    //   if (data) {
+    //     const matchremotejobs = data.filter(
+    //       (job) => job.role === searchResult && job.domain === domain
+    //     );
+    //     setCombineFilterJobs(matchremotejobs);
+    //   }
+    // }
   };
 
   // search jobs
@@ -350,6 +426,21 @@ const JobsDescription = ({ jobs, job, role }) => {
     // }
   };
 
+  const handleClearAllFilter = () => {
+    if (locationState) {
+      setLocationState("Location");
+    }
+    if (experienceState) {
+      setExperienceState("Experience");
+    }
+    if (employementState) {
+      setEmployementState("Employment Type");
+    }
+    if (remoteResult) {
+      setRemoteResult("Job Type");
+    }
+  };
+
   useEffect(() => {
     setIsLoading(true);
     setTimeout(() => {
@@ -391,7 +482,9 @@ const JobsDescription = ({ jobs, job, role }) => {
                     ? "placeholder:text-gray-500"
                     : "placeholder:text-gray-500"
                 }`}
-                placeholder={"Enter skills / designations / companies"}
+                placeholder={
+                  role ? role : "Enter skills / designations / companies"
+                }
                 value={searchResult || ""}
               />
             </div>
@@ -771,6 +864,14 @@ const JobsDescription = ({ jobs, job, role }) => {
                 </ul>
               </div>
             )}
+            {combineFilterJobs?.length > 0 && (
+              <button
+                onClick={handleClearAllFilter}
+                className={`text-red-500 hover:shadow-md transition-all duration-300 my-2 px-6 py-2 text-sm rounded-full custom-shadow bg-red-50 flex items-center gap-1 `}
+              >
+                Clear {combineFilterJobs?.length}
+              </button>
+            )}
           </div>
         </div>
 
@@ -781,15 +882,16 @@ const JobsDescription = ({ jobs, job, role }) => {
         >
           <div className="lg:w-2/5">
             <div className="">
-              {remoteResult !== "Remote" && (
+              {combineFilterJobs?.length > 0 ? (
                 <p className="text-gray-500">
-                  {matchingJobs?.length} jobs found for {domain}.
+                  {combineFilterJobs?.length} jobs found {domain}.
                 </p>
-              )}
-              {remoteResult === "Remote" && (
-                <p className="text-gray-500">
-                  {setGetSearchJobs?.length} jobs found.
-                </p>
+              ) : (
+                matchingJobs?.length > 0 && (
+                  <p className="text-gray-500">
+                    {matchingJobs?.length} jobs found for {domain}.
+                  </p>
+                )
               )}
             </div>
             {isLoading ? (
@@ -798,7 +900,13 @@ const JobsDescription = ({ jobs, job, role }) => {
               </div>
             ) : (
               <div className="h-[80vh] mt-[19px] sticky top-44 overflow-hidden overflow-y-scroll">
-                {jobs?.length > 0 ? (
+                {combineFilterJobs?.length > 0 ? (
+                  <>
+                    {combineFilterJobs?.map((job) => (
+                      <JobsCard key={job._id} job={job} />
+                    ))}
+                  </>
+                ) : jobs?.length > 0 ? (
                   <>
                     {jobs?.map((job) => (
                       <JobsCard key={job._id} job={job} />
