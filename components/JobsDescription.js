@@ -13,7 +13,7 @@ import Loading from "./Loading/Loading";
 // job type
 const jobsType = ["Both", "On-site", "Remote"];
 
-const JobsDescription = ({ jobs, dynamicjob, role }) => {
+const JobsDescription = ({ jobs, job, role }) => {
   const [onLocation, setOnLocation] = useState(false);
   const [locationState, setLocationState] = useState("Location");
   const [locationData, setLocationData] = useState(locations);
@@ -45,10 +45,10 @@ const JobsDescription = ({ jobs, dynamicjob, role }) => {
   // const BASE_URL = "http://localhost:3000";
 
   let domain = "";
-  if (jobs?.length) {
+  if (jobs?.length > 0) {
     domain = jobs[0]?.domain;
   } else {
-    domain = dynamicjob?.domain;
+    domain = job?.domain;
   }
 
   const { data: matchingJobs } = useQuery({
@@ -58,13 +58,16 @@ const JobsDescription = ({ jobs, dynamicjob, role }) => {
       const data = await res.json();
       if (data) {
         const filterByDomain = data?.filter(
-          (domainjobs) => domainjobs?.role !== job?.role
+          (domainjobs) => domainjobs?.role !== role
         );
+
         return setFilterByData(filterByDomain);
       }
       return data;
     },
   });
+
+  console.log(filterByData);
 
   useEffect(() => {
     if (
@@ -794,11 +797,29 @@ const JobsDescription = ({ jobs, dynamicjob, role }) => {
               </div>
             ) : (
               <div className="h-[80vh] mt-[19px] sticky top-44 overflow-hidden overflow-y-scroll">
-                {jobs?.length > 0 && (
+                {jobs?.length > 0 ? (
                   <>
                     {jobs?.map((job) => (
                       <JobsCard key={job._id} job={job} />
                     ))}
+
+                    {filterByData?.length > 0 && (
+                      <>
+                        {filterByData?.map((job) => (
+                          <JobsCard key={job._id} job={job} />
+                        ))}
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {filterByData?.length > 0 && (
+                      <>
+                        {filterByData?.map((job) => (
+                          <JobsCard key={job._id} job={job} />
+                        ))}
+                      </>
+                    )}
                   </>
                 )}
               </div>
@@ -807,9 +828,9 @@ const JobsDescription = ({ jobs, dynamicjob, role }) => {
           {/* jobs card details */}
           <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
             <>
-              {jobs && <JobsDetails job={jobs[0]} setApplyJob={setApplyJob} />}
-              {dynamicjob && (
-                <JobsDetails job={dynamicjob} setApplyJob={setApplyJob} />
+              {job && <JobsDetails job={job} setApplyJob={setApplyJob} />}
+              {jobs?.length > 0 && (
+                <JobsDetails job={jobs[0]} setApplyJob={setApplyJob} />
               )}
             </>
           </div>
