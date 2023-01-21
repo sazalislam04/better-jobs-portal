@@ -162,6 +162,7 @@ const SearchField = ({
       <div>
         <Link href={`/jobs/search/${roleValue ? roleValue : ""}`}>
           <button
+            title={isDisabled && "Please type role"}
             disabled={isDisabled}
             className={`w-32 h-[46px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a] ${
               isDisabled && "bg-[#036a7a] hover:bg-[#036a7a]"
