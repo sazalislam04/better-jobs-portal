@@ -1,6 +1,25 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "api.qrserver.com",
+        // You can add these as well
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "logo.clearbit.com",
+        // You can add these as well
+        port: "",
+        pathname: "/**",
+      },
+    ],
+  },
   async headers() {
     return [
       {

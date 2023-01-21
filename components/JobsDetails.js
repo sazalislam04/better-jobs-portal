@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import {
@@ -60,10 +59,12 @@ const JobsDetails = ({ job, setApplyJob }) => {
         <div className="">
           <div className="flex gap-2">
             <div className="w-28 h-20 flex items-center justify-center rounded-md overflow-hidden">
-              <img
+              <Image
                 className="w-16 h-16"
                 src={`https://logo.clearbit.com/${company_name}.com`}
                 alt="logo"
+                height={120}
+                width={120}
               />
             </div>
             <div className="w-full relative">
