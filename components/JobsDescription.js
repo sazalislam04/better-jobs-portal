@@ -9,12 +9,11 @@ import ApplyModal from "./ApplyModal";
 import JobsCard from "./JobsCard";
 import JobsDetails from "./JobsDetails";
 import Loading from "./Loading/Loading";
-import SearchJobsCard from "./SearchJobsCard/SearchJobsCard";
 
 // job type
 const jobsType = ["Both", "On-site", "Remote"];
 
-const JobsDescription = ({ job, dynamicjob }) => {
+const JobsDescription = ({ jobs, dynamicjob, role }) => {
   const [onLocation, setOnLocation] = useState(false);
   const [locationState, setLocationState] = useState("Location");
   const [locationData, setLocationData] = useState(locations);
@@ -46,13 +45,13 @@ const JobsDescription = ({ job, dynamicjob }) => {
   // const BASE_URL = "http://localhost:3000";
 
   let domain = "";
-  if (job) {
-    domain = job?.domain;
+  if (jobs?.length) {
+    domain = jobs[0]?.domain;
   } else {
     domain = dynamicjob?.domain;
   }
 
-  const { data: matchingJobs, refetch } = useQuery({
+  const { data: matchingJobs } = useQuery({
     queryKey: ["matchingJobs", domain],
     queryFn: async () => {
       const res = await fetch(`${BASE_URL}/api/jobs/?domain=${domain}`);
@@ -61,7 +60,7 @@ const JobsDescription = ({ job, dynamicjob }) => {
         const filterByDomain = data?.filter(
           (domainjobs) => domainjobs?.role !== job?.role
         );
-        setGetSearchJobs(filterByDomain);
+        return setFilterByData(filterByDomain);
       }
       return data;
     },
@@ -318,7 +317,6 @@ const JobsDescription = ({ job, dynamicjob }) => {
       if (data[0]?.role === searchResult) {
         router.push(`/jobs/search/${searchResult}`);
         setGetSearchJobs(data);
-        console.log(data);
       } else {
         return alert(`Jobs not available for ${searchResult}`);
       }
@@ -389,9 +387,7 @@ const JobsDescription = ({ job, dynamicjob }) => {
                     ? "placeholder:text-gray-500"
                     : "placeholder:text-gray-500"
                 }`}
-                placeholder={
-                  job ? job.role : "Enter skills / designations / companies"
-                }
+                placeholder={"Enter skills / designations / companies"}
                 value={searchResult || ""}
               />
             </div>
@@ -798,33 +794,20 @@ const JobsDescription = ({ job, dynamicjob }) => {
               </div>
             ) : (
               <div className="h-[80vh] mt-[19px] sticky top-44 overflow-hidden overflow-y-scroll">
-                <>
-                  {getSearchJobs?.length > 0 ? (
-                    <>
-                      {getSearchJobs?.map((job) => (
-                        <SearchJobsCard key={job._id} job={job} />
-                      ))}
-                    </>
-                  ) : (
-                    <>
-                      {job && <JobsCard job={job} />}
-                      {filterByData?.length > 0 && (
-                        <>
-                          {filterByData?.map((job) => (
-                            <SearchJobsCard key={job._id} job={job} />
-                          ))}
-                        </>
-                      )}
-                    </>
-                  )}
-                </>
+                {jobs?.length > 0 && (
+                  <>
+                    {jobs?.map((job) => (
+                      <JobsCard key={job._id} job={job} />
+                    ))}
+                  </>
+                )}
               </div>
             )}
           </div>
           {/* jobs card details */}
           <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
             <>
-              {job && <JobsDetails job={job} setApplyJob={setApplyJob} />}
+              {jobs && <JobsDetails job={jobs[0]} setApplyJob={setApplyJob} />}
               {dynamicjob && (
                 <JobsDetails job={dynamicjob} setApplyJob={setApplyJob} />
               )}
