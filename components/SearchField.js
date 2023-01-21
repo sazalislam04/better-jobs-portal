@@ -22,6 +22,7 @@ const SearchField = ({
   handleGetLocation,
   locationResult,
   handleCloseSearchField,
+  isDisabled,
 }) => {
   return (
     <div
@@ -159,8 +160,13 @@ const SearchField = ({
       </div>
 
       <div>
-        <Link href={`/jobs/search/${roleValue}`}>
-          <button className="w-32 h-[46px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
+        <Link href={`/jobs/search/${roleValue ? roleValue : ""}`}>
+          <button
+            disabled={isDisabled}
+            className={`w-32 h-[46px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a] ${
+              isDisabled && "bg-[#036a7a] hover:bg-[#036a7a]"
+            }`}
+          >
             Search
           </button>
         </Link>

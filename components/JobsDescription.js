@@ -884,7 +884,7 @@ const JobsDescription = ({ jobs, job, role }) => {
             <div className="">
               {combineFilterJobs?.length > 0 ? (
                 <p className="text-gray-500">
-                  {combineFilterJobs?.length} jobs found {domain}.
+                  {combineFilterJobs?.length} jobs found for {domain}.
                 </p>
               ) : (
                 matchingJobs?.length > 0 && (
