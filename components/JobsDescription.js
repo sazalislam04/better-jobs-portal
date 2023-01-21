@@ -60,14 +60,13 @@ const JobsDescription = ({ jobs, job, role }) => {
         const filterByDomain = data?.filter(
           (domainjobs) => domainjobs?.role !== role
         );
-
         return setFilterByData(filterByDomain);
       }
       return data;
     },
   });
 
-  console.log(filterByData);
+  // console.log(matchingJobs);
 
   useEffect(() => {
     if (
@@ -313,40 +312,42 @@ const JobsDescription = ({ jobs, job, role }) => {
   // search jobs
   const handleJobsSearch = async (e) => {
     e.preventDefault();
-
     if (searchResult) {
       const res = await fetch(`${BASE_URL}/api/jobs?role=${searchResult}`);
       const data = await res.json();
       if (data[0]?.role === searchResult) {
         router.push(`/jobs/search/${searchResult}`);
-        setGetSearchJobs(data);
       } else {
         return alert(`Jobs not available for ${searchResult}`);
       }
     } else {
       const res = await fetch(`${BASE_URL}/api/alljobs`);
       const data = await res.json();
-      setGetSearchJobs(data);
-    }
-    if (locationState) {
-      const res = await fetch(`${BASE_URL}/api/jobs?city=${locationState}`);
-      const data = await res.json();
       if (data) {
-        setGetSearchJobs(data);
+        const alljobs = data.filter((job) => !filterByData.includes(job));
+        setFilterByData(alljobs);
       }
     }
-    if (searchResult && locationState) {
-      const res = await fetch(`${BASE_URL}/api/alljobs`);
-      const data = await res.json();
-      if (data) {
-        const rest = data.filter(
-          (job) => job.role === searchResult && job.city === locationState
-        );
-        if (rest) {
-          setGetSearchJobs(rest);
-        }
-      }
-    }
+
+    // if (locationState) {
+    //   const res = await fetch(`${BASE_URL}/api/jobs?city=${locationState}`);
+    //   const data = await res.json();
+    //   if (data) {
+    //     setGetSearchJobs(data);
+    //   }
+    // }
+    // if (searchResult && locationState) {
+    //   const res = await fetch(`${BASE_URL}/api/alljobs`);
+    //   const data = await res.json();
+    //   if (data) {
+    //     const rest = data.filter(
+    //       (job) => job.role === searchResult && job.city === locationState
+    //     );
+    //     if (rest) {
+    //       setGetSearchJobs(rest);
+    //     }
+    //   }
+    // }
   };
 
   useEffect(() => {
@@ -403,7 +404,7 @@ const JobsDescription = ({ jobs, job, role }) => {
           {searchBox && (
             <ul
               onClick={() => setSearchBox(false)}
-              className="shadow transition duration-300 absolute mt-2 z-50 border w-[60%] h-72 overflow-y-scroll overflow-hidden py-4 px-8 rounded-lg bg-white left-1/2 translate-x-[-50%]"
+              className="shadow transition duration-300 absolute mt-2 z-50 border w-[50%] h-72 overflow-y-scroll overflow-hidden py-4 px-8 rounded-lg bg-white left-1/2 translate-x-[-50%]"
             >
               <small className="text-xs px-4 text-gray-500">
                 jobs by designations
