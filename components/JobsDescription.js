@@ -61,16 +61,8 @@ const JobsDescription = ({ job, dynamicjob }) => {
         const filterByDomain = data?.filter(
           (domainjobs) => domainjobs?.role !== job?.role
         );
-        // setGetSearchJobs(filterByDomain);
+        setGetSearchJobs(filterByDomain);
       }
-      return data;
-    },
-  });
-  const { data: filterJobs } = useQuery({
-    queryKey: ["filterJobs", domain],
-    queryFn: async () => {
-      const res = await fetch(`${BASE_URL}/api/alljobs`);
-      const data = await res.json();
       return data;
     },
   });
@@ -88,7 +80,7 @@ const JobsDescription = ({ job, dynamicjob }) => {
       experienceState === "Experience" &&
       employementState !== "Employment Type"
     ) {
-      const result = filterJobs?.filter(
+      const result = matchingJobs?.filter(
         (job) => job.type_of_job === employementState
       );
 
@@ -99,7 +91,7 @@ const JobsDescription = ({ job, dynamicjob }) => {
       experienceState === "Experience" &&
       employementState === "Employment Type"
     ) {
-      const result = filterJobs?.filter((job) => job.city === locationState);
+      const result = matchingJobs?.filter((job) => job.city === locationState);
 
       return setGetSearchJobs(result);
     }
@@ -108,7 +100,7 @@ const JobsDescription = ({ job, dynamicjob }) => {
       experienceState !== "Experience" &&
       employementState !== "Employment Type"
     ) {
-      const result = filterJobs?.filter(
+      const result = matchingJobs?.filter(
         (job) =>
           job.experience_required === experienceState &&
           job.type_of_job === employementState
@@ -116,7 +108,7 @@ const JobsDescription = ({ job, dynamicjob }) => {
       return setGetSearchJobs(result);
     }
     if (experienceState === "Experience" && employementState) {
-      const result = filterJobs?.filter(
+      const result = matchingJobs?.filter(
         (job) => job.type_of_job === employementState
       );
       return setGetSearchJobs(result);
@@ -126,7 +118,7 @@ const JobsDescription = ({ job, dynamicjob }) => {
       experienceState !== "Experience" &&
       employementState !== "Employment Type"
     ) {
-      const result = filterJobs?.filter(
+      const result = matchingJobs?.filter(
         (job) =>
           job.city === locationState &&
           job.experience_required === experienceState &&
@@ -139,7 +131,7 @@ const JobsDescription = ({ job, dynamicjob }) => {
       experienceState !== "Experience" &&
       employementState === "Employment Type"
     ) {
-      const result = filterJobs?.filter(
+      const result = matchingJobs?.filter(
         (job) => job.experience_required === experienceState
       );
       return setGetSearchJobs(result);
@@ -150,11 +142,11 @@ const JobsDescription = ({ job, dynamicjob }) => {
       experienceState === "Experience" &&
       employementState === "Employment Type"
     ) {
-      const result = filterJobs?.filter((job) => job.city === locationState);
+      const result = matchingJobs?.filter((job) => job.city === locationState);
       return setGetSearchJobs(result);
     }
     if (locationState && experienceState) {
-      const result = filterJobs?.filter(
+      const result = matchingJobs?.filter(
         (job) =>
           job.city === locationState &&
           job.experience_required === experienceState
@@ -162,7 +154,7 @@ const JobsDescription = ({ job, dynamicjob }) => {
       return setGetSearchJobs(result);
     }
   }, [
-    filterJobs,
+    matchingJobs,
     locationState,
     experienceState,
     employementState,
