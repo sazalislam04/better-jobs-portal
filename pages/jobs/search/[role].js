@@ -4,13 +4,10 @@ import JobsDescription from "../../../components/JobsDescription";
 const SearchJobs = ({ jobs, role }) => {
   return (
     <div className="bg-gray-100 min-h-screen">
-      {jobs?.length > 0 && (
-        <>
-          {jobs?.map((job) => (
-            <JobsDescription key={job._id} job={job} />
-          ))}
-        </>
-      )}
+      {jobs?.length > 0 &&
+        jobs?.map((job) => (
+          <JobsDescription key={job._id} job={job} role={role} />
+        ))}
     </div>
   );
 };

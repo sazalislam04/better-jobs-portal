@@ -173,9 +173,6 @@ const JobsDescription = ({ job, dynamicjob }) => {
   };
   //   searrch location
   const handleSearchLocation = (e) => {
-    setOnLocation(!onLocation);
-    setLocationState(e.target.value);
-
     if (e.target.value) {
       const searchLocation = locations.filter((location) =>
         location.toLowerCase().includes(e.target.value.toLowerCase())
@@ -283,6 +280,9 @@ const JobsDescription = ({ job, dynamicjob }) => {
 
   // close all btn
   const handleClose = () => {
+    if (locationState) {
+      setOnLocation(false);
+    }
     if (remote) {
       setRemote(false);
     }
@@ -318,6 +318,7 @@ const JobsDescription = ({ job, dynamicjob }) => {
       if (data[0]?.role === searchResult) {
         router.push(`/jobs/search/${searchResult}`);
         setGetSearchJobs(data);
+        console.log(data);
       } else {
         return alert(`Jobs not available for ${searchResult}`);
       }
@@ -359,13 +360,11 @@ const JobsDescription = ({ job, dynamicjob }) => {
       <div className="">
         <div className="lg:sticky top-0 py-6 z-50 bg-gray-50">
           <form
+            onClick={handleClose}
             onSubmit={handleJobsSearch}
-            className="custom-shadow border w-[60%] z-50 relative py-1 px-4 rounded-full flex  items-center justify-between mx-auto"
+            className="custom-shadow border w-[50%] z-50 relative py-1 px-4 rounded-full flex  items-center justify-between mx-auto"
           >
-            <div
-              onClick={() => setOnLocation(false)}
-              className="flex items-center gap-1 relative"
-            >
+            <div className="flex items-center gap-1 relative">
               <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -396,39 +395,6 @@ const JobsDescription = ({ job, dynamicjob }) => {
                 value={searchResult || ""}
               />
             </div>
-
-            <div
-              className={`text-gray-600 bg-transparent text-sm relative flex items-center gap-1`}
-            >
-              <input
-                type="search"
-                value={locationState !== "Location" ? locationState : ""}
-                onChange={(e) => handleSearchLocation(e)}
-                className={`px-4 w-56 focus:outline-none bg-transparent py-1 ${
-                  locationState !== "Location"
-                    ? "text-gray-500"
-                    : "placeholder:text-gray-500"
-                }`}
-                placeholder={job ? job.city : "Search location"}
-              />
-            </div>
-            {onLocation && (
-              <div
-                className={`absolute top-12 pt-4 right-40 bg-gray-50 rounded overflow-hidden overflow-y-auto  mt-2 border h-72 w-72`}
-              >
-                <ul onClick={() => setOnLocation(!onLocation)}>
-                  {locationData?.map((locationData, i) => (
-                    <li
-                      key={i}
-                      onClick={() => setLocationState(locationData)}
-                      className="text-gray-700 px-6 py-2 cursor-pointer hover:bg-gray-100 w-full text-sm"
-                    >
-                      {locationData}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
 
             <button className="px-6 py-[6px] focus:ring-2 transition duration-300 rounded-full text-white text-lg bg-[#037b8e]">
               Search
@@ -472,10 +438,7 @@ const JobsDescription = ({ job, dynamicjob }) => {
           )}
 
           {/* filter button */}
-          <div
-            onClick={() => setOnLocation(false)}
-            className="flex relative items-center gap-6 mt-5 justify-center"
-          >
+          <div className="flex relative items-center gap-6 mt-5 justify-center">
             <span className="flex text-sm text-gray-500 items-center gap-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -493,6 +456,89 @@ const JobsDescription = ({ job, dynamicjob }) => {
               </svg>
               Filter jobs by
             </span>
+
+            <button
+              onClick={handleLocation}
+              className={`border text-gray-600 hover:border-indigo-500 hover:shadow-lg transition-all duration-300 my-2 px-6 py-2 text-sm rounded-full custom-shadow flex items-center gap-1 ${
+                locationState !== "Location" &&
+                "bg-yellow-100 hover:border-yellow-500"
+              }`}
+            >
+              <span>{locationState}</span>
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-4 h-4 text-gray-600"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                  />
+                </svg>
+              </span>
+            </button>
+
+            {onLocation && (
+              <div
+                className={`absolute top-12 pt-4 left-80 bg-gray-50 rounded overflow-hidden overflow-y-auto  mt-2 border h-72 w-72`}
+              >
+                <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
+                  <span>Select Location</span>
+                  {locationState !== "Location" && (
+                    <span
+                      onClick={clearLocationBtn}
+                      className="text-blue-800 cursor-pointer"
+                    >
+                      Clear
+                    </span>
+                  )}
+                </li>
+
+                <div className="my-2 w-56 mx-auto relative">
+                  <span className="absolute py-2 px-2 ">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-4 h-4 text-gray-500"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                      />
+                    </svg>
+                  </span>
+                  <input
+                    type="search"
+                    onChange={(e) => handleSearchLocation(e)}
+                    className="px-8 w-56 focus:outline-none border-gray-400 border focus:ring-2 focus:ring-gray-400 transition duration-300 rounded py-1"
+                    defaultValue={
+                      locationState !== "Location" ? locationState : ""
+                    }
+                  />
+                </div>
+
+                <ul onClick={() => setOnLocation(!onLocation)}>
+                  {locationData?.map((locationData, i) => (
+                    <li
+                      key={i}
+                      onClick={() => setLocationState(locationData)}
+                      className="text-gray-700 px-6 py-2 cursor-pointer hover:bg-gray-100 w-full text-sm"
+                    >
+                      {locationData}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             <button
               onClick={handleExperience}
