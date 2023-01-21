@@ -18,6 +18,13 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "i.ibb.co",
+        // You can add these as well
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   async headers() {

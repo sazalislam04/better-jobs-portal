@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
 import Link from "next/link";
 import data from "../datalayer/findjobs";
 
@@ -12,7 +12,7 @@ const FindJobs = () => {
         <div className="flex justify-evenly mt-12 py-6">
           {data.map((job) => (
             <div className="" key={job.id}>
-              <img src={job.img_url} alt="" width={170} height={170} />
+              <Image src={job.img_url} alt="" width={170} height={170} />
               <h3 className="text-center mt-2">{job.title}</h3>
             </div>
           ))}
