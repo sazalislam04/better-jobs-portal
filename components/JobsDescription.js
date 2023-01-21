@@ -61,7 +61,7 @@ const JobsDescription = ({ job, dynamicjob }) => {
         const filterByDomain = data?.filter(
           (domainjobs) => domainjobs?.role !== job?.role
         );
-        setGetSearchJobs(filterByDomain);
+        setFilterByData(filterByDomain);
       }
       return data;
     },
@@ -760,7 +760,16 @@ const JobsDescription = ({ job, dynamicjob }) => {
                       ))}
                     </>
                   ) : (
-                    <>{job && <JobsCard job={job} />}</>
+                    <>
+                      {job && <JobsCard job={job} />}
+                      {filterByData?.length > 0 && (
+                        <>
+                          {filterByData?.map((job) => (
+                            <SearchJobsCard key={job._id} job={job} />
+                          ))}
+                        </>
+                      )}
+                    </>
                   )}
                 </>
               </div>
