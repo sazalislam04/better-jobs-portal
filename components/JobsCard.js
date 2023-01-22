@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-const JobsCard = ({ job }) => {
+const JobsCard = ({ job, jobrole, roleJob }) => {
   const [dateDays, setDateDays] = useState();
   const {
     company_name,
@@ -26,7 +26,7 @@ const JobsCard = ({ job }) => {
 
   return (
     <>
-      <Link href={`/jobs/search/${role}/${_id}`}>
+      <Link href={`/jobs/search/${jobrole ? jobrole : roleJob}/${_id}`}>
         <div className="px-6 py-4 bg-white rounded-md shadow mb-4">
           <div className="flex items-center justify-between">
             <span className="text-sm font-light text-gray-800 dark:text-gray-400">

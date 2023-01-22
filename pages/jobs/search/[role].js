@@ -43,7 +43,7 @@ const SearchJobs = ({ jobs, role }) => {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      {jobs?.length > 0 && <JobsDescription jobs={jobs} role={role} />}
+      {jobs?.length > 0 && <JobsDescription jobs={jobs} jobrole={role} />}
     </div>
   );
 };

@@ -13,7 +13,13 @@ import Loading from "./Loading/Loading";
 // job type
 const jobsType = ["Both", "On-site", "Remote"];
 
-const JobsDescription = ({ jobs, job, role }) => {
+const JobsDescription = ({
+  jobs,
+  job,
+  jobrole,
+  dynamicOthersJobs,
+  roleJob,
+}) => {
   const [onLocation, setOnLocation] = useState(false);
   const [locationState, setLocationState] = useState("Location");
   const [locationData, setLocationData] = useState(locations);
@@ -37,7 +43,12 @@ const JobsDescription = ({ jobs, job, role }) => {
 
   const [combineFilterJobs, setCombineFilterJobs] = useState();
 
+  const [dynamicRemainingJobs, setDynamicRemainingJobs] = useState();
+
   const [isLoading, setIsLoading] = useState(true);
+
+  const [counter, setCounter] = useState(0);
+  const [openClearBtn, setOpenClearBtn] = useState(false);
 
   const router = useRouter();
 
@@ -47,8 +58,8 @@ const JobsDescription = ({ jobs, job, role }) => {
   let domain = "";
   if (jobs?.length > 0) {
     domain = jobs[0]?.domain;
-  } else {
-    domain = job?.domain;
+  } else if (dynamicOthersJobs?.length > 0) {
+    domain = dynamicOthersJobs[0]?.domain;
   }
 
   const { data: matchingJobs } = useQuery({
@@ -58,14 +69,30 @@ const JobsDescription = ({ jobs, job, role }) => {
       const data = await res.json();
       if (data) {
         const filterByDomain = data?.filter(
-          (domainjobs) => domainjobs?.role !== role
+          (domainjobs) => domainjobs?.role !== jobrole
         );
         setFilterByData(filterByDomain);
       }
       return data;
     },
   });
+  // dynamic domain jobs
+  const { data: remainingJobs } = useQuery({
+    queryKey: ["remainingJobs", domain],
+    queryFn: async () => {
+      const res = await fetch(`${BASE_URL}/api/jobs/?domain=${domain}`);
+      const data = await res.json();
+      if (data) {
+        const filterByDomain = data?.filter(
+          (domainjobs) => domainjobs?.role !== roleJob
+        );
+        setDynamicRemainingJobs(filterByDomain);
+      }
+      return data;
+    },
+  });
 
+  // all filter
   useEffect(() => {
     if (
       locationState === "Location" &&
@@ -142,6 +169,49 @@ const JobsDescription = ({ jobs, job, role }) => {
       );
       return setCombineFilterJobs(result);
     }
+    if (
+      locationState !== "Location" &&
+      experienceState !== "Experience" &&
+      employementState === "Employment Type" &&
+      remoteResult !== "Job Type"
+    ) {
+      const result = matchingJobs?.filter(
+        (job) =>
+          job.allows_work_from_home === true &&
+          job.city === locationState &&
+          job.experience_required === experienceState
+      );
+      return setCombineFilterJobs(result);
+    }
+    if (
+      locationState !== "Location" &&
+      experienceState === "Experience" &&
+      employementState !== "Employment Type" &&
+      remoteResult !== "Job Type"
+    ) {
+      const result = matchingJobs?.filter(
+        (job) =>
+          job.allows_work_from_home === true &&
+          job.city === locationState &&
+          job.type_of_job === employementState
+      );
+      return setCombineFilterJobs(result);
+    }
+    if (
+      locationState === "Location" &&
+      experienceState !== "Experience" &&
+      employementState !== "Employment Type" &&
+      remoteResult !== "Job Type"
+    ) {
+      const result = matchingJobs?.filter(
+        (job) =>
+          job.allows_work_from_home === true &&
+          job.experience_required === experienceState &&
+          job.type_of_job === employementState
+      );
+      return setCombineFilterJobs(result);
+    }
+
     // ****
 
     if (
@@ -233,6 +303,7 @@ const JobsDescription = ({ jobs, job, role }) => {
   const clearLocationBtn = () => {
     setLocationState("Location");
     setOnLocation(false);
+    setCounter(counter - 1);
   };
 
   const handleLocation = (e) => {
@@ -259,6 +330,7 @@ const JobsDescription = ({ jobs, job, role }) => {
   const clearExperienceBtn = () => {
     setExperienceState("Experience");
     setOnExperience(false);
+    setCounter(counter - 1);
   };
 
   const handleExperience = () => {
@@ -285,6 +357,7 @@ const JobsDescription = ({ jobs, job, role }) => {
   const clearEmploymentState = () => {
     setEmployementState("Employment Type");
     setOnEmployement(false);
+    setCounter(counter - 1);
   };
   const handleEmployment = () => {
     setOnEmployement(!onEmployement);
@@ -345,6 +418,7 @@ const JobsDescription = ({ jobs, job, role }) => {
   const handleCloseRemote = () => {
     setRemoteResult("Job Type");
     setRemote(false);
+    setCounter(counter - 1);
   };
 
   // close all btn
@@ -396,17 +470,122 @@ const JobsDescription = ({ jobs, job, role }) => {
   const handleClearAllFilter = () => {
     if (locationState) {
       setLocationState("Location");
+      setOnLocation(false);
+      setCounter(0);
+      setOpenClearBtn(false);
     }
     if (experienceState) {
       setExperienceState("Experience");
+      setOnExperience(false);
+      setCounter(0);
+      setOpenClearBtn(false);
     }
     if (employementState) {
       setEmployementState("Employment Type");
+      setOnEmployement(false);
+      setCounter(0);
+      setOpenClearBtn(false);
     }
     if (remoteResult) {
       setRemoteResult("Job Type");
+      setRemote(false);
+      setCounter(0);
+      setOpenClearBtn(false);
     }
   };
+
+  // counter
+  useEffect(() => {
+    if (locationState !== "Location" && counter === 0) {
+      setCounter(counter + 1);
+      setOpenClearBtn(true);
+    } else if (
+      locationState !== "Location" &&
+      experienceState !== "Experience" &&
+      counter === 1
+    ) {
+      setCounter(counter + 1);
+    } else if (
+      locationState !== "Location" &&
+      employementState !== "Employment Type" &&
+      counter === 1
+    ) {
+      setCounter(counter + 1);
+    } else if (
+      locationState !== "Location" &&
+      remoteResult !== "Job Type" &&
+      counter === 1
+    ) {
+      setCounter(counter + 1);
+    } else if (
+      experienceState !== "Experience" &&
+      employementState !== "Employment Type" &&
+      counter === 1
+    ) {
+      setCounter(counter + 1);
+    } else if (
+      employementState !== "Employment Type" &&
+      remoteResult !== "Job Type" &&
+      counter === 1
+    ) {
+      setCounter(counter + 1);
+    } else if (
+      employementState !== "Employment Type" &&
+      remoteResult !== "Job Type" &&
+      experienceState !== "Experience" &&
+      counter === 2
+    ) {
+      setCounter(counter + 1);
+    } else if (
+      employementState !== "Employment Type" &&
+      remoteResult !== "Job Type" &&
+      experienceState !== "Experience" &&
+      locationState !== "Location" &&
+      counter === 3
+    ) {
+      setCounter(counter + 1);
+    } else if (
+      employementState !== "Employment Type" &&
+      experienceState !== "Experience" &&
+      locationState !== "Location" &&
+      counter === 2
+    ) {
+      setCounter(counter + 1);
+    } else if (
+      remoteResult !== "Job Type" &&
+      experienceState !== "Experience" &&
+      locationState !== "Location" &&
+      counter === 2
+    ) {
+      setCounter(counter + 1);
+    } else if (
+      remoteResult !== "Job Type" &&
+      employementState !== "Employment Type" &&
+      locationState !== "Location" &&
+      counter === 2
+    ) {
+      setCounter(counter + 1);
+    } else if (
+      remoteResult !== "Job Type" &&
+      experienceState !== "Experience" &&
+      counter === 1
+    ) {
+      setCounter(counter + 1);
+    }
+    // single add
+    if (experienceState !== "Experience" && counter === 0) {
+      setCounter(counter + 1);
+      setOpenClearBtn(true);
+    }
+    if (employementState !== "Employment Type" && counter === 0) {
+      setCounter(counter + 1);
+      setOpenClearBtn(true);
+    }
+    if (remoteResult !== "Job Type" && counter === 0) {
+      setCounter(counter + 1);
+      setOpenClearBtn(true);
+    }
+  }, [locationState, experienceState, counter, employementState, remoteResult]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -422,7 +601,7 @@ const JobsDescription = ({ jobs, job, role }) => {
           <form
             onClick={handleClose}
             onSubmit={handleJobsSearch}
-            className="custom-shadow border w-[50%] z-50 relative py-1 px-4 rounded-full flex  items-center justify-between mx-auto"
+            className="custom-shadow border w-[50%] z-50 relative py-1 px-4 rounded-lg flex  items-center justify-between mx-auto"
           >
             <div className="flex items-center gap-1 relative">
               <span>
@@ -450,13 +629,17 @@ const JobsDescription = ({ jobs, job, role }) => {
                     : "placeholder:text-gray-500"
                 }`}
                 placeholder={
-                  role ? role : "Enter skills / designations / companies"
+                  jobrole
+                    ? jobrole
+                    : roleJob
+                    ? roleJob
+                    : "Enter skills / designations / companies"
                 }
                 value={searchResult || ""}
               />
             </div>
 
-            <button className="px-6 py-[6px] focus:ring-2 transition duration-300 rounded-full text-white text-lg bg-[#037b8e]">
+            <button className="px-6 py-[6px] focus:ring-2 transition duration-300 rounded-lg text-white text-lg bg-[#037b8e]">
               Search
             </button>
           </form>
@@ -519,9 +702,9 @@ const JobsDescription = ({ jobs, job, role }) => {
 
             <button
               onClick={handleLocation}
-              className={`border text-gray-600 hover:border-indigo-500 hover:shadow-lg transition-all duration-300 my-2 px-6 py-2 text-sm rounded-full custom-shadow flex items-center gap-1 ${
+              className={`border text-gray-600 hover:border-[#037b8e] hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
                 locationState !== "Location" &&
-                "bg-yellow-100 hover:border-yellow-500"
+                "bg-yellow-50 hover:border-yellow-100"
               }`}
             >
               <span>{locationState}</span>
@@ -552,7 +735,7 @@ const JobsDescription = ({ jobs, job, role }) => {
                   {locationState !== "Location" && (
                     <span
                       onClick={clearLocationBtn}
-                      className="text-blue-800 cursor-pointer"
+                      className="text-[#037b8e] cursor-pointer"
                     >
                       Clear
                     </span>
@@ -602,9 +785,9 @@ const JobsDescription = ({ jobs, job, role }) => {
 
             <button
               onClick={handleExperience}
-              className={`border text-gray-600 hover:border-indigo-500 hover:shadow-lg transition-all duration-300 my-2 px-6 py-2 text-sm rounded-full custom-shadow flex items-center gap-1 ${
+              className={`border text-gray-600 hover:border-[#037b8e]hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
                 experienceState !== "Experience" &&
-                "bg-yellow-100 hover:border-yellow-500"
+                "bg-yellow-50 hover:border-yellow-100"
               }`}
             >
               <span>{experienceState}</span>
@@ -635,7 +818,7 @@ const JobsDescription = ({ jobs, job, role }) => {
                   {experienceState !== "Experience" && (
                     <span
                       onClick={clearExperienceBtn}
-                      className="text-blue-800 cursor-pointer"
+                      className="text-[#037b8e] cursor-pointer"
                     >
                       Clear
                     </span>
@@ -679,9 +862,9 @@ const JobsDescription = ({ jobs, job, role }) => {
             )}
             <button
               onClick={handleEmployment}
-              className={`border text-gray-600 hover:border-indigo-500 hover:shadow-lg transition-all duration-300 my-2 px-6 py-2 text-sm rounded-full custom-shadow flex items-center gap-1 ${
+              className={`border text-gray-600 hover:[#037b8e] hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
                 employementState !== "Employment Type" &&
-                "bg-yellow-100 hover:border-yellow-500"
+                "bg-yellow-50 hover:border-yellow-100"
               }`}
             >
               <span>{employementState}</span>
@@ -712,7 +895,7 @@ const JobsDescription = ({ jobs, job, role }) => {
                   {employementState !== "Employment Type" && (
                     <span
                       onClick={clearEmploymentState}
-                      className="text-blue-800 cursor-pointer"
+                      className="text-[#037b8e] cursor-pointer"
                     >
                       Clear
                     </span>
@@ -756,9 +939,9 @@ const JobsDescription = ({ jobs, job, role }) => {
             )}
             <button
               onClick={handleJobType}
-              className={`border text-gray-600 hover:border-indigo-500 hover:shadow-lg transition-all duration-300 my-2 px-6 py-2 text-sm rounded-full custom-shadow flex items-center gap-1 ${
+              className={`border text-gray-600 hover:border-[#037b8e] hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
                 remoteResult !== "Job Type" &&
-                "bg-yellow-100 hover:border-yellow-500"
+                "bg-yellow-50 hover:border-yellow-100"
               }`}
             >
               <span>{remoteResult}</span>
@@ -789,7 +972,7 @@ const JobsDescription = ({ jobs, job, role }) => {
                   {remoteResult !== "Job Type" && (
                     <span
                       onClick={handleCloseRemote}
-                      className="text-blue-800 cursor-pointer"
+                      className="text-[#037b8e] cursor-pointer"
                     >
                       Clear
                     </span>
@@ -831,12 +1014,13 @@ const JobsDescription = ({ jobs, job, role }) => {
                 </ul>
               </div>
             )}
-            {combineFilterJobs?.length > 0 && (
+
+            {openClearBtn && counter !== 0 && (
               <button
                 onClick={handleClearAllFilter}
-                className={`text-red-500 hover:shadow-md transition-all duration-300 my-2 px-6 py-2 text-sm rounded-full custom-shadow bg-red-50 flex items-center gap-1 `}
+                className={`text-[#037b8e] hover:shadow-md transition-all duration-300 my-2 px-4 py-2 text-sm rounded-full custom-shadow  flex items-center gap-1 font-medium `}
               >
-                Clear {combineFilterJobs?.length}
+                Clear ({counter})
               </button>
             )}
           </div>
@@ -845,7 +1029,7 @@ const JobsDescription = ({ jobs, job, role }) => {
         {/* jobs card */}
         <div
           onClick={handleClose}
-          className="lg:flex gap-6 justify-between lg:w-9/12 mx-auto mt-4"
+          className="lg:flex gap-6 justify-between lg:w-4/5 mx-auto mt-4"
         >
           <div className="lg:w-2/5">
             <div className="">
@@ -870,29 +1054,61 @@ const JobsDescription = ({ jobs, job, role }) => {
                 {combineFilterJobs?.length > 0 ? (
                   <>
                     {combineFilterJobs?.map((job) => (
-                      <JobsCard key={job._id} job={job} />
+                      <JobsCard
+                        key={job._id}
+                        job={job}
+                        jobrole={jobrole}
+                        roleJob={roleJob}
+                      />
                     ))}
                   </>
                 ) : jobs?.length > 0 ? (
                   <>
                     {jobs?.map((job) => (
-                      <JobsCard key={job._id} job={job} />
+                      <JobsCard
+                        key={job._id}
+                        job={job}
+                        jobrole={jobrole}
+                        roleJob={roleJob}
+                      />
                     ))}
 
                     {filterByData?.length > 0 && (
                       <>
                         {filterByData?.map((job) => (
-                          <JobsCard key={job._id} job={job} />
+                          <JobsCard
+                            key={job._id}
+                            job={job}
+                            roleJob={roleJob}
+                            jobrole={jobrole}
+                          />
                         ))}
                       </>
                     )}
                   </>
                 ) : (
                   <>
-                    {filterByData?.length > 0 && (
+                    {dynamicOthersJobs?.length > 0 && (
                       <>
-                        {filterByData?.map((job) => (
-                          <JobsCard key={job._id} job={job} />
+                        {dynamicOthersJobs?.map((job) => (
+                          <JobsCard
+                            key={job._id}
+                            job={job}
+                            jobrole={jobrole}
+                            roleJob={roleJob}
+                          />
+                        ))}
+                      </>
+                    )}
+                    {dynamicRemainingJobs?.length > 0 && (
+                      <>
+                        {dynamicRemainingJobs?.map((job) => (
+                          <JobsCard
+                            key={job._id}
+                            job={job}
+                            roleJob={roleJob}
+                            jobrole={jobrole}
+                          />
                         ))}
                       </>
                     )}
@@ -905,6 +1121,7 @@ const JobsDescription = ({ jobs, job, role }) => {
           <div className="lg:w-3/5 bg-white shadow rounded-md mt-10 mb-4">
             <>
               {job && <JobsDetails job={job} setApplyJob={setApplyJob} />}
+
               {jobs?.length > 0 && (
                 <JobsDetails job={jobs[0]} setApplyJob={setApplyJob} />
               )}

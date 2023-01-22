@@ -202,7 +202,7 @@ const JobsDetails = ({ job, setApplyJob }) => {
                 setApplyJob(job);
               }}
               htmlFor="apply-job"
-              className="flex cursor-pointer items-center transition duration-300 gap-2 px-6 py-2 bg-[#037b8e] rounded-full text-white"
+              className="flex cursor-pointer items-center transition duration-300 gap-2 px-4 py-2 bg-[#037b8e] rounded-lg text-white"
             >
               <span>Apply Now</span>
               <Image src={externallink} width={18} height={18} alt="" />

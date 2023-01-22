@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import React, { useState } from "react";
 import SearchField from "../components/SearchField";
 import experiences from "../datalayer/experienceLevel";
@@ -14,8 +13,6 @@ const JobsPage = () => {
   const [locationState, setLocationState] = useState("");
   const [closeLocationState, setCloseLocationState] = useState(false);
   const [locationResult, setLocationResult] = useState();
-  const [isDisabled, setIsDisabled] = useState(true);
-  const router = useRouter();
 
   const handleCloseSearchField = () => {
     if (closeLocationState) {
@@ -50,11 +47,6 @@ const JobsPage = () => {
     } else {
       const remaining = roles.filter((role) => role !== e.target.value);
       setSearch(remaining);
-    }
-    if (roleValue) {
-      setIsDisabled(false);
-    } else {
-      setIsDisabled(true);
     }
   };
   // search by location
@@ -105,7 +97,6 @@ const JobsPage = () => {
           handleGetLocation={handleGetLocation}
           locationResult={locationResult}
           handleCloseSearchField={handleCloseSearchField}
-          isDisabled={isDisabled}
         />
         {/* jobs category */}
         {/* <div className="w-[85%] mx-auto mt-16">

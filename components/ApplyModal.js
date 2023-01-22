@@ -22,12 +22,12 @@ const ApplyModal = ({ applyJob }) => {
           <div className="text-center">
             <label
               htmlFor="apply-job"
-              className="btn btn-error mx-2 btn-sm rounded-full px-6"
+              className="btn btn-error mx-2 btn-sm rounded-lg px-4"
             >
               Cancel
             </label>
             <Link href="https://play.google.com/store/apps" target="_blank">
-              <button className="btn rounded-full mx-2 px-6 bg-[#037b8e] border-none hover:bg-[#016777] btn-sm">
+              <button className="btn rounded-lg mx-2 px-4 bg-[#037b8e] border-none hover:bg-[#016777] btn-sm">
                 Go to playstore
               </button>
             </Link>
