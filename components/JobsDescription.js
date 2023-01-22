@@ -60,6 +60,8 @@ const JobsDescription = ({
     domain = jobs[0]?.domain;
   } else if (dynamicOthersJobs?.length > 0) {
     domain = dynamicOthersJobs[0]?.domain;
+  } else {
+    domain = job?.domain;
   }
 
   const { data: matchingJobs } = useQuery({
@@ -1033,11 +1035,13 @@ const JobsDescription = ({
                   {combineFilterJobs?.length} jobs found for {domain}.
                 </p>
               ) : (
-                matchingJobs?.length > 0 && (
-                  <p className="text-gray-500">
-                    {matchingJobs?.length} jobs found for {domain}.
-                  </p>
-                )
+                <>
+                  {matchingJobs?.length > 0 && (
+                    <p className="text-gray-500">
+                      {matchingJobs?.length} jobs found for {domain}.
+                    </p>
+                  )}
+                </>
               )}
             </div>
             {isLoading ? (
