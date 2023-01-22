@@ -26,7 +26,7 @@ const SearchJobs = ({ jobs, role }) => {
             </span>
             <div className="flex items-center justify-center flex-col mt-2">
               <h2 className="text-xl">
-                Job Not Found For <span className="text-2xl">"{role}"</span>
+                Job Not Found For <span className="text-2xl">{role}</span>
               </h2>
               <p className="mt-1 text-lg">Please Search Another</p>
               <Link href="/">

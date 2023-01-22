@@ -17,7 +17,6 @@ const JobsDescription = ({ jobs, job, role }) => {
   const [onLocation, setOnLocation] = useState(false);
   const [locationState, setLocationState] = useState("Location");
   const [locationData, setLocationData] = useState(locations);
-
   const [onExperience, setOnExperience] = useState(false);
   const [experienceState, setExperienceState] = useState("Experience");
   const [experienceData, setExperienceData] = useState(experiences);
@@ -28,13 +27,11 @@ const JobsDescription = ({ jobs, job, role }) => {
   const [searchResult, setSearchResult] = useState();
   const [searchBox, setSearchBox] = useState(false);
   // search jobs
-
   const [remote, setRemote] = useState(false);
   const [remoteResult, setRemoteResult] = useState("Job Type");
   const [remoteData, setRemoteData] = useState(jobsType);
 
   const [applyJob, setApplyJob] = useState(null);
-  const [getSearchJobs, setGetSearchJobs] = useState();
 
   const [filterByData, setFilterByData] = useState();
 
@@ -44,8 +41,8 @@ const JobsDescription = ({ jobs, job, role }) => {
 
   const router = useRouter();
 
-  const BASE_URL = "https://better-jobs-portal.vercel.app";
-  // const BASE_URL = "http://localhost:3000";
+  // const BASE_URL = "https://better-jobs-portal.vercel.app";
+  const BASE_URL = "http://localhost:3000";
 
   let domain = "";
   if (jobs?.length > 0) {
@@ -373,16 +370,6 @@ const JobsDescription = ({ jobs, job, role }) => {
   // get remote jobs
   const handleRemote = (type) => {
     setRemoteResult(type);
-    // if (type === "Remote") {
-    //   const response = await fetch(`${BASE_URL}/api/jobs/remote`);
-    //   const data = await response.json();
-    //   if (data) {
-    //     const matchremotejobs = data.filter(
-    //       (job) => job.role === searchResult && job.domain === domain
-    //     );
-    //     setCombineFilterJobs(matchremotejobs);
-    //   }
-    // }
   };
 
   // search jobs
@@ -404,26 +391,6 @@ const JobsDescription = ({ jobs, job, role }) => {
         setFilterByData(alljobs);
       }
     }
-
-    // if (locationState) {
-    //   const res = await fetch(`${BASE_URL}/api/jobs?city=${locationState}`);
-    //   const data = await res.json();
-    //   if (data) {
-    //     setGetSearchJobs(data);
-    //   }
-    // }
-    // if (searchResult && locationState) {
-    //   const res = await fetch(`${BASE_URL}/api/alljobs`);
-    //   const data = await res.json();
-    //   if (data) {
-    //     const rest = data.filter(
-    //       (job) => job.role === searchResult && job.city === locationState
-    //     );
-    //     if (rest) {
-    //       setGetSearchJobs(rest);
-    //     }
-    //   }
-    // }
   };
 
   const handleClearAllFilter = () => {
