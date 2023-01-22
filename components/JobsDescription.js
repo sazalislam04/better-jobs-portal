@@ -76,21 +76,16 @@ const JobsDescription = ({
       return data;
     },
   });
-  // dynamic domain jobs
-  const { data: remainingJobs } = useQuery({
-    queryKey: ["remainingJobs", domain],
-    queryFn: async () => {
-      const res = await fetch(`${BASE_URL}/api/jobs/?domain=${domain}`);
-      const data = await res.json();
-      if (data) {
-        const filterByDomain = data?.filter(
-          (domainjobs) => domainjobs?.role !== roleJob
-        );
-        setDynamicRemainingJobs(filterByDomain);
-      }
-      return data;
-    },
-  });
+
+  // filter dynamicdata
+  useEffect(() => {
+    if (roleJob) {
+      const filterByDomain = matchingJobs?.filter(
+        (domainjobs) => domainjobs?.role !== roleJob
+      );
+      setDynamicRemainingJobs(filterByDomain);
+    }
+  }, [matchingJobs, roleJob]);
 
   // all filter
   useEffect(() => {
