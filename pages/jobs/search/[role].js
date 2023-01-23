@@ -60,6 +60,11 @@ const SearchJobs = ({ jobs, role }) => {
           },
           site_name: "Better jobs",
         }}
+        twitter={{
+          handle: "@handle",
+          site: "@site",
+          cardType: "summary_large_image",
+        }}
       />
       <div className="bg-gray-100 min-h-screen">
         {jobs?.length > 0 && <JobsDescription jobs={jobs} jobrole={role} />}

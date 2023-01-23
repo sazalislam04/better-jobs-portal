@@ -40,6 +40,11 @@ const Job = ({ job, role }) => {
           },
           site_name: "Better jobs",
         }}
+        twitter={{
+          handle: "@handle",
+          site: "@site",
+          cardType: "summary_large_image",
+        }}
       />
       <div className="bg-gray-100 min-h-screen">
         {job && (
