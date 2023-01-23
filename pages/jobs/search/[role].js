@@ -1,3 +1,4 @@
+import { NextSeo } from "next-seo";
 import Link from "next/link";
 import React from "react";
 import JobsDescription from "../../../components/JobsDescription";
@@ -42,9 +43,28 @@ const SearchJobs = ({ jobs, role }) => {
   }
 
   return (
-    <div className="bg-gray-100 min-h-screen">
-      {jobs?.length > 0 && <JobsDescription jobs={jobs} jobrole={role} />}
-    </div>
+    <>
+      {/* seo */}
+      <NextSeo
+        title={`Better jobs - ${role} ${jobs[0].company_name}`}
+        description={jobs[0]?.des}
+        canonical={`https://better-jobs-portal.vercel.app/jobs/search/${role}`}
+        openGraph={{
+          type: "job",
+          url: `https://better-jobs-portal.vercel.app/jobs/search/${role}`,
+          images: {
+            url: `https://logo.clearbit.com/${jobs[0]?.company_name}.com`,
+            width: 120,
+            height: 120,
+            alt: "logo",
+          },
+          site_name: "Better jobs",
+        }}
+      />
+      <div className="bg-gray-100 min-h-screen">
+        {jobs?.length > 0 && <JobsDescription jobs={jobs} jobrole={role} />}
+      </div>
+    </>
   );
 };
 

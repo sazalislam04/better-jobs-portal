@@ -1,3 +1,4 @@
+import { NextSeo } from "next-seo";
 import React from "react";
 import { useQuery } from "react-query";
 import JobsDescription from "../../../../components/JobsDescription";
@@ -5,6 +6,8 @@ import JobsDescription from "../../../../components/JobsDescription";
 const Job = ({ job, role }) => {
   // const DEFAULT_URL = "http://localhost:3000";
   const DEFAULT_URL = "https://better-jobs-portal.vercel.app";
+
+  const { createdAt, updatedAt, company_name, _id } = job;
 
   const { data: dynamicOthersJobs } = useQuery({
     queryKey: ["dynamicOthersJobs", role],
@@ -16,15 +19,38 @@ const Job = ({ job, role }) => {
   });
 
   return (
-    <div className="bg-gray-100 min-h-screen">
-      {job && (
-        <JobsDescription
-          job={job}
-          dynamicOthersJobs={dynamicOthersJobs}
-          roleJob={role}
-        />
-      )}
-    </div>
+    <>
+      {/* seo */}
+      <NextSeo
+        title={`${job?.role} - ${job.company_name}`}
+        description={job?.desc}
+        canonical={`https://better-jobs-portal.vercel.app/jobs/search/${role}/${job._id}`}
+        openGraph={{
+          type: "job",
+          job: {
+            publishedTime: { createdAt },
+            modifiedTime: { updatedAt },
+          },
+          url: `https://better-jobs-portal.vercel.app/jobs/search/${role}/${_id}`,
+          images: {
+            url: `https://logo.clearbit.com/${company_name}.com`,
+            width: 120,
+            height: 120,
+            alt: "logo",
+          },
+          site_name: "Better jobs",
+        }}
+      />
+      <div className="bg-gray-100 min-h-screen">
+        {job && (
+          <JobsDescription
+            job={job}
+            dynamicOthersJobs={dynamicOthersJobs}
+            roleJob={role}
+          />
+        )}
+      </div>
+    </>
   );
 };
 
