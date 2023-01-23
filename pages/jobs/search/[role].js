@@ -46,7 +46,7 @@ const SearchJobs = ({ jobs, role }) => {
     <>
       {/* seo */}
       <NextSeo
-        title={`Better jobs - ${role} ${jobs[0].company_name}`}
+        title={`Better jobs | ${role} ${jobs[0].company_name}`}
         description={jobs[0]?.des}
         canonical={`https://better-jobs-portal.vercel.app/jobs/search/${role}`}
         openGraph={{
