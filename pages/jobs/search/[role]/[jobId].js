@@ -46,6 +46,7 @@ const Job = ({ job, role }) => {
           site: `https://better-jobs-portal.vercel.app/jobs/search/${role}/${job._id}`,
           cardType: "summary_large_image",
           title: `Apply for ${job?.role} Job  in ${company_name} at ${job.city}, on Betterjobs app. ✔️ Salary: ${job.min_monthly_salary} - ${job.max_monthly_salary} ₹`,
+          image: "https://i.ibb.co/B4GcqFV/meta-image.png",
         }}
       />
       <div className="bg-gray-100 min-h-screen">
