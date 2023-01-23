@@ -779,10 +779,9 @@ const JobsDescription = ({
                 </ul>
               </div>
             )}
-
             <button
               onClick={handleExperience}
-              className={`border text-gray-600 hover:border-[#037b8e]hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
+              className={`border text-gray-600 hover:border-[#037b8e] hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
                 experienceState !== "Experience" &&
                 "bg-yellow-50 hover:border-yellow-100"
               }`}
@@ -859,7 +858,7 @@ const JobsDescription = ({
             )}
             <button
               onClick={handleEmployment}
-              className={`border text-gray-600 hover:[#037b8e] hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
+              className={`border text-gray-600 hover:border-[#037b8e]  hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
                 employementState !== "Employment Type" &&
                 "bg-yellow-50 hover:border-yellow-100"
               }`}

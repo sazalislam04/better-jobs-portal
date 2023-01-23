@@ -2,31 +2,18 @@ import Link from "next/link";
 import React from "react";
 
 const SearchField = ({
-  handleGetExp,
-  inputExp,
-  setVisible,
-  visible,
   handleSearchRoles,
-  setInputExp,
   search,
   handleGetRole,
   roleValue,
   close,
   setClose,
-  experiences,
-  locations,
-  locationState,
-  handleSearchLocation,
-  closeLocationState,
-  setCloseLocationState,
-  handleGetLocation,
-  locationResult,
   handleCloseSearchField,
 }) => {
   return (
     <div
       onClick={handleCloseSearchField}
-      className="custom-shadow border w-[80%] mt-10 py-2 px-4 rounded-lg flex divide-x divide-gray-100 items-center justify-between mx-auto"
+      className="custom-shadow border w-[70%] mt-10 py-2 px-4 rounded-lg flex divide-x divide-gray-100 items-center justify-between mx-auto"
     >
       <div className="flex items-center gap-1 relative">
         <span>
@@ -111,7 +98,7 @@ const SearchField = ({
           </ul>
         )}
       </div> */}
-      <div className="relative z-10 flex items-center">
+      {/* <div className="relative z-10 flex items-center">
         <span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +143,7 @@ const SearchField = ({
             ))}
           </ul>
         )}
-      </div>
+      </div> */}
 
       <div>
         <Link
