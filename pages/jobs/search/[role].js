@@ -46,24 +46,27 @@ const SearchJobs = ({ jobs, role }) => {
     <>
       {/* seo */}
       <NextSeo
-        title={`Better jobs | ${role} ${jobs[0].company_name}`}
-        description={jobs[0]?.des}
+        title={`Better jobs | Apply for ${role} in ${jobs[0]?.company_name}`}
+        description={`Apply for ${role} Job in ${jobs[0]?.company_name} at ${jobs[0]?.city} on Betterjobs app. ✔️ Salary: ${jobs[0]?.min_monthly_salary} - ${jobs[0]?.max_monthly_salary} ₹`}
         canonical={`https://better-jobs-portal.vercel.app/jobs/search/${role}`}
         openGraph={{
           type: "job",
           url: `https://better-jobs-portal.vercel.app/jobs/search/${role}`,
-          images: {
-            url: `https://logo.clearbit.com/${jobs[0]?.company_name}.com`,
-            width: 120,
-            height: 120,
-            alt: "logo",
-          },
+          images: [
+            {
+              url: "https://i.ibb.co/B4GcqFV/meta-image.png",
+              width: 900,
+              height: 800,
+              alt: "logo",
+            },
+          ],
           site_name: "Better jobs",
         }}
         twitter={{
-          handle: "@handle",
-          site: "@site",
+          handle: `https://better-jobs-portal.vercel.app/jobs/search/${role}`,
+          site: `https://better-jobs-portal.vercel.app/jobs/search/${role}`,
           cardType: "summary_large_image",
+          title: `Apply for ${role} Job in ${jobs[0]?.company_name} at ${jobs[0]?.city}, on Betterjobs app. ✔️ Salary: ${jobs[0]?.min_monthly_salary} - ${jobs[0]?.max_monthly_salary} ₹`,
         }}
       />
       <div className="bg-gray-100 min-h-screen">

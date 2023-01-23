@@ -32,21 +32,21 @@ const Job = ({ job, role }) => {
             modifiedTime: { updatedAt },
           },
           url: `https://better-jobs-portal.vercel.app/jobs/search/${role}/${_id}`,
-          images: {
-            url: "https://i.ibb.co/B4GcqFV/meta-image.png",
-            width: 900,
-            height: 800,
-            alt: "logo",
-            type: "image/png",
-          },
+          images: [
+            {
+              url: "https://i.ibb.co/B4GcqFV/meta-image.png",
+              width: 900,
+              height: 800,
+              alt: "logo",
+            },
+          ],
           site_name: "Better jobs",
         }}
         twitter={{
           handle: `https://better-jobs-portal.vercel.app/jobs/search/${role}/${job._id}`,
           site: `https://better-jobs-portal.vercel.app/jobs/search/${role}/${job._id}`,
           cardType: "summary_large_image",
-          title: `Apply for ${job?.role} Job  in ${company_name} at ${job.city}, on Betterjobs app. ✔️ Salary: ${job.min_monthly_salary} - ${job.max_monthly_salary} ₹`,
-          image: "https://i.ibb.co/B4GcqFV/meta-image.png",
+          title: `Apply for ${job?.role} Job in ${company_name} at ${job.city}, on Betterjobs app. ✔️ Salary: ${job.min_monthly_salary} - ${job.max_monthly_salary} ₹`,
         }}
       />
       <div className="bg-gray-100 min-h-screen">
