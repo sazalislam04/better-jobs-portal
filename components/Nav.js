@@ -1,14 +1,16 @@
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import play from "../public/play.png";
 
 const Nav = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="container mx-auto">
-      <div className="md:hidden w-full flex items-center  justify-between">
+    <div className="container mx-auto z-50">
+      <div className="md:hidden w-full px-4 flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-medium">
-            Better.<span className="text-indigo-500">Jobs</span>{" "}
+            Better<span className="text-[#037b8e]">jobs</span>{" "}
           </h2>
         </div>
         <button className={`md:hidden`} onClick={() => setOpen(!open)}>
@@ -46,19 +48,30 @@ const Nav = () => {
         </button>
       </div>
       {open && (
-        <nav className="absolute mt-1 w-full  left-1/2 translate-x-[-50%] container mx-auto bg-gray-50">
+        <nav className="absolute my-2 bg-white rounded-lg w-64 right-0 h-auto container mx-auto px-4">
           <ul className="relative">
-            <li className="text-lg bg-gray-100 p-4">
-              <Link href="/">Jobs</Link>
+            <li onClick={() => setOpen(false)} className="text-lg py-4">
+              <Link
+                className="px-2 py-2 transition mt-2 duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]"
+                href="/"
+              >
+                Jobs
+              </Link>
             </li>
           </ul>
-          <div className="mt-4 p-4">
-            <button className="px-6 py-2 rounded-full border mr-5 focus:bg-indigo-50 transition duration-300 focus:ring-2 focus:ring-indigo-300 border-indigo-500">
-              Login
-            </button>
-            <button className="px-6 py-2 focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 focus:bg-indigo-50 focus:text-indigo-700 transition duration-300 rounded-full border bg-indigo-500 text-white ">
-              Register
-            </button>
+          <div className="mb-4">
+            <Link
+              href="https://play.google.com/store/apps/details?id=com.betterjobs.app"
+              className="w-32"
+              target="_blank"
+            >
+              <Image src={play} alt="playstore" width={114} height={50} />
+            </Link>
+            <Link href="https://employer.betterjobs.co/auth" target="_blank">
+              <button className="px-2 py-2 transition mt-2 duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
+                For employers
+              </button>
+            </Link>
           </div>
         </nav>
       )}

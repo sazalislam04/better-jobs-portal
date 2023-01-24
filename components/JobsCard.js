@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
@@ -29,9 +30,9 @@ const JobsCard = ({ job, jobrole, roleJob }) => {
       <Link href={`/jobs/search/${jobrole ? jobrole : roleJob}/${_id}`}>
         <div className="px-6 py-4 bg-white rounded-md shadow mb-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-light text-gray-800 dark:text-gray-400">
+            <p className="text-sm font-light text-gray-800 dark:text-gray-400">
               {createdAt?.slice(0, 10)}
-            </span>
+            </p>
             <span className="px-3 flex items-center gap-1 py-1 text-xs text-indigo-900 uppercase bg-indigo-100 rounded-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -51,12 +52,24 @@ const JobsCard = ({ job, jobrole, roleJob }) => {
             </span>
           </div>
           <div>
-            <h1 className="mt-2 text-lg font-semibold text-gray-800">
-              {company_name}
-            </h1>
-            <span className="text-sm">{role}</span>
-            <div className="mt-2 text-xs flex justify-between text-gray-600 ">
-              <span className="flex gap-1 bg-gray-100 p-1 px-2 rounded-full items-center">
+            <div className="flex items-center gap-3">
+              <Image
+                className="w-8 h-8"
+                src={`https://logo.clearbit.com/${company_name}.com`}
+                alt="logo"
+                height={40}
+                width={40}
+              />
+              <div>
+                <h3 className="mt-2 text-[14px] font-semibold text-gray-800">
+                  {role}
+                </h3>
+                <p className="text-sm font-medium">{company_name} </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 mt-2 text-xs font-medium text-gray-600 gap-3 ">
+              <p className="flex gap-1 items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -72,8 +85,8 @@ const JobsCard = ({ job, jobrole, roleJob }) => {
                   />
                 </svg>
                 {experience_required}
-              </span>
-              <span className="flex gap-1 bg-gray-100 p-1 px-2 rounded-full items-center">
+              </p>
+              <p className="flex gap-1 items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -89,8 +102,8 @@ const JobsCard = ({ job, jobrole, roleJob }) => {
                   />
                 </svg>
                 {active && "Not Disclosed"}
-              </span>
-              <span className="flex gap-1 bg-gray-100 p-1 px-2 rounded-full items-center">
+              </p>
+              <p className="flex gap-1 items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -111,12 +124,12 @@ const JobsCard = ({ job, jobrole, roleJob }) => {
                   />
                 </svg>
                 {city}
-              </span>
+              </p>
             </div>
           </div>
-          <div className="flex gap-4 items-center mt-4 text-gray-700 ">
-            <span className="text-xs text-gray-400">{dateDays}d ago</span>
-            <span className="text-xs text-gray-400">via. betterjobs.com</span>
+          <div className="flex gap-2 sm:gap-4 items-center mt-4 text-gray-700 ">
+            <p className="text-xs text-gray-400">{dateDays}d ago</p>
+            <p className="text-xs text-gray-400">via. betterjobs.com</p>
           </div>
         </div>
       </Link>

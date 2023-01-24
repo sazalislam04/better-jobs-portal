@@ -12,12 +12,12 @@ const Features = () => {
         </h2>
         <div className="mt-12 lg:flex items-center justify-between">
           <div className="lg:w-2/5 mx-auto flex justify-center">
-            <Image src={capture} alt="" width={260} height={260} />
+            <Image src={capture} alt="feature" width={260} height={260} />
           </div>
-          <div className="lg:w-1/2">
+          <div className="lg:w-1/2 mt-8 lg:mt-0">
             <div className="flex relative items-center gap-10">
               <span className="absolute w-10 h-10 rounded-full flex justify-center items-center bg-indigo-100">
-                <Image src={user} alt="" width={20} height={20} />
+                <Image src={user} alt="icon" width={20} height={20} />
               </span>
               <p className="mx-14 text-sm font-medium">ONE CLICK APPLY</p>
             </div>
@@ -38,7 +38,7 @@ const Features = () => {
             </p>
             <div className="mt-14 flex items-center gap-10">
               <span className="absolute w-10 h-10 rounded-full flex justify-center items-center bg-indigo-100">
-                <Image src={user} alt="" width={20} height={20} />
+                <Image src={user} alt="icon" width={20} height={20} />
               </span>
               <p className="mx-14 text-sm font-medium">
                 ONLY VERIFIED RECRUITERS

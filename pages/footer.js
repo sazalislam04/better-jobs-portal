@@ -22,7 +22,7 @@ const Footer = () => {
               <div>
                 <h3 className="text-gray-800 font-medium text-lg">Links</h3>
                 <Link
-                  href=""
+                  href="https://play.google.com/store/apps/details?id=com.betterjobs.app"
                   className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   download mobile app
@@ -66,7 +66,7 @@ const Footer = () => {
               <div>
                 <h3 className="text-gray-800 font-medium text-lg">Resources</h3>
                 <Link
-                  href=""
+                  href="/blog"
                   className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   blog
@@ -80,8 +80,12 @@ const Footer = () => {
               </div>
 
               <div className="flex mt-2 gap-4">
-                <FaTwitter className="text-cyan-500 hover:text-cyan-600 transition duration-300 text-xl" />
-                <FaLinkedinIn className="text-sky-500 hover:text-sky-600 transition duration-300 text-xl" />
+                <Link href="">
+                  <FaTwitter className="text-cyan-500 hover:text-cyan-600 transition duration-300 text-xl" />
+                </Link>
+                <Link href="">
+                  <FaLinkedinIn className="text-sky-500 hover:text-sky-600 transition duration-300 text-xl" />
+                </Link>
               </div>
             </div>
           </div>
@@ -90,21 +94,21 @@ const Footer = () => {
         <hr className="h-px my-6 bg-gray-200 border-none" />
 
         <div className="flex justify-between">
-          <div className="flex items-center">
+          <div className="sm:flex gap-4 items-center">
             <Link
-              href="https://play.google.com/store/apps"
+              href="https://play.google.com/store/apps/details?id=com.betterjobs.app"
               className="w-32 h-[50px]"
               target="_blank"
             >
-              <Image src={play} alt="" width={150} height={130} />
+              <Image src={play} alt="playstore" width={150} height={130} />
             </Link>
             <Link href="https://employer.betterjobs.co/auth" target="_blank">
-              <button className="mx-2 w-32 h-[46px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
+              <button className="sm:mx-2 w-[150px] sm:w-32 h-[46px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
                 For employers
               </button>
             </Link>
           </div>
-          <div className="mt-6 flex gap-3">
+          <div className="mt-6 flex ml-3 sm:ml-0 flex-wrap gap-3">
             <small className="text-gray-400">reach@betterjobs.co </small>
             <small className="text-gray-400">Privacy Policy</small>
             <small className="text-gray-400">Terms of Service</small>

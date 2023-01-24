@@ -51,9 +51,9 @@ const SearchJobsCard = ({ job }) => {
             </span>
           </div>
           <div>
-            <h1 className="mt-2 text-lg font-semibold text-gray-800">
+            <h3 className="mt-2 text-lg font-semibold text-gray-800">
               {company_name}
-            </h1>
+            </h3>
             <span className="text-sm">{role}</span>
             <div className="mt-2 text-xs flex justify-between text-gray-600 ">
               <span className="flex gap-1 bg-gray-100 p-1 px-2 rounded-full items-center">

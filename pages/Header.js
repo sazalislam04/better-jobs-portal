@@ -20,11 +20,11 @@ const Header = () => {
           </div>
           <div className="flex items-center">
             <Link
-              href="https://play.google.com/store/apps"
+              href="https://play.google.com/store/apps/details?id=com.betterjobs.app"
               className="w-32 h-[50px]"
               target="_blank"
             >
-              <Image src={play} alt="" width={150} height={130} />
+              <Image src={play} alt="playstore" width={150} height={130} />
             </Link>
             <Link href="https://employer.betterjobs.co/auth" target="_blank">
               <button className="mx-2 w-32 h-[46px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">

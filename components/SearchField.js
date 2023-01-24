@@ -13,7 +13,7 @@ const SearchField = ({
   return (
     <div
       onClick={handleCloseSearchField}
-      className="custom-shadow border w-[70%] mt-10 py-2 px-4 rounded-lg flex divide-x divide-gray-100 items-center justify-between mx-auto"
+      className="custom-shadow border w-full lg:w-[70%] mt-10 py-2 px-4 rounded-lg flex divide-x divide-gray-100 items-center justify-between mx-auto relative"
     >
       <div className="flex items-center gap-1 relative">
         <span>
@@ -36,7 +36,7 @@ const SearchField = ({
           type="search"
           onChange={(e) => handleSearchRoles(e)}
           value={roleValue || ""}
-          className="focus:outline-none w-72 text-gray-700 text-sm p-3"
+          className="focus:outline-none w-72 md:w-80 text-gray-700 text-sm p-3"
           placeholder="Enter skills / designations / companies"
         />
         {close && (
@@ -145,12 +145,12 @@ const SearchField = ({
         )}
       </div> */}
 
-      <div>
+      <div className="">
         <Link
           href={`/jobs/search/${roleValue ? roleValue : "Android developer"}`}
         >
           <button
-            className={`w-32 h-[46px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]`}
+            className={`w-20 md:w-32 h-[46px] absolute top-[7px] right-[10px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]`}
           >
             Search
           </button>

@@ -55,12 +55,12 @@ const JobsDetails = ({ job, setApplyJob }) => {
 
   return (
     <>
-      <section className="py-5 px-6">
+      <section className="py-4 px-4 md:px-6">
         <div className="">
-          <div className="flex gap-2">
-            <div className="w-28 h-20 flex items-center justify-center rounded-md overflow-hidden">
+          <div className="flex w-full gap-2">
+            <div className="w-16 h-16 md:w-28 md:h-20 flex items-center justify-center rounded-md">
               <Image
-                className="w-16 h-16"
+                className="w-10 md:w-16 h-10 md:h-16 object-cover"
                 src={`https://logo.clearbit.com/${company_name}.com`}
                 alt="logo"
                 height={120}
@@ -68,12 +68,12 @@ const JobsDetails = ({ job, setApplyJob }) => {
               />
             </div>
             <div className="w-full relative">
-              <div className="flex  justify-between">
+              <div className="flex justify-between">
                 <div>
-                  <h2 className="text-lg font-medium">{role}</h2>
-                  <p>{company_name}</p>
+                  <h2 className="text-lg font-semibold">{role}</h2>
+                  <p className="font-medium">{company_name}</p>
                 </div>
-                <span onClick={handleTooltip} className="cursor-pointer">
+                <button onClick={handleTooltip} className="cursor-pointer">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -88,11 +88,11 @@ const JobsDetails = ({ job, setApplyJob }) => {
                       d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
                     />
                   </svg>
-                </span>
+                </button>
               </div>
               {/* tooltip */}
               {open && (
-                <div className="mx-auto absolute -bottom-5 shadow border right-0 container w-48 px-3 py-3 bg-white rounded ">
+                <div className="mx-auto absolute md:-bottom-5 shadow border right-0 container w-48 px-3 py-3 bg-white rounded ">
                   <div className="flex gap-2">
                     <p className="text-sm mx-auto font-semibold leading-none text-gray-800">
                       Share this job
@@ -115,8 +115,8 @@ const JobsDetails = ({ job, setApplyJob }) => {
                 </div>
               )}
 
-              <div className="text-xs font-medium flex gap-2 mt-4 text-gray-600 ">
-                <span className="flex gap-1 bg-gray-100 p-1 px-2 rounded-full items-center">
+              <div className="text-xs font-medium grid grid-cols-2 sm:grid-cols-3 md:gap-2 gap-4 lg:grid-cols-4 mt-4 text-gray-600 ">
+                <p className="flex gap-1 items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -132,8 +132,8 @@ const JobsDetails = ({ job, setApplyJob }) => {
                     />
                   </svg>
                   {experience_required}
-                </span>
-                <span className="flex gap-1 bg-gray-100 p-1 px-2 rounded-full items-center">
+                </p>
+                <p className="flex gap-1 items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -149,8 +149,8 @@ const JobsDetails = ({ job, setApplyJob }) => {
                     />
                   </svg>
                   {active && "Not Disclosed"}
-                </span>
-                <span className="flex gap-1 bg-gray-100 p-1 px-2 rounded-full items-center">
+                </p>
+                <p className="flex gap-1 items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -166,8 +166,8 @@ const JobsDetails = ({ job, setApplyJob }) => {
                     />
                   </svg>
                   {number_of_openings} vacancy
-                </span>
-                <span className="flex gap-1 bg-gray-100 p-1 px-2 rounded-full items-center">
+                </p>
+                <p className="flex gap-1 items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -188,15 +188,13 @@ const JobsDetails = ({ job, setApplyJob }) => {
                     />
                   </svg>
                   {city}
-                </span>
+                </p>
               </div>
             </div>
           </div>
 
-          <div className="flex justify-end items-center gap-5 mt-6">
-            <span className="text-sm text-gray-400">
-              posted {dateDays}d ago
-            </span>
+          <div className="flex justify-end items-center  gap-5 mt-6">
+            <p className="text-sm text-gray-400">posted {dateDays}d ago</p>
             <label
               onClick={() => {
                 setApplyJob(job);
@@ -205,7 +203,7 @@ const JobsDetails = ({ job, setApplyJob }) => {
               className="flex cursor-pointer items-center transition duration-300 gap-2 px-4 py-2 bg-[#037b8e] rounded-lg text-white"
             >
               <span>Apply Now</span>
-              <Image src={externallink} width={18} height={18} alt="" />
+              <Image src={externallink} width={18} height={18} alt="icon" />
             </label>
           </div>
         </div>
@@ -213,26 +211,26 @@ const JobsDetails = ({ job, setApplyJob }) => {
         {/* jobs role */}
         <div className="mt-3 bg-indigo-50 rounded p-4">
           <span className="font-semibold text-sm">Job Role Insights</span>
-          <div className="flex text-sm text-gray-700 my-2">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 text-sm text-gray-700 my-2">
             <li className="mr-4">Flexible Timing</li>
             <li>{is_night_shift ? "Night Shift" : "Day Shift"}</li>
-            <li className="flex items-center ml-4">
+            <div className="flex items-center gap-2">
               <span className="text-gray-500">
                 <FaRupeeSign />
               </span>
-              <span>
+              <p>
                 {min_monthly_salary} - {max_monthly_salary}
-              </span>
-            </li>
+              </p>
+            </div>
           </div>
           <div>
             <span className="text-gray-500 text-sm font-medium">
               Key skills for the job
             </span>
-            <div className="">
+            <div className="grid grid-cols-3 mt-2 sm:grid-cols-4 md:grid-cols-6 gap-2">
               {preferred_skills?.map((skill, i) => (
                 <button
-                  className="px-4 py-1 my-1 mr-1 text-gray-700 rounded-full border bg-white text-sm"
+                  className="text-gray-700 py-1 rounded-full border bg-white text-sm"
                   key={i}
                 >
                   {skill}
@@ -243,11 +241,11 @@ const JobsDetails = ({ job, setApplyJob }) => {
         </div>
         {/* jobs description */}
         <div className="my-6">
-          <span className="font-medium">Job Description</span>
+          <p className="font-medium">Job Description</p>
           <div className="border p-4 rounded my-3">
-            <span className="text-sm font-medium text-gray-800">
+            <p className="text-sm font-medium text-gray-800">
               Roles and Responsibilities
-            </span>
+            </p>
             <div>
               {/* {desc.length > 0 && (
           <>
@@ -259,7 +257,7 @@ const JobsDetails = ({ job, setApplyJob }) => {
               ---------
             </div>
             <div>
-              <span className="text-sm">Employment Type:</span> {type_of_job}
+              <p className="text-sm">Employment Type:</p> {type_of_job}
             </div>
           </div>
         </div>
