@@ -322,6 +322,7 @@ const JobsDescription = ({
     setOnLocation(!onLocation);
     setOnExperience(false);
     setOnEmployement(false);
+    setRemote(false);
   };
   //   searrch location
   const handleSearchLocation = (e) => {
@@ -624,16 +625,16 @@ const JobsDescription = ({
       <div className={`lg:hidden w-full`}>
         {/* details */}
         <div
-          className={`w-full lg:mt-8 absolute top-0 z-50 bg-white shadow rounded-md pt-5 ${
+          className={`w-full absolute top-0 z-50 bg-white shadow rounded-md pt-5 ${
             responsive ? "block" : "hidden"
           }`}
         >
-          <div className="flex justify-between items-center px-3 sm:px-8">
+          <div className="flex justify-between items-center px-4">
             <button
               onClick={() => setResponsive(false)}
-              className="flex items-center px-1 font-medium"
+              className="flex items-center font-medium"
             >
-              <span>
+              <span className="mr-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -670,9 +671,9 @@ const JobsDescription = ({
               </button>
               {/* tooltip */}
               {open && (
-                <div className="mx-auto z-10 absolute md:-bottom-5 shadow border right-0 container w-48 px-3 py-3 bg-white rounded ">
-                  <div className="flex gap-2">
-                    <p className="text-sm mx-auto font-semibold leading-none text-gray-800">
+                <div className="mx-auto z-10 absolute md:-bottom-5 shadow border right-0 container h-32 py-3 bg-white rounded ">
+                  <div className="flex mt-8">
+                    <p className="text-lg mx-auto font-semibold leading-none text-gray-800">
                       Share this job
                     </p>
                   </div>
@@ -730,9 +731,9 @@ const JobsDescription = ({
               <form
                 onClick={handleClose}
                 onSubmit={handleJobsSearch}
-                className="custom-shadow container border w-full md:w-[60%] lg:w-[50%] relative py-1 px-2 sm:px-4 rounded-lg flex items-center justify-between mx-auto"
+                className="custom-shadow container border w-full sm:w-[70%] md:w-[60%]  relative py-1 rounded-lg flex items-center justify-between mx-auto"
               >
-                <div className="flex items-center gap-1 relative">
+                <div className="flex items-center sm:gap-1 relative">
                   <span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -740,7 +741,7 @@ const JobsDescription = ({
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"
-                      className="w-5 h-5 text-gray-600"
+                      className="sm:w-5 sm:h-5 w-4 h-4 text-gray-600"
                     >
                       <path
                         strokeLinecap="round"
@@ -758,26 +759,22 @@ const JobsDescription = ({
                         : "placeholder:text-gray-500"
                     }`}
                     placeholder={
-                      jobrole
-                        ? jobrole
-                        : roleJob
-                        ? roleJob
-                        : "Enter skills / designations / companies"
+                      jobrole ? jobrole : roleJob ? roleJob : "Job role"
                     }
                     value={searchResult || ""}
                   />
                 </div>
 
-                <button className="px-4 md:px-6 absolute right-2 sm:right-4 py-[6px] focus:ring-2 transition duration-300 rounded-lg text-white sm:text-lg text-sm bg-[#037b8e]">
+                <button className="px-2 md:px-4 absolute right-2 sm:right-4 sm:py-[6px] py-1 focus:ring-2 transition duration-300 rounded-lg text-white sm:text-md text-sm bg-[#037b8e]">
                   Search
                 </button>
               </form>
               {/* search box */}
               {searchBox && (
-                <div className="container mx-auto px-4">
+                <div className="container">
                   <ul
                     onClick={() => setSearchBox(false)}
-                    className="shadow transition duration-300 absolute mt-2 z-50 border w-full md:w-[60%] h-72 overflow-y-scroll overflow-hidden py-4 px-8 rounded-lg bg-white left-1/2 translate-x-[-50%]"
+                    className="shadow transition duration-300 absolute mt-2 z-50 border w-full sm:w-[70%] md:w-[60%] h-72 overflow-y-scroll overflow-hidden py-4 px-8 rounded-lg bg-white left-1/2 translate-x-[-50%]"
                   >
                     <small className="text-xs px-4 text-gray-500">
                       jobs by designations
@@ -813,9 +810,9 @@ const JobsDescription = ({
 
               {/* filter button */}
 
-              <div className="flex sm:justify-center pt-3 items-center gap-x-4 w-full mx-auto overflow-x-scroll scroll-smooth z-auto">
-                <div className="flex text-sm text-gray-500 items-center gap-1">
-                  <button className="border w-32 justify-between text-gray-600 hover:border-[#037b8e] hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ">
+              <div className="flex sm:justify-center pt-3 items-center gap-x-2  w-full mx-auto overflow-x-scroll scroll-smooth">
+                <div className="flex text-sm text-gray-500 items-center">
+                  <button className="border w-24 text-xs justify-between text-gray-600 hover:border-[#037b8e] hover:shadow-lg transition-all duration-300 my-2 px-2 py-2  rounded-lg custom-shadow flex items-center gap-1 ">
                     Filter jobs{" "}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -863,7 +860,7 @@ const JobsDescription = ({
                   </button>
                   {onLocation && (
                     <div
-                      className={`pt-4 absolute right-0 md:left-0 bg-gray-50 rounded overflow-hidden overflow-y-auto border h-72 w-64`}
+                      className={`pt-4 absolute right-1 md:left-28 bg-gray-50 rounded overflow-hidden overflow-y-auto border h-72 w-64`}
                     >
                       <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
                         <span>Select Location</span>
@@ -948,7 +945,7 @@ const JobsDescription = ({
                   </button>
                   {onExperience && (
                     <div
-                      className={`absolute right-0 md:left-0 pt-4 z-10 bg-gray-50 rounded overflow-hidden overflow-y-auto border h-52 w-60`}
+                      className={`absolute right-1 md:left-44 pt-4 z-10 bg-gray-50 rounded overflow-hidden overflow-y-auto border h-52 w-60`}
                     >
                       <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
                         <span>Select Experience</span>
@@ -1028,7 +1025,7 @@ const JobsDescription = ({
 
                   {onEmployement && (
                     <div
-                      className={`absolute right-0 md:left-0 pt-4 z-1 bg-gray-50 rounded overflow-hidden overflow-y-auto  border h-52 w-52 text-sm`}
+                      className={`absolute right-1 md:right-20 pt-4 z-1 bg-gray-50 rounded overflow-hidden overflow-y-auto  border h-52 w-52 text-sm`}
                     >
                       <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
                         <span>Select Employment</span>
@@ -1107,7 +1104,7 @@ const JobsDescription = ({
                   </button>
                   {remote && (
                     <div
-                      className={`absolute right-0 md:left-0 pt-4 z-10 bg-gray-50 rounded overflow-hidden overflow-y-auto border h-52 w-52 text-sm`}
+                      className={`absolute right-1 md:right-10 pt-4 z-10 bg-gray-50 rounded overflow-hidden overflow-y-auto border h-52 w-52 text-sm`}
                     >
                       <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
                         <span>Select Job Type</span>
@@ -1268,7 +1265,6 @@ const JobsDescription = ({
               )}
             </div>
           </div>
-          <SmFooter />
         </>
       </div>
       {/* -- */}
@@ -1278,7 +1274,7 @@ const JobsDescription = ({
           <form
             onClick={handleClose}
             onSubmit={handleJobsSearch}
-            className="custom-shadow container border w-full md:w-[60%] lg:w-[50%] relative py-1 px-2 sm:px-4 rounded-lg flex items-center justify-between mx-auto"
+            className="custom-shadow container border w-full md:w-[60%] lg:w-[50%] relative py-1 rounded-lg flex items-center justify-between mx-auto"
           >
             <div className="flex items-center gap-1 relative">
               <span>
@@ -1300,7 +1296,7 @@ const JobsDescription = ({
               <input
                 type="search"
                 onChange={(e) => handleSearchJobs(e)}
-                className={`focus:outline-none sm:w-80 bg-transparent text-gray-700 text-sm p-2 sm:p-3 ${
+                className={`focus:outline-none sm:w-80 bg-transparent text-gray-700 text-sm p-3 py-4 ${
                   searchResult
                     ? "placeholder:text-gray-500"
                     : "placeholder:text-gray-500"
@@ -1322,7 +1318,7 @@ const JobsDescription = ({
           </form>
           {/* search box */}
           {searchBox && (
-            <div className="container mx-auto px-4">
+            <div className="container">
               <ul
                 onClick={() => setSearchBox(false)}
                 className="shadow transition duration-300 absolute mt-2 z-50 border w-full md:w-[60%] h-72 overflow-y-scroll overflow-hidden py-4 px-8 rounded-lg bg-white left-1/2 translate-x-[-50%]"
@@ -1722,7 +1718,7 @@ const JobsDescription = ({
         {/* jobs card */}
         <div
           onClick={handleClose}
-          className="lg:flex flex-row-reverse gap-6 container px-4  justify-between w-full lg:w-4/5 mx-auto pt-4"
+          className="lg:flex flex-row-reverse gap-6 container justify-between w-full lg:w-4/5 mx-auto pt-4"
         >
           {/* jobs card details */}
           <div className="lg:w-3/5 lg:mt-10 bg-white shadow rounded-md pt-5">

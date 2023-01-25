@@ -6,8 +6,8 @@ import user from "../public/natural.png";
 const Features = () => {
   return (
     <section className="py-10">
-      <div className="container mx-auto px-4">
-        <h2 className="text-4xl text-center font-medium">
+      <div className="container">
+        <h2 className="text-[34px] text-gray-700 text-center font-medium">
           Features made for job seekers
         </h2>
         <div className="mt-12 lg:flex items-center justify-between">

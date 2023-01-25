@@ -92,7 +92,7 @@ const JobsDetails = ({ job, setApplyJob }) => {
               </div>
               {/* tooltip */}
               {open && (
-                <div className="mx-auto absolute md:-bottom-5 shadow border right-0 container w-48 px-3 py-3 bg-white rounded ">
+                <div className="mx-auto absolute md:-bottom-5 shadow border right-0 w-48 px-3 py-3 bg-white rounded ">
                   <div className="flex gap-2">
                     <p className="text-sm mx-auto font-semibold leading-none text-gray-800">
                       Share this job
@@ -115,7 +115,7 @@ const JobsDetails = ({ job, setApplyJob }) => {
                 </div>
               )}
 
-              <div className="text-xs font-medium grid grid-cols-2 sm:grid-cols-3 md:gap-2 gap-4 lg:grid-cols-4 mt-4 text-gray-600 ">
+              <div className="text-sm font-medium flex gap-4 flex-wrap mt-4 text-gray-600 ">
                 <p className="flex gap-1 items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -211,10 +211,10 @@ const JobsDetails = ({ job, setApplyJob }) => {
         {/* jobs role */}
         <div className="mt-3 bg-indigo-50 rounded p-4">
           <span className="font-semibold text-sm">Job Role Insights</span>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 text-sm text-gray-700 my-2">
+          <div className="flex gap-4 items-center flex-wrap text-sm text-gray-700 my-2">
             <li className="mr-4">Flexible Timing</li>
             <li>{is_night_shift ? "Night Shift" : "Day Shift"}</li>
-            <div className="flex items-center gap-2">
+            <div className="flex ml-2 items-center gap-2">
               <span className="text-gray-500">
                 <FaRupeeSign />
               </span>
@@ -227,10 +227,10 @@ const JobsDetails = ({ job, setApplyJob }) => {
             <span className="text-gray-500 text-sm font-medium">
               Key skills for the job
             </span>
-            <div className="grid grid-cols-3 mt-2 sm:grid-cols-4 md:grid-cols-6 gap-2">
+            <div className="flex gap-x-4 gap-y-2 mt-2 flex-wrap">
               {preferred_skills?.map((skill, i) => (
                 <button
-                  className="text-gray-700 py-1 rounded-full border bg-white text-sm"
+                  className="text-gray-700 py-1 px-3 rounded-full border bg-white text-sm"
                   key={i}
                 >
                   {skill}

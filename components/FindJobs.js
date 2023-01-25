@@ -5,8 +5,8 @@ import data from "../datalayer/findjobs";
 const FindJobs = () => {
   return (
     <section className="py-10">
-      <div className="container mx-auto px-4">
-        <h2 className="text-4xl text-center font-medium">
+      <div className="container">
+        <h2 className="text-[34px] text-gray-700 text-center font-medium">
           How to find perfect job ?
         </h2>
         <div className="flex flex-wrap justify-evenly mt-12 gap-4 py-6">

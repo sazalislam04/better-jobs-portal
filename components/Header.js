@@ -7,12 +7,14 @@ const Header = () => {
   return (
     <>
       <header className="py-4 custom-shadow flex justify-between">
-        <nav className="hidden md:flex items-center justify-between container mx-auto px-4">
+        <nav className="hidden md:flex items-center justify-between container">
           <div className="md:flex items-center gap-10 w-full">
-            <h2 className="text-2xl font-medium">
-              Better<span className="text-[#037b8e]">jobs</span>{" "}
-            </h2>
-            <ul className="flex my-4 md:my-0 gap-5">
+            <Link href="/">
+              <h2 className="text-xl font-medium">
+                Better<span className="text-[#037b8e]">Jobs</span>{" "}
+              </h2>
+            </Link>
+            <ul className="">
               <li className="text-lg">
                 <Link href="/">Jobs</Link>
               </li>

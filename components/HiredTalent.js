@@ -5,10 +5,10 @@ import job from "../public/post-job.png";
 const HiredTalent = () => {
   return (
     <section className="py-10">
-      <div className="container mx-auto px-4">
+      <div className="container">
         <div className="lg:flex justify-between gap-4">
-          <div className="lg:w-1/2">
-            <h2 className="text-5xl mb-8 font-medium">
+          <div className="lg:w-2/5">
+            <h2 className="text-[34px] text-gray-700 mb-8 font-medium">
               Looking to hire talents instead ?
             </h2>
             <li className="my-2">Post unlimited jobs for free</li>

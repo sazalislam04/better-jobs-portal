@@ -6,8 +6,8 @@ import play from "../public/play.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 py-10 hidden lg:block">
-      <div className="container p-6 mx-auto">
+    <footer className="bg-gray-100 py-10">
+      <div className="container p-6">
         <div className="lg:flex">
           <div className="w-full -mx-6 lg:w-2/5">
             <div className="px-6">
@@ -28,13 +28,13 @@ const Footer = () => {
                   download mobile app
                 </Link>
                 <Link
-                  href="/career"
+                  href="/"
                   className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   careers with us
                 </Link>
                 <Link
-                  href="contact"
+                  href="/"
                   className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   contact us
@@ -44,19 +44,19 @@ const Footer = () => {
               <div>
                 <h3 className="text-gray-800 font-medium text-lg">Legal</h3>
                 <Link
-                  href="privacy"
+                  href="/privacy"
                   className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   privacy policy
                 </Link>
                 <Link
-                  href="/userterms"
+                  href="/user-terms"
                   className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   user terms & conditions
                 </Link>
                 <Link
-                  href="employerterms"
+                  href="/terms-of-service"
                   className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   employer terms of service
@@ -72,7 +72,7 @@ const Footer = () => {
                   blog
                 </Link>
                 <Link
-                  href="sitemap"
+                  href="/sitemap"
                   className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   sitemap
@@ -90,10 +90,9 @@ const Footer = () => {
             </div>
           </div>
         </div>
-
         <hr className="h-px my-6 bg-gray-200 border-none" />
 
-        <div className="flex justify-between">
+        <div className="sm:flex justify-between">
           <div className="sm:flex gap-4 items-center">
             <Link
               href="https://play.google.com/store/apps/details?id=com.betterjobs.app"

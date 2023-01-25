@@ -42,9 +42,9 @@ const JobsPage = () => {
       onClick={handleCloseSearchField}
       className="py-10 flex justify-center items-center"
     >
-      <div className="container mx-auto px-4">
+      <div className="container">
         <div className="text-center">
-          <h2 className="text-4xl text-gray-800 capitalize font-medium">
+          <h2 className="text-[34px] text-gray-700 capitalize font-medium">
             Find your dream job now
           </h2>
           <p className="text-gray-400 text-lg mt-1">

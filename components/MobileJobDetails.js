@@ -44,10 +44,10 @@ const MobileJobDetails = ({ job, setApplyJob }) => {
 
   return (
     <>
-      <section className="py-4 px-6 md:px-20">
+      <section className="py-4 px-4">
         <div className="">
           <div className="mx-auto w-full gap-2">
-            <div className="w-20 h-20 mx-auto ">
+            <div className="w-28 h-14 sm:h-20 mb-6 rounded-lg flex items-center justify-center mx-auto shadow">
               <Image
                 className="w-10 md:w-16 h-10 md:h-16 mx-auto object-cover"
                 src={`https://logo.clearbit.com/${company_name}.com`}
@@ -64,7 +64,7 @@ const MobileJobDetails = ({ job, setApplyJob }) => {
                 </div>
               </div>
 
-              <div className="text-xs font-medium flex flex-wrap justify-center gap-3 mt-4 text-gray-600 ">
+              <div className="text-xs sm:text-md font-medium flex flex-wrap justify-center gap-3 mt-4 text-gray-600 ">
                 <p className="flex gap-1 items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -142,7 +142,7 @@ const MobileJobDetails = ({ job, setApplyJob }) => {
             </div>
           </div>
 
-          <div className="flex justify-end items-center  gap-5 mt-6">
+          <div className="flex justify-end items-center gap-5 mt-6">
             <p className="text-sm text-gray-400">posted {dateDays}d ago</p>
             <label
               onClick={() => {
@@ -160,7 +160,7 @@ const MobileJobDetails = ({ job, setApplyJob }) => {
         {/* jobs role */}
         <div className="mt-3 bg-indigo-50 rounded p-4">
           <span className="font-semibold text-sm">Job Role Insights</span>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-1 text-sm text-gray-700 my-2">
+          <div className="sm:text-md flex gap-x-4 flex-wrap gap-y-1 text-sm text-gray-700 my-2">
             <li className="">Flexible Timing</li>
             <li>{is_night_shift ? "Night Shift" : "Day Shift"}</li>
             <div className="flex items-center gap-2">
@@ -176,10 +176,10 @@ const MobileJobDetails = ({ job, setApplyJob }) => {
             <span className="text-gray-500 text-sm font-medium">
               Key skills for the job
             </span>
-            <div className="grid grid-cols-3 mt-2 sm:grid-cols-4 md:grid-cols-6 gap-2">
+            <div className="flex flex-wrap gap-2 mt-4">
               {preferred_skills?.map((skill, i) => (
                 <button
-                  className="text-gray-700 py-1 rounded-full border bg-white text-sm"
+                  className="text-gray-700 py-1 px-3 rounded-full border bg-white text-sm"
                   key={i}
                 >
                   {skill}

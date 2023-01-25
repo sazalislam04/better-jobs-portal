@@ -6,17 +6,17 @@ import play from "../public/play.png";
 const Banner = () => {
   return (
     <section className="py-10">
-      <div className="container mx-auto px-4 lg:flex justify-between gap-10 items-center">
+      <div className="container lg:flex justify-between gap-10 items-center">
         <div className="lg:w-3/5">
           <div>
-            <h1 className="md:text-left text-center text-4xl md:text-6xl font-medium leading-[1.1]">
+            <h1 className="md:text-left text-center text-4xl md:text-[58px] font-medium text-gray-700 leading-tight">
               BetterJobs - #1 professional job search platform
             </h1>
-            <p className="text-lg text-center md:text-left py-4">
+            <p className="text-lg lg:w-3/4 leading-relaxed mt-2 text-center md:text-left py-4">
               We make it easy to find your dream job. Search and apply for jobs
               from 100+ cities and 1000+ companies.
             </p>
-            <div className="flex justify-center my-4 md:my-0">
+            <div className="flex lg:justify-start justify-center my-4 md:my-0">
               <Link
                 href="https://play.google.com/store/apps/details?id=com.betterjobs.app"
                 target="_blank"
