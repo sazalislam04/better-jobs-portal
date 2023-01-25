@@ -3,39 +3,10 @@ import SearchField from "../components/SearchField";
 import roles from "../datalayer/roles";
 
 const JobsPage = () => {
-  // const [visible, setVisible] = useState(false);
-  // const [inputExp, setInputExp] = useState("");
-  // const [locationState, setLocationState] = useState("");
-  // const [closeLocationState, setCloseLocationState] = useState(false);
-  // const [locationResult, setLocationResult] = useState();
-
   const [search, setSearch] = useState("");
   const [roleValue, setRoleValue] = useState();
   const [close, setClose] = useState(false);
-
-  // const handleGetExp = (exp) => {
-  //   if (exp) {
-  //     setInputExp(exp);
-  //   }
-  // };
-
-  // const handleGetLocation = (location) => {
-  //   setLocationResult(location);
-  // };
-
-  // const handleSearchLocation = (e) => {
-  //   setCloseLocationState(locations);
-  //   setLocationResult(e.target.value);
-  //   if (e.target.value) {
-  //     const filterByLocation = locations.filter((role) =>
-  //       role.toLowerCase().includes(e.target.value.toLowerCase())
-  //     );
-  //     setLocationState(filterByLocation);
-  //   } else {
-  //     const remaining = locations.filter((role) => role !== e.target.value);
-  //     setLocationState(remaining);
-  //   }
-  // };
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleGetRole = (role) => {
     setRoleValue(role);
@@ -61,7 +32,10 @@ const JobsPage = () => {
       setSearch(remaining);
     }
   };
-  // search by location
+  // loading
+  const hanldeSubmit = () => {
+    setIsLoading(true);
+  };
 
   return (
     <section
@@ -86,6 +60,8 @@ const JobsPage = () => {
           setClose={setClose}
           close={close}
           handleCloseSearchField={handleCloseSearchField}
+          isLoading={isLoading}
+          hanldeSubmit={hanldeSubmit}
         />
         {/* jobs category */}
         {/* <div className="w-[85%] mx-auto mt-16">

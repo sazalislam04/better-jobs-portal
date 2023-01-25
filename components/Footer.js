@@ -6,7 +6,7 @@ import play from "../public/play.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 py-10">
+    <footer className="bg-gray-100 py-10 hidden sm:flex">
       <div className="container p-6 mx-auto">
         <div className="lg:flex">
           <div className="w-full -mx-6 lg:w-2/5">
@@ -28,13 +28,13 @@ const Footer = () => {
                   download mobile app
                 </Link>
                 <Link
-                  href=""
+                  href="/career"
                   className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   careers with us
                 </Link>
                 <Link
-                  href=""
+                  href="contact"
                   className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   contact us
@@ -44,19 +44,19 @@ const Footer = () => {
               <div>
                 <h3 className="text-gray-800 font-medium text-lg">Legal</h3>
                 <Link
-                  href=""
+                  href="privacy"
                   className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   privacy policy
                 </Link>
                 <Link
-                  href=""
+                  href="/userterms"
                   className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   user terms & conditions
                 </Link>
                 <Link
-                  href=""
+                  href="employerterms"
                   className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   employer terms of service
@@ -72,7 +72,7 @@ const Footer = () => {
                   blog
                 </Link>
                 <Link
-                  href=""
+                  href="sitemap"
                   className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
                 >
                   sitemap
@@ -80,10 +80,10 @@ const Footer = () => {
               </div>
 
               <div className="flex mt-2 gap-4">
-                <Link href="">
+                <Link href="https://twitter.com/">
                   <FaTwitter className="text-cyan-500 hover:text-cyan-600 transition duration-300 text-xl" />
                 </Link>
-                <Link href="">
+                <Link href="https://www.linkedin.com/">
                   <FaLinkedinIn className="text-sky-500 hover:text-sky-600 transition duration-300 text-xl" />
                 </Link>
               </div>

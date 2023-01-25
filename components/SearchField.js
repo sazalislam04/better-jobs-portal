@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import Spinner from "./Loading/Spinner";
 
 const SearchField = ({
   handleSearchRoles,
@@ -9,6 +10,8 @@ const SearchField = ({
   close,
   setClose,
   handleCloseSearchField,
+  isLoading,
+  hanldeSubmit,
 }) => {
   return (
     <div
@@ -150,9 +153,10 @@ const SearchField = ({
           href={`/jobs/search/${roleValue ? roleValue : "Android developer"}`}
         >
           <button
+            onClick={hanldeSubmit}
             className={`w-20 md:w-32 h-[46px] absolute top-[7px] right-[10px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]`}
           >
-            Search
+            {isLoading ? <Spinner /> : "Search"}
           </button>
         </Link>
       </div>

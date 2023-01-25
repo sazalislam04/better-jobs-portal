@@ -68,7 +68,7 @@ const JobsCard = ({ job, jobrole, roleJob }) => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 mt-2 text-xs font-medium text-gray-600 gap-3 ">
+            <div className="flex items-center flex-wrap sm:grid sm:grid-cols-3 mt-2 text-xs font-medium text-gray-600 gap-3">
               <p className="flex gap-1 items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import Nav from "../components/Nav";
 import play from "../public/play.png";
+import Nav from "./Nav";
 
 const Header = () => {
   return (
@@ -33,7 +33,7 @@ const Header = () => {
             </Link>
           </div>
         </nav>
-        <div className="md:hidden mx-2 sm:mx-4 md:mx-0 flex justify-end w-full">
+        <div className="md:hidden sm:mx-4 md:mx-0 flex justify-end w-full">
           <Nav />
         </div>
       </header>

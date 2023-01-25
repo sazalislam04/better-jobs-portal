@@ -1,5 +1,12 @@
+import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import {
+  FaFacebookSquare,
+  FaLinkedin,
+  FaTwitterSquare,
+  FaWhatsappSquare,
+} from "react-icons/fa";
 import { useQuery } from "react-query";
 import experiences from "../datalayer/experienceLevel";
 import locations from "../datalayer/locations";
@@ -9,6 +16,10 @@ import ApplyModal from "./ApplyModal";
 import JobsCard from "./JobsCard";
 import JobsDetails from "./JobsDetails";
 import Loading from "./Loading/Loading";
+import MobileJobDetails from "./MobileJobDetails";
+
+import externallink from "../public/external-link.png";
+import SmFooter from "./SmFooter";
 
 // job type
 const jobsType = ["Both", "On-site", "Remote"];
@@ -50,7 +61,9 @@ const JobsDescription = ({
   const [counter, setCounter] = useState(0);
   const [openClearBtn, setOpenClearBtn] = useState(false);
 
-  const [cardPage, setCardPage] = useState(false);
+  const [responsive, setResponsive] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const router = useRouter();
 
@@ -591,15 +604,681 @@ const JobsDescription = ({
       setIsLoading(false);
     }, 1000);
   }, []);
+  const handleTooltip = () => {
+    setOpen(!open);
+  };
+
+  useEffect(() => {
+    let scrollTop = window.scrollY;
+    window.addEventListener("scroll", () => {
+      if (scrollTop < window.scrollY) {
+        setVisible(true);
+      } else {
+        setVisible(false);
+      }
+    });
+  }, []);
 
   return (
     <>
-      <div className="">
+      <div className={`sm:hidden w-full`}>
+        {/* details */}
+        <div
+          className={`lg:w-3/5 lg:mt-8 absolute top-0 z-50 bg-white shadow rounded-md pt-5 ${
+            responsive ? "block" : "hidden"
+          }`}
+        >
+          <div className="flex justify-between items-center px-3">
+            <button
+              onClick={() => setResponsive(false)}
+              className="flex items-center px-1 font-medium"
+            >
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-5 h-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
+                  />
+                </svg>
+              </span>{" "}
+              Job details
+            </button>
+            <div>
+              <button onClick={handleTooltip} className="cursor-pointer">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-5 h-5 text-gray-600"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
+                  />
+                </svg>
+              </button>
+              {/* tooltip */}
+              {open && (
+                <div className="mx-auto z-10 absolute md:-bottom-5 shadow border right-0 container w-48 px-3 py-3 bg-white rounded ">
+                  <div className="flex gap-2">
+                    <p className="text-sm mx-auto font-semibold leading-none text-gray-800">
+                      Share this job
+                    </p>
+                  </div>
+                  <div className=" text-xs mx-auto flex justify-evenly leading-none text-gray-600 pt-3 pb-2">
+                    <button className="text-2xl text-blue-500">
+                      <FaFacebookSquare />
+                    </button>
+                    <button className="text-2xl text-indigo-500">
+                      <FaLinkedin />
+                    </button>
+                    <button className="text-2xl text-green-500">
+                      <FaWhatsappSquare />
+                    </button>
+                    <button className="text-2xl text-cyan-500">
+                      <FaTwitterSquare />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          <>
+            {job && <MobileJobDetails job={job} setApplyJob={setApplyJob} />}
+
+            {jobs?.length > 0 && (
+              <MobileJobDetails job={jobs[0]} setApplyJob={setApplyJob} />
+            )}
+          </>
+          <SmFooter />
+          {visible && (
+            <div className={`h-screen absolute top-[550px]`}>
+              <div className="block fixed w-full bottom-0 z-50 shadow bg-white">
+                <label
+                  onClick={() => {
+                    setApplyJob(job);
+                  }}
+                  htmlFor="apply-job"
+                  className="flex justify-center cursor-pointer items-center transition duration-300 gap-2 px-4 py-2 bg-[#037b8e]  text-white"
+                >
+                  <span>Apply Now</span>
+                  <Image src={externallink} width={18} height={18} alt="icon" />
+                </label>
+              </div>
+            </div>
+          )}
+        </div>
+        {/* card & form*/}
+        <>
+          <div className="top-0 -mb-8">
+            <div
+              className={`sticky px-4 top-0 py-6 z-10 bg-gray-50 ${
+                responsive ? "hidden" : "block"
+              }`}
+            >
+              <form
+                onClick={handleClose}
+                onSubmit={handleJobsSearch}
+                className="custom-shadow container border w-full md:w-[60%] lg:w-[50%] relative py-1 px-2 sm:px-4 rounded-lg flex items-center justify-between mx-auto"
+              >
+                <div className="flex items-center gap-1 relative">
+                  <span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-5 h-5 text-gray-600"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                      />
+                    </svg>
+                  </span>
+                  <input
+                    type="search"
+                    onChange={(e) => handleSearchJobs(e)}
+                    className={`focus:outline-none sm:w-80 bg-transparent text-gray-700 text-sm p-2 sm:p-3 ${
+                      searchResult
+                        ? "placeholder:text-gray-500"
+                        : "placeholder:text-gray-500"
+                    }`}
+                    placeholder={
+                      jobrole
+                        ? jobrole
+                        : roleJob
+                        ? roleJob
+                        : "Enter skills / designations / companies"
+                    }
+                    value={searchResult || ""}
+                  />
+                </div>
+
+                <button className="px-4 md:px-6 absolute right-2 sm:right-4 py-[6px] focus:ring-2 transition duration-300 rounded-lg text-white sm:text-lg text-sm bg-[#037b8e]">
+                  Search
+                </button>
+              </form>
+              {/* search box */}
+              {searchBox && (
+                <div className="container mx-auto px-4">
+                  <ul
+                    onClick={() => setSearchBox(false)}
+                    className="shadow transition duration-300 absolute mt-2 z-50 border w-full md:w-[60%] h-72 overflow-y-scroll overflow-hidden py-4 px-8 rounded-lg bg-white left-1/2 translate-x-[-50%]"
+                  >
+                    <small className="text-xs px-4 text-gray-500">
+                      jobs by designations
+                    </small>
+                    {searchJobs?.map((role, i) => (
+                      <li
+                        onClick={() => setSearchResult(role)}
+                        className="py-2 hover:bg-gray-50 rounded-lg px-4 transition duration-300 flex cursor-pointer items-center gap-4 text-gray-700"
+                        key={i}
+                      >
+                        <span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-5 h-5 text-gray-400"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z"
+                            />
+                          </svg>
+                        </span>{" "}
+                        <span className=""> {role}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* filter button */}
+              <div className="flex relative sm:justify-center items-center mt-2 gap-x-4">
+                <div className="flex items-center gap-x-4 w-full mx-auto overflow-x-scroll scroll-smooth z-auto">
+                  <div className="flex text-sm text-gray-500 items-center gap-1">
+                    <button className="border w-32 justify-between text-gray-600 hover:border-[#037b8e] hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ">
+                      Filter jobs{" "}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-4 h-4"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/*location  */}
+                  <div className="">
+                    <button
+                      onClick={handleLocation}
+                      className={`border text-gray-600 hover:border-[#037b8e] hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
+                        locationState !== "Location" &&
+                        "bg-yellow-50 hover:border-yellow-100"
+                      }`}
+                    >
+                      <span>{locationState}</span>
+                      <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-4 h-4 text-gray-600"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                          />
+                        </svg>
+                      </span>
+                    </button>
+                    {onLocation && (
+                      <div
+                        className={`pt-4 absolute right-0 md:left-0 bg-gray-50 rounded overflow-hidden overflow-y-auto border h-72 w-64`}
+                      >
+                        <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
+                          <span>Select Location</span>
+                          {locationState !== "Location" && (
+                            <span
+                              onClick={clearLocationBtn}
+                              className="text-[#037b8e] cursor-pointer"
+                            >
+                              Clear
+                            </span>
+                          )}
+                        </li>
+
+                        <div className="my-2 w-48 mx-auto relative">
+                          <span className="absolute py-2 px-2 ">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="w-4 h-4 text-gray-500"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                              />
+                            </svg>
+                          </span>
+                          <input
+                            type="search"
+                            onChange={(e) => handleSearchLocation(e)}
+                            className="px-8 w-48 focus:outline-none border-gray-400 border focus:ring-2 focus:ring-gray-400 transition duration-300 rounded py-1"
+                            defaultValue={
+                              locationState !== "Location" ? locationState : ""
+                            }
+                          />
+                        </div>
+
+                        <ul onClick={() => setOnLocation(!onLocation)}>
+                          {locationData?.map((locationData, i) => (
+                            <li
+                              key={i}
+                              onClick={() => setLocationState(locationData)}
+                              className="text-gray-700 px-6 py-2 cursor-pointer hover:bg-gray-100 w-full text-sm"
+                            >
+                              {locationData}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                  {/* experience */}
+                  <div className="">
+                    <button
+                      onClick={handleExperience}
+                      className={`border text-gray-600 hover:border-[#037b8e] hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
+                        experienceState !== "Experience" &&
+                        "bg-yellow-50 hover:border-yellow-100"
+                      }`}
+                    >
+                      <span>{experienceState}</span>
+
+                      <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-4 h-4 text-gray-600"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                          />
+                        </svg>
+                      </span>
+                    </button>
+                    {onExperience && (
+                      <div
+                        className={`absolute right-0 md:left-0 pt-4 z-10 bg-gray-50 rounded overflow-hidden overflow-y-auto border h-52 w-60`}
+                      >
+                        <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
+                          <span>Select Experience</span>
+                          {experienceState !== "Experience" && (
+                            <span
+                              onClick={clearExperienceBtn}
+                              className="text-[#037b8e] cursor-pointer"
+                            >
+                              Clear
+                            </span>
+                          )}
+                        </li>
+                        <div className="my-2 w-48 mx-auto relative">
+                          <span className="absolute py-2 px-2 ">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="w-4 h-4 text-gray-500"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                              />
+                            </svg>
+                          </span>
+                          <input
+                            type="search"
+                            onChange={(e) => handleSearchExperience(e)}
+                            className="px-8 w-48 focus:outline-none border-gray-400 border focus:ring-2 focus:ring-gray-400 transition duration-300 rounded py-1"
+                          />
+                        </div>
+                        <ul onClick={() => setOnExperience(!onExperience)}>
+                          {experienceData?.map((experience, i) => (
+                            <li
+                              key={i}
+                              onClick={() => setExperienceState(experience)}
+                              className="text-gray-700 px-6 py-2 cursor-pointer hover:bg-gray-100 w-full text-sm"
+                            >
+                              {experience}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                  {/* employment */}
+                  <div className="">
+                    <button
+                      onClick={handleEmployment}
+                      className={`border w-44 justify-between text-gray-600 hover:border-[#037b8e]  hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
+                        employementState !== "Employment Type" &&
+                        "bg-yellow-50 hover:border-yellow-100"
+                      }`}
+                    >
+                      <span>{employementState}</span>
+                      <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-4 h-4 text-gray-600"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                          />
+                        </svg>
+                      </span>
+                    </button>
+
+                    {onEmployement && (
+                      <div
+                        className={`absolute right-0 md:left-0 pt-4 z-1 bg-gray-50 rounded overflow-hidden overflow-y-auto  border h-52 w-52 text-sm`}
+                      >
+                        <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
+                          <span>Select Employment</span>
+                          {employementState !== "Employment Type" && (
+                            <span
+                              onClick={clearEmploymentState}
+                              className="text-[#037b8e] cursor-pointer"
+                            >
+                              Clear
+                            </span>
+                          )}
+                        </li>
+                        <div className="my-2 w-44 mx-auto relative">
+                          <span className="absolute py-2 px-2 ">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="w-4 h-4 text-gray-500"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                              />
+                            </svg>
+                          </span>
+                          <input
+                            type="search"
+                            onChange={(e) => handleSearchEmployment(e)}
+                            className="px-8 w-44 focus:outline-none border-gray-400 border focus:ring-2 focus:ring-gray-400 transition duration-300 rounded py-1"
+                          />
+                        </div>
+                        <ul onClick={() => setOnEmployement(!onEmployement)}>
+                          {employmentData?.map((work, i) => (
+                            <li
+                              key={i}
+                              onClick={() => setEmployementState(work)}
+                              className="text-gray-700 px-6 py-2 cursor-pointer hover:bg-gray-100 w-full text-sm"
+                            >
+                              {work}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                  {/* job type */}
+                  <div className="">
+                    <button
+                      onClick={handleJobType}
+                      className={`border w-28 justify-between text-gray-600 hover:border-[#037b8e] hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
+                        remoteResult !== "Job Type" &&
+                        "bg-yellow-50 hover:border-yellow-100"
+                      }`}
+                    >
+                      <span>{remoteResult}</span>
+                      <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-4 h-4 text-gray-600"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                          />
+                        </svg>
+                      </span>
+                    </button>
+                    {remote && (
+                      <div
+                        className={`absolute right-0 md:left-0 pt-4 z-10 bg-gray-50 rounded overflow-hidden overflow-y-auto border h-52 w-52 text-sm`}
+                      >
+                        <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
+                          <span>Select Job Type</span>
+
+                          {remoteResult !== "Job Type" && (
+                            <span
+                              onClick={handleCloseRemote}
+                              className="text-[#037b8e] cursor-pointer"
+                            >
+                              Clear
+                            </span>
+                          )}
+                        </li>
+                        <div className="my-2 w-40 mx-auto relative">
+                          <span className="absolute py-2 px-2 ">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="w-4 h-4 text-gray-500"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                              />
+                            </svg>
+                          </span>
+                          <input
+                            type="search"
+                            onChange={(e) => handleSearchType(e)}
+                            className="px-8 w-40 focus:outline-none border-gray-400 border focus:ring-2 focus:ring-gray-400 transition duration-300 rounded py-1"
+                          />
+                        </div>
+                        <ul onClick={() => setRemote(!remote)}>
+                          {remoteData?.map((type, i) => (
+                            <li
+                              onClick={() => handleRemote(type)}
+                              key={i}
+                              className="text-gray-700 px-6 py-2 cursor-pointer hover:bg-gray-100 w-full text-sm"
+                            >
+                              {type}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                  {/* clear btn */}
+                  <div>
+                    {openClearBtn && counter !== 0 && (
+                      <button
+                        onClick={handleClearAllFilter}
+                        className={`text-[#037b8e] hover:shadow-md transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow  flex items-center gap-1 font-medium `}
+                      >
+                        Clear ({counter})
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* single card */}
+            <div
+              className={`lg:w-2/5 w-full px-3 ${
+                responsive ? "hidden" : "block"
+              }`}
+            >
+              <div className="mt-2 lg:mt-0">
+                {combineFilterJobs?.length > 0 ? (
+                  <p className="text-gray-500">
+                    {combineFilterJobs?.length} jobs found for {domain}.
+                  </p>
+                ) : (
+                  <>
+                    {matchingJobs?.length > 0 && (
+                      <p className="text-gray-500">
+                        {matchingJobs?.length} jobs found for {domain}.
+                      </p>
+                    )}
+                  </>
+                )}
+              </div>
+              {isLoading ? (
+                <div className="mt-10 text-center">
+                  <Loading />
+                </div>
+              ) : (
+                <div
+                  onClick={() => setResponsive(true)}
+                  className="h-[80vh] mt-[19px] sticky top-44 overflow-hidden overflow-y-scroll"
+                >
+                  {combineFilterJobs?.length > 0 ? (
+                    <>
+                      {combineFilterJobs?.map((job) => (
+                        <JobsCard
+                          key={job._id}
+                          job={job}
+                          jobrole={jobrole}
+                          roleJob={roleJob}
+                        />
+                      ))}
+                    </>
+                  ) : jobs?.length > 0 ? (
+                    <>
+                      {jobs?.map((job) => (
+                        <JobsCard
+                          key={job._id}
+                          job={job}
+                          jobrole={jobrole}
+                          roleJob={roleJob}
+                        />
+                      ))}
+
+                      {filterByData?.length > 0 && (
+                        <>
+                          {filterByData?.map((job) => (
+                            <JobsCard
+                              key={job._id}
+                              job={job}
+                              roleJob={roleJob}
+                              jobrole={jobrole}
+                            />
+                          ))}
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {dynamicOthersJobs?.length > 0 && (
+                        <>
+                          {dynamicOthersJobs?.map((job) => (
+                            <JobsCard
+                              key={job._id}
+                              job={job}
+                              jobrole={jobrole}
+                              roleJob={roleJob}
+                            />
+                          ))}
+                        </>
+                      )}
+                      {dynamicRemainingJobs?.length > 0 && (
+                        <>
+                          {dynamicRemainingJobs?.map((job) => (
+                            <JobsCard
+                              key={job._id}
+                              job={job}
+                              roleJob={roleJob}
+                              jobrole={jobrole}
+                            />
+                          ))}
+                        </>
+                      )}
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      </div>
+      {/* -- */}
+
+      <div className="hidden lg:flex">
         <div className="sticky px-4 top-0 py-6 z-10 bg-gray-50">
           <form
             onClick={handleClose}
             onSubmit={handleJobsSearch}
-            className="custom-shadow container border w-full md:w-[60%] lg:w-[50%] relative py-1 px-4 rounded-lg flex items-center justify-between mx-auto"
+            className="custom-shadow container border w-full md:w-[60%] lg:w-[50%] relative py-1 px-2 sm:px-4 rounded-lg flex items-center justify-between mx-auto"
           >
             <div className="flex items-center gap-1 relative">
               <span>
@@ -621,7 +1300,7 @@ const JobsDescription = ({
               <input
                 type="search"
                 onChange={(e) => handleSearchJobs(e)}
-                className={`focus:outline-none sm:w-80 bg-transparent text-gray-700 text-sm p-3 ${
+                className={`focus:outline-none sm:w-80 bg-transparent text-gray-700 text-sm p-2 sm:p-3 ${
                   searchResult
                     ? "placeholder:text-gray-500"
                     : "placeholder:text-gray-500"
@@ -637,7 +1316,7 @@ const JobsDescription = ({
               />
             </div>
 
-            <button className="px-6 absolute right-4 py-[6px] focus:ring-2 transition duration-300 rounded-lg text-white text-lg bg-[#037b8e]">
+            <button className="px-4 md:px-6 absolute right-2 sm:right-4 py-[6px] focus:ring-2 transition duration-300 rounded-lg text-white sm:text-lg text-sm bg-[#037b8e]">
               Search
             </button>
           </form>
@@ -681,28 +1360,30 @@ const JobsDescription = ({
           )}
 
           {/* filter button */}
+          <div className="flex relative sm:justify-center items-center mt-2 gap-x-4">
+            <div className="flex items-center gap-x-4 w-full mx-auto overflow-x-scroll scroll-smooth z-auto">
+              <div className="flex text-sm text-gray-500 items-center gap-1">
+                <button className="border w-32 justify-between text-gray-600 hover:border-[#037b8e] hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ">
+                  Filter jobs{" "}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-4 h-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z"
+                    />
+                  </svg>
+                </button>
+              </div>
 
-          <div className="container mx-auto mt-4 gap-x-4 flex-wrap flex justify-center lg:gap-x-6 items-center">
-            <span className="flex text-sm text-gray-500 items-center gap-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-4 h-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z"
-                />
-              </svg>
-              Filter jobs by
-            </span>
-            <div className="flex justify-center flex-wrap items-center mt-2 gap-x-4">
               {/*location  */}
-              <div className="relative">
+              <div className="">
                 <button
                   onClick={handleLocation}
                   className={`border text-gray-600 hover:border-[#037b8e] hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
@@ -730,7 +1411,7 @@ const JobsDescription = ({
                 </button>
                 {onLocation && (
                   <div
-                    className={`absolute pt-4 z-10 bg-gray-50 rounded overflow-hidden overflow-y-auto border h-72 w-64`}
+                    className={`pt-4 absolute right-0 md:left-0 bg-gray-50 rounded overflow-hidden overflow-y-auto border h-72 w-64`}
                   >
                     <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
                       <span>Select Location</span>
@@ -786,7 +1467,7 @@ const JobsDescription = ({
                 )}
               </div>
               {/* experience */}
-              <div className="relative">
+              <div className="">
                 <button
                   onClick={handleExperience}
                   className={`border text-gray-600 hover:border-[#037b8e] hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
@@ -866,10 +1547,10 @@ const JobsDescription = ({
                 )}
               </div>
               {/* employment */}
-              <div className="relative">
+              <div className="">
                 <button
                   onClick={handleEmployment}
-                  className={`border text-gray-600 hover:border-[#037b8e]  hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
+                  className={`border w-44 justify-between text-gray-600 hover:border-[#037b8e]  hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
                     employementState !== "Employment Type" &&
                     "bg-yellow-50 hover:border-yellow-100"
                   }`}
@@ -895,7 +1576,7 @@ const JobsDescription = ({
 
                 {onEmployement && (
                   <div
-                    className={`absolute sm:right-0 md:left-0 pt-4 z-10 md:right-0 lg:left-0 bg-gray-50 rounded overflow-hidden overflow-y-auto  border h-52 w-52 text-sm`}
+                    className={`absolute right-0 md:left-0 pt-4 z-1 bg-gray-50 rounded overflow-hidden overflow-y-auto  border h-52 w-52 text-sm`}
                   >
                     <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
                       <span>Select Employment</span>
@@ -946,10 +1627,10 @@ const JobsDescription = ({
                 )}
               </div>
               {/* job type */}
-              <div className="relative">
+              <div className="">
                 <button
                   onClick={handleJobType}
-                  className={`border text-gray-600 hover:border-[#037b8e] hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
+                  className={`border w-28 justify-between text-gray-600 hover:border-[#037b8e] hover:shadow-lg transition-all duration-300 my-2 px-4 py-2 text-sm rounded-lg custom-shadow flex items-center gap-1 ${
                     remoteResult !== "Job Type" &&
                     "bg-yellow-50 hover:border-yellow-100"
                   }`}
@@ -974,7 +1655,7 @@ const JobsDescription = ({
                 </button>
                 {remote && (
                   <div
-                    className={`absolute right-0 lg:left-0 pt-4 z-10 bg-gray-50 rounded overflow-hidden overflow-y-auto border h-52 w-52 text-sm`}
+                    className={`absolute right-0 md:left-0 pt-4 z-10 bg-gray-50 rounded overflow-hidden overflow-y-auto border h-52 w-52 text-sm`}
                   >
                     <li className="text-gray-700 mb-1 px-6 font-medium w-full flex items-center justify-between">
                       <span>Select Job Type</span>
@@ -1039,11 +1720,10 @@ const JobsDescription = ({
             </div>
           </div>
         </div>
-
         {/* jobs card */}
         <div
           onClick={handleClose}
-          className="lg:flex flex-row-reverse gap-6 container px-4 justify-between w-full lg:w-4/5 mx-auto pt-4"
+          className="lg:flex flex-row-reverse gap-6 container px-4  justify-between w-full lg:w-4/5 mx-auto pt-4"
         >
           {/* jobs card details */}
           <div className="lg:w-3/5 lg:mt-10 bg-white shadow rounded-md pt-5">
@@ -1057,7 +1737,7 @@ const JobsDescription = ({
           </div>
           {/* single card */}
           <div className="lg:w-2/5 w-full">
-            <div className="mt-6 lg:mt-0">
+            <div className="mt-2 lg:mt-0">
               {combineFilterJobs?.length > 0 ? (
                 <p className="text-gray-500">
                   {combineFilterJobs?.length} jobs found for {domain}.
