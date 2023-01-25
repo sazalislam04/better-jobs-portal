@@ -6,7 +6,7 @@ import play from "../public/play.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 py-10 hidden sm:flex">
+    <footer className="bg-gray-100 py-10 hidden lg:block">
       <div className="container p-6 mx-auto">
         <div className="lg:flex">
           <div className="w-full -mx-6 lg:w-2/5">

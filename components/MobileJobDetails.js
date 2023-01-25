@@ -44,12 +44,12 @@ const MobileJobDetails = ({ job, setApplyJob }) => {
 
   return (
     <>
-      <section className="py-4 px-3">
+      <section className="py-4 px-6 md:px-20">
         <div className="">
-          <div className="flex w-full gap-2">
-            <div className="w-16 h-16 md:w-28 md:h-20 flex items-center justify-center rounded-md">
+          <div className="mx-auto w-full gap-2">
+            <div className="w-20 h-20 mx-auto ">
               <Image
-                className="w-10 md:w-16 h-10 md:h-16 object-cover"
+                className="w-10 md:w-16 h-10 md:h-16 mx-auto object-cover"
                 src={`https://logo.clearbit.com/${company_name}.com`}
                 alt="logo"
                 height={120}
@@ -57,14 +57,14 @@ const MobileJobDetails = ({ job, setApplyJob }) => {
               />
             </div>
             <div className="w-full relative">
-              <div className="flex justify-between">
+              <div className="flex justify-center text-center text-2xl">
                 <div>
-                  <h2 className="text-lg font-semibold">{role}</h2>
+                  <h2 className="text-3xl font-semibold">{role}</h2>
                   <p className="font-medium">{company_name}</p>
                 </div>
               </div>
 
-              <div className="text-xs font-medium flex flex-wrap  gap-3 mt-4 text-gray-600 ">
+              <div className="text-xs font-medium flex flex-wrap justify-center gap-3 mt-4 text-gray-600 ">
                 <p className="flex gap-1 items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +149,7 @@ const MobileJobDetails = ({ job, setApplyJob }) => {
                 setApplyJob(job);
               }}
               htmlFor="apply-job"
-              className="flex cursor-pointer items-center transition duration-300 gap-2 px-4 py-2 bg-[#037b8e] rounded-lg text-white"
+              className="flex cursor-pointer items-center transition duration-300 gap-2 px-2 md:px-4 py-2 bg-[#037b8e] rounded-lg text-white"
             >
               <span>Apply Now</span>
               <Image src={externallink} width={18} height={18} alt="icon" />
@@ -160,7 +160,7 @@ const MobileJobDetails = ({ job, setApplyJob }) => {
         {/* jobs role */}
         <div className="mt-3 bg-indigo-50 rounded p-4">
           <span className="font-semibold text-sm">Job Role Insights</span>
-          <div className="grid grid-cols-2 gap-y-1 text-sm text-gray-700 my-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-1 text-sm text-gray-700 my-2">
             <li className="">Flexible Timing</li>
             <li>{is_night_shift ? "Night Shift" : "Day Shift"}</li>
             <div className="flex items-center gap-2">
