@@ -1269,7 +1269,7 @@ const JobsDescription = ({
                   <MobileJobDetails job={job} setApplyJob={setApplyJob} />
                 )}
               </>
-              {/* <SmFooter /> */}
+
               {visible && (
                 <div className={`h-screen absolute top-[550px]`}>
                   <div className="block fixed w-full bottom-0 z-10 shadow bg-white">
