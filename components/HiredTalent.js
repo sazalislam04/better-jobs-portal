@@ -21,7 +21,7 @@ const HiredTalent = () => {
               </Link>
             </div>
           </div>
-          <div className="bg-orange-500 lg:w-1/2 mt-8 lg:mt-0">
+          <div className="lg:w-1/2 mt-8 lg:mt-0">
             <Image src={job} alt="snap" width={"100%"} height={"100%"} />
           </div>
         </div>

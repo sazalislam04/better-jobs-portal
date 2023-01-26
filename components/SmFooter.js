@@ -11,7 +11,7 @@ const SmFooter = () => {
         <div className="lg:flex">
           <div className="w-full -mx-6 lg:w-2/5">
             <div className="px-6">
-              <p className="max-w-sm mt-2 text-gray-500">
+              <p className="max-w-sm mt-2 text-gray-600">
                 All rights reserved.
               </p>
             </div>
@@ -23,19 +23,19 @@ const SmFooter = () => {
                 <h3 className="text-gray-800 font-medium text-lg">Links</h3>
                 <Link
                   href="https://play.google.com/store/apps/details?id=com.betterjobs.app"
-                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-600 transition duration-300"
                 >
                   download mobile app
                 </Link>
                 <Link
                   href="/"
-                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-600 transition duration-300"
                 >
                   careers with us
                 </Link>
                 <Link
                   href="/"
-                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-600 transition duration-300"
                 >
                   contact us
                 </Link>
@@ -45,19 +45,19 @@ const SmFooter = () => {
                 <h3 className="text-gray-800 font-medium text-lg">Legal</h3>
                 <Link
                   href="/privacy"
-                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-600 transition duration-300"
                 >
                   privacy policy
                 </Link>
                 <Link
                   href="/user-terms"
-                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-600 transition duration-300"
                 >
                   user terms & conditions
                 </Link>
                 <Link
                   href="/terms-of-service"
-                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-600 transition duration-300"
                 >
                   employer terms of service
                 </Link>
@@ -67,13 +67,13 @@ const SmFooter = () => {
                 <h3 className="text-gray-800 font-medium text-lg">Resources</h3>
                 <Link
                   href="/blog"
-                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-600 transition duration-300"
                 >
                   blog
                 </Link>
                 <Link
                   href="/sitemap"
-                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-600 transition duration-300"
                 >
                   sitemap
                 </Link>

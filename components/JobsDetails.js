@@ -73,7 +73,7 @@ const JobsDetails = ({ job, setApplyJob }) => {
                   <h2 className="text-lg font-semibold">{role}</h2>
                   <p className="font-medium">{company_name}</p>
                 </div>
-                <button onClick={handleTooltip} className="cursor-pointer">
+                <button onClick={handleTooltip} className="">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -194,7 +194,9 @@ const JobsDetails = ({ job, setApplyJob }) => {
           </div>
 
           <div className="flex justify-end items-center  gap-5 mt-6">
-            <p className="text-sm text-gray-400">posted {dateDays}d ago</p>
+            <p className="text-sm font-medium text-gray-400">
+              posted {dateDays}d ago
+            </p>
             <label
               onClick={() => {
                 setApplyJob(job);
@@ -211,10 +213,12 @@ const JobsDetails = ({ job, setApplyJob }) => {
         {/* jobs role */}
         <div className="mt-3 bg-indigo-50 rounded p-4">
           <span className="font-semibold text-sm">Job Role Insights</span>
-          <div className="flex gap-4 items-center flex-wrap text-sm text-gray-700 my-2">
-            <li className="mr-4">Flexible Timing</li>
-            <li>{is_night_shift ? "Night Shift" : "Day Shift"}</li>
-            <div className="flex ml-2 items-center gap-2">
+          <div className="flex gap-1 font-medium items-center flex-wrap text-sm text-gray-700 my-2">
+            <ul className="flex gap-4 mx-4 items-center list-disc">
+              <li className="mr-4">Flexible Timing</li>
+              <li>{is_night_shift ? "Night Shift" : "Day Shift"}</li>
+            </ul>
+            <div className="flex items-center gap-2">
               <span className="text-gray-500">
                 <FaRupeeSign />
               </span>
@@ -224,13 +228,13 @@ const JobsDetails = ({ job, setApplyJob }) => {
             </div>
           </div>
           <div>
-            <span className="text-gray-500 text-sm font-medium">
+            <span className="text-gray-600 text-sm font-medium">
               Key skills for the job
             </span>
             <div className="flex gap-x-4 gap-y-2 mt-2 flex-wrap">
               {preferred_skills?.map((skill, i) => (
                 <button
-                  className="text-gray-700 py-1 px-3 rounded-full border bg-white text-sm"
+                  className="text-gray-800 py-1 px-3 rounded-full border bg-white text-sm"
                   key={i}
                 >
                   {skill}

@@ -18,7 +18,7 @@ export default function Home() {
         <meta property="og:url" content="/logo"></meta>
       </Head> */}
       <NextSeo
-        title="Home Page | Better jobs"
+        title="BetterJobs | Your future starts here"
         description="Search Your Dream Jobs"
         keywords={["nextjs", "betterjobs", "jobs", "boilerplate"]}
         icon="/favicon.ico"

@@ -132,8 +132,10 @@ const JobsCard = ({ job, jobrole, roleJob }) => {
             </div>
           </div>
           <div className="flex gap-2 sm:gap-4 items-center mt-4 text-gray-700 ">
-            <p className="text-xs text-gray-400">{dateDays}d ago</p>
-            <p className="text-xs text-gray-400">via. betterjobs.com</p>
+            <p className="text-xs font-medium text-gray-400">{dateDays}d ago</p>
+            <p className="text-xs font-medium text-gray-400">
+              via. betterjobs.com
+            </p>
           </div>
         </div>
       </Link>

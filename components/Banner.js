@@ -21,7 +21,7 @@ const Banner = () => {
                 href="https://play.google.com/store/apps/details?id=com.betterjobs.app"
                 target="_blank"
               >
-                <Image src={play} alt="betterjobs" width={140} height={150} />
+                <Image src={play} alt="betterjobs" width={120} height={120} />
               </Link>
             </div>
           </div>

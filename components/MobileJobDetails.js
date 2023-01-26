@@ -143,7 +143,9 @@ const MobileJobDetails = ({ job, setApplyJob }) => {
           </div>
 
           <div className="flex justify-end items-center gap-5 mt-6">
-            <p className="text-sm text-gray-400">posted {dateDays}d ago</p>
+            <p className="text-sm font-medium text-gray-400">
+              posted {dateDays}d ago
+            </p>
             <label
               onClick={() => {
                 setApplyJob(job);
@@ -160,11 +162,13 @@ const MobileJobDetails = ({ job, setApplyJob }) => {
         {/* jobs role */}
         <div className="mt-3 bg-indigo-50 rounded p-4">
           <span className="font-semibold text-sm">Job Role Insights</span>
-          <div className="sm:text-md flex gap-x-4 flex-wrap gap-y-1 text-sm text-gray-700 my-2">
-            <li className="">Flexible Timing</li>
-            <li>{is_night_shift ? "Night Shift" : "Day Shift"}</li>
+          <div className="sm:text-md flex gap-1 flex-wrap gap-y-1 text-sm text-gray-800 my-2">
+            <ul className="flex gap-8 mx-4 items-center list-disc">
+              <li className="">Flexible Timing</li>
+              <li>{is_night_shift ? "Night Shift" : "Day Shift"}</li>
+            </ul>
             <div className="flex items-center gap-2">
-              <span className="text-gray-500">
+              <span className="text-gray-600">
                 <FaRupeeSign />
               </span>
               <p>
@@ -173,13 +177,13 @@ const MobileJobDetails = ({ job, setApplyJob }) => {
             </div>
           </div>
           <div>
-            <span className="text-gray-500 text-sm font-medium">
+            <p className="text-gray-600 text-sm font-medium">
               Key skills for the job
-            </span>
+            </p>
             <div className="flex flex-wrap gap-2 mt-4">
               {preferred_skills?.map((skill, i) => (
                 <button
-                  className="text-gray-700 py-1 px-3 rounded-full border bg-white text-sm"
+                  className="text-gray-800 py-1 px-3 rounded-full border bg-white text-sm"
                   key={i}
                 >
                   {skill}

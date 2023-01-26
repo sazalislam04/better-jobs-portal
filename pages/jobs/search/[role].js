@@ -46,7 +46,7 @@ const SearchJobs = ({ jobs, role }) => {
     <>
       {/* seo */}
       <NextSeo
-        title={`Better jobs | Apply for ${role} in ${jobs[0]?.company_name}`}
+        title={`BetterJobs | Apply for ${role} in ${jobs[0]?.company_name}`}
         description={`Apply for ${role} Job in ${jobs[0]?.company_name} at ${jobs[0]?.city} on Betterjobs app. ✔️ Salary: ${jobs[0]?.min_monthly_salary} - ${jobs[0]?.max_monthly_salary} ₹`}
         canonical={`https://better-jobs-portal.vercel.app/jobs/search/${role}`}
         openGraph={{
@@ -60,7 +60,7 @@ const SearchJobs = ({ jobs, role }) => {
               alt: "logo",
             },
           ],
-          site_name: "Better jobs",
+          site_name: "Betterjobs",
         }}
         twitter={{
           handle: `https://better-jobs-portal.vercel.app/jobs/search/${role}`,

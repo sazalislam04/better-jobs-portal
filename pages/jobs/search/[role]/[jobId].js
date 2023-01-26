@@ -9,7 +9,7 @@ const Job = ({ job, role, dynamicOthersJobs }) => {
     <>
       {/* seo */}
       <NextSeo
-        title={`Better jobs | Apply for ${job?.role} in ${company_name}`}
+        title={`BetterJobs | Apply for ${job?.role} in ${company_name}`}
         description={`Apply for ${job.role} Job in ${company_name} at ${job.city} on Betterjobs app. ✔️ Salary: ${job.min_monthly_salary} - ${job.max_monthly_salary} ₹`}
         canonical={`https://better-jobs-portal.vercel.app/jobs/search/${role}/${job._id}`}
         openGraph={{
@@ -27,7 +27,7 @@ const Job = ({ job, role, dynamicOthersJobs }) => {
               alt: "logo",
             },
           ],
-          site_name: "Better jobs",
+          site_name: "Betterjobs",
         }}
         twitter={{
           handle: `https://better-jobs-portal.vercel.app/jobs/search/${role}/${job._id}`,

@@ -26,10 +26,10 @@ const Header = () => {
               className="w-32 h-[50px]"
               target="_blank"
             >
-              <Image src={play} alt="playstore" width={150} height={130} />
+              <Image src={play} alt="playstore" width={120} height={120} />
             </Link>
             <Link href="https://employer.betterjobs.co/auth" target="_blank">
-              <button className="mx-2 w-32 h-[46px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
+              <button className="mx-2 w-32 h-[44px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
                 For employers
               </button>
             </Link>

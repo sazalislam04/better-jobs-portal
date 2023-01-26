@@ -653,7 +653,7 @@ const JobsDescription = ({
               Job details
             </button>
             <div>
-              <button onClick={handleTooltip} className="cursor-pointer">
+              <button onClick={handleTooltip} className="">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -1268,7 +1268,6 @@ const JobsDescription = ({
         </>
       </div>
       {/* -- */}
-
       <div className="hidden lg:block">
         <div className="sticky px-4 top-0 py-6 z-10 bg-gray-50">
           <form

@@ -54,7 +54,7 @@ const Nav = () => {
           <ul className="relative">
             <li onClick={() => setOpen(false)} className="text-lg py-4">
               <Link
-                className="px-2 py-2 transition mt-2 duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]"
+                className="px-2 py-1.5 transition mt-2 duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]"
                 href="/"
               >
                 Jobs
@@ -67,10 +67,10 @@ const Nav = () => {
               className="w-32"
               target="_blank"
             >
-              <Image src={play} alt="playstore" width={114} height={50} />
+              <Image src={play} alt="playstore" width={100} height={100} />
             </Link>
             <Link href="https://employer.betterjobs.co/auth" target="_blank">
-              <button className="px-2 py-2 transition mt-2 duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
+              <button className="px-2 py-1.5 transition mt-2 duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
                 For employers
               </button>
             </Link>

@@ -11,7 +11,7 @@ const Footer = () => {
         <div className="lg:flex">
           <div className="w-full -mx-6 lg:w-2/5">
             <div className="px-6">
-              <p className="max-w-sm mt-2 text-gray-500">
+              <p className="max-w-sm mt-2 text-gray-600">
                 All rights reserved.
               </p>
             </div>
@@ -23,19 +23,19 @@ const Footer = () => {
                 <h3 className="text-gray-800 font-medium text-lg">Links</h3>
                 <Link
                   href="https://play.google.com/store/apps/details?id=com.betterjobs.app"
-                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-600 transition duration-300"
                 >
                   download mobile app
                 </Link>
                 <Link
                   href="/"
-                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-600 transition duration-300"
                 >
                   careers with us
                 </Link>
                 <Link
                   href="/"
-                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-600 transition duration-300"
                 >
                   contact us
                 </Link>
@@ -45,19 +45,19 @@ const Footer = () => {
                 <h3 className="text-gray-800 font-medium text-lg">Legal</h3>
                 <Link
                   href="/privacy"
-                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-600 transition duration-300"
                 >
                   privacy policy
                 </Link>
                 <Link
                   href="/user-terms"
-                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-600 transition duration-300"
                 >
                   user terms & conditions
                 </Link>
                 <Link
                   href="/terms-of-service"
-                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-600 transition duration-300"
                 >
                   employer terms of service
                 </Link>
@@ -67,13 +67,13 @@ const Footer = () => {
                 <h3 className="text-gray-800 font-medium text-lg">Resources</h3>
                 <Link
                   href="/blog"
-                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-600 transition duration-300"
                 >
                   blog
                 </Link>
                 <Link
                   href="/sitemap"
-                  className="block mt-2 text-sm text-gray-700 hover:text-gray-500 transition duration-300"
+                  className="block mt-2 text-sm text-gray-700 hover:text-gray-600 transition duration-300"
                 >
                   sitemap
                 </Link>
@@ -93,24 +93,24 @@ const Footer = () => {
         <hr className="h-px my-6 bg-gray-200 border-none" />
 
         <div className="sm:flex justify-between">
-          <div className="sm:flex gap-4 items-center">
+          <div className="sm:flex items-center">
             <Link
               href="https://play.google.com/store/apps/details?id=com.betterjobs.app"
               className="w-32 h-[50px]"
               target="_blank"
             >
-              <Image src={play} alt="playstore" width={150} height={130} />
+              <Image src={play} alt="playstore" width={100} height={100} />
             </Link>
             <Link href="https://employer.betterjobs.co/auth" target="_blank">
-              <button className="sm:mx-2 w-[150px] sm:w-32 h-[46px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
+              <button className="-mt-1.5 px-3 text-sm py-2 transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
                 For employers
               </button>
             </Link>
           </div>
           <div className="mt-6 flex ml-3 sm:ml-0 flex-wrap gap-3">
-            <small className="text-gray-400">reach@betterjobs.co </small>
-            <small className="text-gray-400">Privacy Policy</small>
-            <small className="text-gray-400">Terms of Service</small>
+            <small className="text-gray-600">reach@betterjobs.co </small>
+            <small className="text-gray-600">Privacy Policy</small>
+            <small className="text-gray-600">Terms of Service</small>
           </div>
         </div>
       </div>
