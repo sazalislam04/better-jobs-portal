@@ -1,22 +1,9 @@
 import { NextSeo } from "next-seo";
 import React from "react";
-import { useQuery } from "react-query";
 import JobsDescription from "../../../../components/JobsDescription";
 
-const Job = ({ job, role }) => {
-  // const DEFAULT_URL = "http://localhost:3000";
-  const DEFAULT_URL = "https://better-jobs-portal.vercel.app";
-
+const Job = ({ job, role, dynamicOthersJobs }) => {
   const { createdAt, updatedAt, company_name, _id } = job;
-
-  const { data: dynamicOthersJobs } = useQuery({
-    queryKey: ["dynamicOthersJobs", role],
-    queryFn: async () => {
-      const res = await fetch(`${DEFAULT_URL}/api/jobs/?role=${role}`);
-      const data = await res.json();
-      return data;
-    },
-  });
 
   return (
     <>
@@ -67,15 +54,20 @@ export default Job;
 export async function getServerSideProps(context) {
   const BASE_URL = "https://better-jobs-portal.vercel.app";
   // const BASE_URL = "http://localhost:3000";
+
   const { params } = context;
   const { role } = params;
   const res = await fetch(`${BASE_URL}/api/jobs/${params.jobId}`);
   const data = await res.json();
 
+  const response = await fetch(`${BASE_URL}/api/jobs/?role=${role}`);
+  const dynamicOthersJobs = await response.json();
+
   return {
     props: {
       job: data,
       role,
+      dynamicOthersJobs,
     },
   };
 }
