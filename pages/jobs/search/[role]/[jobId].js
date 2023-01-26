@@ -69,7 +69,6 @@ export async function getServerSideProps(context) {
   // const BASE_URL = "http://localhost:3000";
   const { params } = context;
   const { role } = params;
-
   const res = await fetch(`${BASE_URL}/api/jobs/${params.jobId}`);
   const data = await res.json();
 

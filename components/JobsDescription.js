@@ -79,7 +79,7 @@ const JobsDescription = ({
     domain = job?.domain;
   }
 
-  const { data: matchingJobs } = useQuery({
+  const { data: matchingJobs, refetch } = useQuery({
     queryKey: ["matchingJobs", domain],
     queryFn: async () => {
       const res = await fetch(`${BASE_URL}/api/jobs/?domain=${domain}`);

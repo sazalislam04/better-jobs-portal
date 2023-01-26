@@ -62,9 +62,7 @@ const SearchField = ({
         )}
       </div>
       <div className="">
-        <Link
-          href={`/jobs/search/${roleValue ? roleValue : "Android developer"}`}
-        >
+        <Link href={`/jobs/search/${roleValue ? roleValue : ""}`}>
           <button
             onClick={hanldeSubmit}
             className={`w-20 md:w-32 h-[40px] md:h-[46px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]`}

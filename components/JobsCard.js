@@ -27,7 +27,11 @@ const JobsCard = ({ job, jobrole, roleJob }) => {
 
   return (
     <>
-      <Link href={`/jobs/search/${jobrole ? jobrole : roleJob}/${_id}`}>
+      <Link
+        href={`/jobs/search/${
+          jobrole ? jobrole : roleJob ? roleJob : role
+        }/${_id}`}
+      >
         <div className="px-6 py-4 bg-white rounded-md shadow mb-4">
           <div className="flex items-center justify-between">
             <p className="text-sm font-light text-gray-800 dark:text-gray-400">
