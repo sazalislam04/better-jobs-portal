@@ -99,7 +99,7 @@ const JobsCard = ({ job, jobrole, roleJob }) => {
               </div>
             </div>
 
-            <div className="flex items-center flex-wrap sm:grid sm:grid-cols-3 mt-2 text-[12px] font-medium text-gray-700 gap-3">
+            <div className="flex items-center flex-wrap sm:grid sm:grid-cols-3 mt-2 text-[12px] font-medium text-gray-700 gap-x-3 gap-y-2">
               <p className="flex gap-1 items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -145,7 +145,7 @@ const JobsCard = ({ job, jobrole, roleJob }) => {
               </p>
             </div>
           </div>
-          <div className="flex gap-2 sm:gap-4 items-center mt-4 text-gray-700 ">
+          <div className="flex gap-2 sm:gap-4 items-center mt-2 sm:mt-4 text-gray-700 ">
             <p className="text-xs font-medium text-gray-600">{dateDays}d ago</p>
             <p className="text-xs font-medium text-gray-600">
               via. betterjobs.com
