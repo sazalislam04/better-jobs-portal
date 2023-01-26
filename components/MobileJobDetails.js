@@ -72,7 +72,7 @@ const MobileJobDetails = ({ job, setApplyJob }) => {
           <div className="mx-auto w-full gap-2">
             <div className="w-28 h-20 mb-6 -mt-10 rounded-lg flex items-center justify-center mx-auto shadow">
               <Image
-                className="w-20 h-14 mx-auto object-cover"
+                className="w-16 h-16 mx-auto object-cover"
                 src={`https://logo.clearbit.com/${company_name}.com`}
                 alt="logo"
                 height={120}
