@@ -9,7 +9,8 @@ const HiredTalent = () => {
         <div className="lg:flex justify-between gap-4">
           <div className="lg:w-2/5">
             <h2 className="text-[34px] text-gray-700 mb-8 font-medium">
-              Looking to hire talents instead ?
+              Looking to hire talents <br className="hidden sm:flex" /> instead
+              ?
             </h2>
             <li className="my-2">Post unlimited jobs for free</li>
             <li>Find candidates within 48 hours</li>

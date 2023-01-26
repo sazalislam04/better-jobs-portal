@@ -2,9 +2,12 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaRupeeSign } from "react-icons/fa";
 import externallink from "../public/external-link.png";
+import rupee from "../public/rupee.png";
 
 const MobileJobDetails = ({ job, setApplyJob }) => {
   const [dateDays, setDateDays] = useState();
+  const [minSalaryRange, setMinSalaryRange] = useState();
+  const [maxSalaryRange, setMaxSalaryRange] = useState();
   const {
     active,
     company_name,
@@ -41,13 +44,33 @@ const MobileJobDetails = ({ job, setApplyJob }) => {
     let totalDays = Math.ceil(difference / (1000 * 3600 * 24));
     setDateDays(totalDays);
   }, []);
+  useEffect(() => {
+    if (min_monthly_salary) {
+      const slaryRange =
+        Math.abs(min_monthly_salary) > 999
+          ? Math.sign(min_monthly_salary) *
+              (Math.abs(min_monthly_salary) / 1000).toFixed(1) +
+            "k"
+          : Math.sign(min_monthly_salary) * Math.abs(min_monthly_salary);
+      setMinSalaryRange(slaryRange);
+    }
+    if (max_monthly_salary) {
+      const slaryRange =
+        Math.abs(max_monthly_salary) > 999
+          ? Math.sign(max_monthly_salary) *
+              (Math.abs(max_monthly_salary) / 1000).toFixed(1) +
+            "k"
+          : Math.sign(max_monthly_salary) * Math.abs(max_monthly_salary);
+      setMaxSalaryRange(slaryRange);
+    }
+  }, [min_monthly_salary, max_monthly_salary]);
 
   return (
     <>
       <section className="py-4 px-4">
         <div className="">
           <div className="mx-auto w-full gap-2">
-            <div className="w-28 h-14 sm:h-20 mb-6 rounded-lg flex items-center justify-center mx-auto shadow">
+            <div className="w-28 h-14 sm:h-20 mb-6 -mt-10 rounded-lg flex items-center justify-center mx-auto shadow">
               <Image
                 className="w-10 md:w-16 h-10 md:h-16 mx-auto object-cover"
                 src={`https://logo.clearbit.com/${company_name}.com`}
@@ -64,7 +87,7 @@ const MobileJobDetails = ({ job, setApplyJob }) => {
                 </div>
               </div>
 
-              <div className="text-xs sm:text-md font-medium flex flex-wrap justify-center gap-3 mt-4 text-gray-600 ">
+              <div className="text-xs sm:text-md font-medium flex flex-wrap justify-center gap-3 mt-4 text-gray-700 ">
                 <p className="flex gap-1 items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -82,22 +105,9 @@ const MobileJobDetails = ({ job, setApplyJob }) => {
                   </svg>
                   {experience_required}
                 </p>
-                <p className="flex gap-1 items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-4 h-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"
-                    />
-                  </svg>
-                  {active && "Not Disclosed"}
+                <p className="flex items-center">
+                  <Image src={rupee} alt="currency" width={14} height={14} />
+                  {minSalaryRange} - {maxSalaryRange}
                 </p>
                 <p className="flex gap-1 items-center">
                   <svg
@@ -143,9 +153,7 @@ const MobileJobDetails = ({ job, setApplyJob }) => {
           </div>
 
           <div className="flex justify-end items-center gap-5 mt-6">
-            <p className="text-sm font-medium text-gray-400">
-              posted {dateDays}d ago
-            </p>
+            <p className="text-sm text-gray-600">posted {dateDays}d ago</p>
             <label
               onClick={() => {
                 setApplyJob(job);

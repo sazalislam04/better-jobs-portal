@@ -1,9 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import rupee from "../public/rupee.png";
+import whatsapp from "../public/whatsapp.png";
 
 const JobsCard = ({ job, jobrole, roleJob }) => {
   const [dateDays, setDateDays] = useState();
+  const [minSalaryRange, setMinSalaryRange] = useState();
+  const [maxSalaryRange, setMaxSalaryRange] = useState();
   const {
     company_name,
     city,
@@ -14,6 +18,8 @@ const JobsCard = ({ job, jobrole, roleJob }) => {
     createdAt,
     _id,
     role,
+    min_monthly_salary,
+    max_monthly_salary,
   } = job;
 
   let date_1 = new Date(createdAt);
@@ -25,6 +31,27 @@ const JobsCard = ({ job, jobrole, roleJob }) => {
     setDateDays(totalDays);
   }, []);
 
+  useEffect(() => {
+    if (min_monthly_salary) {
+      const slaryRange =
+        Math.abs(min_monthly_salary) > 999
+          ? Math.sign(min_monthly_salary) *
+              (Math.abs(min_monthly_salary) / 1000).toFixed(1) +
+            "k"
+          : Math.sign(min_monthly_salary) * Math.abs(min_monthly_salary);
+      setMinSalaryRange(slaryRange);
+    }
+    if (max_monthly_salary) {
+      const slaryRange =
+        Math.abs(max_monthly_salary) > 999
+          ? Math.sign(max_monthly_salary) *
+              (Math.abs(max_monthly_salary) / 1000).toFixed(1) +
+            "k"
+          : Math.sign(max_monthly_salary) * Math.abs(max_monthly_salary);
+      setMaxSalaryRange(slaryRange);
+    }
+  }, [min_monthly_salary, max_monthly_salary]);
+
   return (
     <>
       <Link
@@ -32,7 +59,7 @@ const JobsCard = ({ job, jobrole, roleJob }) => {
           jobrole ? jobrole : roleJob ? roleJob : role
         }/${_id}`}
       >
-        <div className="px-6 py-4 bg-white rounded-md shadow mb-4">
+        <div className="px-6 py-4 h-52 relative bg-white rounded-md shadow mb-4">
           <div className="flex items-center justify-between">
             <p className="text-sm font-light text-gray-800 dark:text-gray-400">
               {createdAt?.slice(0, 10)}
@@ -72,7 +99,7 @@ const JobsCard = ({ job, jobrole, roleJob }) => {
               </div>
             </div>
 
-            <div className="flex items-center flex-wrap sm:grid sm:grid-cols-3 mt-2 text-xs font-medium text-gray-600 gap-3">
+            <div className="flex items-center flex-wrap sm:grid sm:grid-cols-3 mt-2 text-[12px] font-medium text-gray-700 gap-3">
               <p className="flex gap-1 items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -90,22 +117,9 @@ const JobsCard = ({ job, jobrole, roleJob }) => {
                 </svg>
                 {experience_required}
               </p>
-              <p className="flex gap-1 items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-4 h-4"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"
-                  />
-                </svg>
-                {active && "Not Disclosed"}
+              <p className="flex items-center">
+                <Image src={rupee} alt="currency" width={14} height={14} />
+                {minSalaryRange} - {maxSalaryRange}
               </p>
               <p className="flex gap-1 items-center">
                 <svg
@@ -132,13 +146,36 @@ const JobsCard = ({ job, jobrole, roleJob }) => {
             </div>
           </div>
           <div className="flex gap-2 sm:gap-4 items-center mt-4 text-gray-700 ">
-            <p className="text-xs font-medium text-gray-400">{dateDays}d ago</p>
-            <p className="text-xs font-medium text-gray-400">
+            <p className="text-xs font-medium text-gray-600">{dateDays}d ago</p>
+            <p className="text-xs font-medium text-gray-600">
               via. betterjobs.com
             </p>
           </div>
         </div>
       </Link>
+      <div className="absolute z-10 px-6">
+        <div className="-mt-[75px] flex gap-2">
+          <Link
+            href="https://play.google.com/store/apps/details?id=com.betterjobs.app"
+            target="_blank"
+          >
+            <button className="px-2 py-1 text-sm bg-[#037b8e] rounded text-white mt-3">
+              Apply Now
+            </button>
+          </Link>
+          <Link
+            href={`https://api.whatsapp.com/send?text=https://better-jobs-portal.vercel.app/jobs/search/${
+              jobrole ? jobrole : roleJob ? roleJob : role
+            }/${_id}`}
+            target="_blank"
+          >
+            <button className="px-2 flex items-center py-1 text-sm transition duration-300 gap-1 text-[#037b8e] hover:bg-[#037b8e] rounded hover:text-white mt-3">
+              <Image src={whatsapp} alt="whatsapp" width={20} height={20} />
+              Share
+            </button>
+          </Link>
+        </div>
+      </div>
     </>
   );
 };

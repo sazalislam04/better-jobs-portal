@@ -6,7 +6,7 @@ import play from "../public/play.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 py-10">
+    <footer className="bg-gray-100 py-10 ">
       <div className="container p-6">
         <div className="lg:flex">
           <div className="w-full -mx-6 lg:w-2/5">
@@ -18,7 +18,7 @@ const Footer = () => {
           </div>
 
           <div className="mt-6 lg:mt-0 lg:flex-1">
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-6  md:grid-cols-3 lg:grid-cols-4">
               <div>
                 <h3 className="text-gray-800 font-medium text-lg">Links</h3>
                 <Link
@@ -93,7 +93,7 @@ const Footer = () => {
         <hr className="h-px my-6 bg-gray-200 border-none" />
 
         <div className="sm:flex justify-between">
-          <div className="sm:flex items-center">
+          <div className="sm:flex gap-y-2 items-center">
             <Link
               href="https://play.google.com/store/apps/details?id=com.betterjobs.app"
               className="w-32 h-[50px]"
@@ -102,7 +102,7 @@ const Footer = () => {
               <Image src={play} alt="playstore" width={100} height={100} />
             </Link>
             <Link href="https://employer.betterjobs.co/auth" target="_blank">
-              <button className="-mt-1.5 px-3 text-sm py-2 transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
+              <button className="mt-2 sm:-mt-1.5 px-2 text-sm py-2 transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
                 For employers
               </button>
             </Link>

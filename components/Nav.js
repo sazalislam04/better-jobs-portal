@@ -6,12 +6,14 @@ import play from "../public/play.png";
 const Nav = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="z-50 px-4 md:px-0 w-full">
+    <div className="z-50 px-4 sticky top-0 md:px-0 w-full">
       <div className="md:hidden flex justify-between">
         <div className="">
-          <h2 className="text-xl font-medium">
-            Better<span className="text-[#037b8e]">jobs</span>{" "}
-          </h2>
+          <Link href="/">
+            <h2 className="text-xl font-medium">
+              Better<span className="text-[#037b8e]">Jobs</span>{" "}
+            </h2>
+          </Link>
         </div>
         <div>
           <button className={`md:hidden`} onClick={() => setOpen(!open)}>
@@ -50,27 +52,16 @@ const Nav = () => {
         </div>
       </div>
       {open && (
-        <nav className="absolute my-2 bg-white rounded-lg  right-0 h-auto container">
-          <ul className="relative">
-            <li onClick={() => setOpen(false)} className="text-lg py-4">
-              <Link
-                className="px-2 py-1.5 transition mt-2 duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]"
-                href="/"
-              >
-                Jobs
-              </Link>
-            </li>
-          </ul>
-          <div className="mb-4">
+        <nav className="absolute my-3 bg-white rounded-lg  right-0 h-40 container">
+          <div className="mb-4 flex justify-center items-center flex-col">
             <Link
               href="https://play.google.com/store/apps/details?id=com.betterjobs.app"
-              className="w-32"
               target="_blank"
             >
-              <Image src={play} alt="playstore" width={100} height={100} />
+              <Image src={play} alt="playstore" width={130} height={130} />
             </Link>
             <Link href="https://employer.betterjobs.co/auth" target="_blank">
-              <button className="px-2 py-1.5 transition mt-2 duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
+              <button className="px-[13px] py-[10px] transition mt-2 duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]">
                 For employers
               </button>
             </Link>

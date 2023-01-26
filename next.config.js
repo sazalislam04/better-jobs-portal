@@ -20,6 +20,13 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "autocomplete.clearbit.com",
+        // You can add these as well
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "i.ibb.co",
         // You can add these as well
         port: "",

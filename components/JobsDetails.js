@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import {
   FaFacebookSquare,
@@ -8,11 +9,15 @@ import {
   FaWhatsappSquare,
 } from "react-icons/fa";
 import externallink from "../public/external-link.png";
+import rupee from "../public/rupee.png";
 
-const JobsDetails = ({ job, setApplyJob }) => {
+const JobsDetails = ({ job, setApplyJob, jobrole, roleJob }) => {
   const [dateDays, setDateDays] = useState();
   const [open, setOpen] = useState(false);
+  const [minSalaryRange, setMinSalaryRange] = useState();
+  const [maxSalaryRange, setMaxSalaryRange] = useState();
   const {
+    _id,
     active,
     company_name,
     domain,
@@ -46,12 +51,34 @@ const JobsDetails = ({ job, setApplyJob }) => {
   useEffect(() => {
     let difference = date_2.getTime() - date_1.getTime();
     let totalDays = Math.ceil(difference / (1000 * 3600 * 24));
+
     setDateDays(totalDays);
   }, []);
 
   const handleTooltip = () => {
     setOpen(!open);
   };
+
+  useEffect(() => {
+    if (min_monthly_salary) {
+      const slaryRange =
+        Math.abs(min_monthly_salary) > 999
+          ? Math.sign(min_monthly_salary) *
+              (Math.abs(min_monthly_salary) / 1000).toFixed(1) +
+            "k"
+          : Math.sign(min_monthly_salary) * Math.abs(min_monthly_salary);
+      setMinSalaryRange(slaryRange);
+    }
+    if (max_monthly_salary) {
+      const slaryRange =
+        Math.abs(max_monthly_salary) > 999
+          ? Math.sign(max_monthly_salary) *
+              (Math.abs(max_monthly_salary) / 1000).toFixed(1) +
+            "k"
+          : Math.sign(max_monthly_salary) * Math.abs(max_monthly_salary);
+      setMaxSalaryRange(slaryRange);
+    }
+  }, [min_monthly_salary, max_monthly_salary]);
 
   return (
     <>
@@ -73,7 +100,7 @@ const JobsDetails = ({ job, setApplyJob }) => {
                   <h2 className="text-lg font-semibold">{role}</h2>
                   <p className="font-medium">{company_name}</p>
                 </div>
-                <button onClick={handleTooltip} className="">
+                <button onClick={handleTooltip} className="-mt-10">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -99,23 +126,47 @@ const JobsDetails = ({ job, setApplyJob }) => {
                     </p>
                   </div>
                   <div className=" text-xs mx-auto flex justify-evenly leading-none text-gray-600 pt-3 pb-2">
-                    <button className="text-2xl text-blue-500">
-                      <FaFacebookSquare />
-                    </button>
-                    <button className="text-2xl text-indigo-500">
-                      <FaLinkedin />
-                    </button>
-                    <button className="text-2xl text-green-500">
+                    <Link
+                      href={`https://api.whatsapp.com/send?text=https://better-jobs-portal.vercel.app/jobs/search/${
+                        jobrole ? jobrole : roleJob ? roleJob : role
+                      }/${_id}`}
+                      target="_blank"
+                      className="text-2xl text-green-500"
+                    >
                       <FaWhatsappSquare />
-                    </button>
-                    <button className="text-2xl text-cyan-500">
+                    </Link>
+                    <Link
+                      href={`https://www.facebook.com/sharer/sharer.php?u=https://better-jobs-portal.vercel.app/jobs/search/${
+                        jobrole ? jobrole : roleJob ? roleJob : role
+                      }/${_id}`}
+                      target="_blank"
+                      className="text-2xl text-blue-500"
+                    >
+                      <FaFacebookSquare />
+                    </Link>
+                    <Link
+                      href={`https://www.linkedin.com/sharing/share-offsite/?url=https://better-jobs-portal.vercel.app/jobs/search/${
+                        jobrole ? jobrole : roleJob ? roleJob : role
+                      }/${_id}`}
+                      target="_blank"
+                      className="text-2xl text-sky-500"
+                    >
+                      <FaLinkedin />
+                    </Link>
+                    <Link
+                      href={`http://twitter.com/share?text=https://better-jobs-portal.vercel.app/jobs/search/${
+                        jobrole ? jobrole : roleJob ? roleJob : role
+                      }/${_id}`}
+                      target="_blank"
+                      className="text-2xl text-cyan-500"
+                    >
                       <FaTwitterSquare />
-                    </button>
+                    </Link>
                   </div>
                 </div>
               )}
 
-              <div className="text-sm font-medium flex gap-4 flex-wrap mt-4 text-gray-600 ">
+              <div className="text-sm font-medium flex gap-4 flex-wrap mt-4 text-gray-700 ">
                 <p className="flex gap-1 items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -133,22 +184,9 @@ const JobsDetails = ({ job, setApplyJob }) => {
                   </svg>
                   {experience_required}
                 </p>
-                <p className="flex gap-1 items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-4 h-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"
-                    />
-                  </svg>
-                  {active && "Not Disclosed"}
+                <p className="flex items-center">
+                  <Image src={rupee} alt="currency" width={14} height={14} />
+                  {minSalaryRange} - {maxSalaryRange}
                 </p>
                 <p className="flex gap-1 items-center">
                   <svg
@@ -192,9 +230,8 @@ const JobsDetails = ({ job, setApplyJob }) => {
               </div>
             </div>
           </div>
-
-          <div className="flex justify-end items-center  gap-5 mt-6">
-            <p className="text-sm font-medium text-gray-400">
+          <div className="flex justify-end items-center gap-5 mt-6">
+            <p className="text-xs font-medium text-gray-600">
               posted {dateDays}d ago
             </p>
             <label
@@ -218,7 +255,7 @@ const JobsDetails = ({ job, setApplyJob }) => {
               <li className="mr-4">Flexible Timing</li>
               <li>{is_night_shift ? "Night Shift" : "Day Shift"}</li>
             </ul>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <span className="text-gray-500">
                 <FaRupeeSign />
               </span>

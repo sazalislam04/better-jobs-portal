@@ -6,7 +6,7 @@ import Nav from "./Nav";
 const Header = () => {
   return (
     <>
-      <header className="py-4 custom-shadow flex justify-between">
+      <header className="py-4 sticky top-0 bg-white z-50 shadow flex justify-between">
         <nav className="hidden md:flex items-center justify-between container">
           <div className="md:flex items-center gap-10 w-full">
             <Link href="/">
@@ -14,11 +14,6 @@ const Header = () => {
                 Better<span className="text-[#037b8e]">Jobs</span>{" "}
               </h2>
             </Link>
-            <ul className="">
-              <li className="text-lg">
-                <Link href="/">Jobs</Link>
-              </li>
-            </ul>
           </div>
           <div className="flex items-center">
             <Link
@@ -35,7 +30,7 @@ const Header = () => {
             </Link>
           </div>
         </nav>
-        <div className="md:hidden sm:mx-4 md:mx-0 flex justify-end w-full">
+        <div className="md:hidden sticky  sm:mx-4 md:mx-0 flex justify-end w-full">
           <Nav />
         </div>
       </header>

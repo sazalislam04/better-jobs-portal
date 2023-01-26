@@ -39,7 +39,7 @@ const SearchField = ({
           type="search"
           onChange={(e) => handleSearchRoles(e)}
           value={roleValue || ""}
-          className="focus:outline-none md:w-80 text-gray-700 text-sm p-1 md:p-3"
+          className="focus:outline-none bg-transparent md:w-80 text-gray-700 text-sm p-1 md:p-3"
           placeholder="Search by role"
         />
         {close && (
@@ -65,7 +65,7 @@ const SearchField = ({
         <Link href={`/jobs/search/${roleValue ? roleValue : ""}`}>
           <button
             onClick={hanldeSubmit}
-            className={`w-20 md:w-32 h-[40px] md:h-[46px] transition duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]`}
+            className={`w-20 md:w-32 h-[40px] md:h-[46px] transition -mx-2 sm:-mx-0 duration-300 rounded-lg border bg-[#037b8e] text-white hover:bg-[#036a7a]`}
           >
             {isLoading ? <Spinner /> : "Search"}
           </button>

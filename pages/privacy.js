@@ -247,62 +247,64 @@ const PrivacyPolicy = () => {
               Link to privacy policy of third-party service providers used by
               the app
             </p>
-            <li>
-              <Link
-                className="underline text-purple-900"
-                href="https://policies.google.com/privacy"
-              >
-                Google Play Services
-              </Link>
-            </li>
-            <li className="py-2">
-              <Link
-                className="underline text-purple-900"
-                href="https://policies.google.com/privacy"
-              >
-                Firebase Analytics
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="underline text-purple-900"
-                href="https://firebase.google.com/"
-              >
-                Fabric
-              </Link>
-            </li>
-            <li className="py-2">
-              <Link
-                className="underline text-purple-900"
-                href="https://mixpanel.com/legal/privacy-policy/"
-              >
-                Mix Panel
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="underline text-purple-900"
-                href="https://help.uxcam.com/hc/en-us/articles/360004158171-UXCam-Privacy-Statement"
-              >
-                UXCam
-              </Link>
-            </li>
-            <li className="py-2">
-              <Link
-                className="underline text-purple-900"
-                href="https://legal.branch.io/"
-              >
-                Branch
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="underline text-purple-900"
-                href="https://www.applozic.com/privacy"
-              >
-                Applozic
-              </Link>
-            </li>
+            <ul className="list-disc mx-4">
+              <li>
+                <Link
+                  className="underline text-purple-900"
+                  href="https://policies.google.com/privacy"
+                >
+                  Google Play Services
+                </Link>
+              </li>
+              <li className="py-2">
+                <Link
+                  className="underline text-purple-900"
+                  href="https://policies.google.com/privacy"
+                >
+                  Firebase Analytics
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="underline text-purple-900"
+                  href="https://firebase.google.com/"
+                >
+                  Fabric
+                </Link>
+              </li>
+              <li className="py-2">
+                <Link
+                  className="underline text-purple-900"
+                  href="https://mixpanel.com/legal/privacy-policy/"
+                >
+                  Mix Panel
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="underline text-purple-900"
+                  href="https://help.uxcam.com/hc/en-us/articles/360004158171-UXCam-Privacy-Statement"
+                >
+                  UXCam
+                </Link>
+              </li>
+              <li className="py-2">
+                <Link
+                  className="underline text-purple-900"
+                  href="https://legal.branch.io/"
+                >
+                  Branch
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="underline text-purple-900"
+                  href="https://www.applozic.com/privacy"
+                >
+                  Applozic
+                </Link>
+              </li>
+            </ul>
             <p className="py-3">
               We do not disclose, transfer or share your personal information
               with others except with:
